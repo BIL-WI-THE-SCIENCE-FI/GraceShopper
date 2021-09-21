@@ -33,6 +33,14 @@ module.exports = db.define('product', {
       min: 0.0
     }
   },
+  //* Stock is the current number of products in inventory
+  stock: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    validate: {
+      min: 0
+    }
+  },
   //* Rating is a double that can be between 0 and 5
   rating: {
     type: Sequelize.DOUBLE,
