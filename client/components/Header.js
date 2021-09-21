@@ -7,10 +7,10 @@ const Header = ()=>{
     <div id='navBar'>
       <div id='logo'>Logo</div>
       <div id='categories'>Categories</div>
-      <div id='blank'>blank</div>
+      <div id='blank'></div>
       <div id='search'>
         <input id='input' placeholder='Search Product' />
-        <div>mag button</div>
+        <div>search</div>
       </div>
       <div id='loginCart'>
         <div>login</div>
