@@ -1,29 +1,59 @@
 'use strict'
 
-const {db, models: {User} } = require('../server/db')
+const {
+  db,
+  models: { User, Product }
+} = require('../server/db')
+const faker = require('faker')
 
-/**
- * seed - this function clears the database, updates tables to
- *      match the models, and populates the database.
- */
+//* EDIT THE FOLLOWING PARAMETERS TO CHANGE HOW THE DATABASE IS POPULATED
+//*
+//* How many products do you want to create
+const totalProducts = 200
+//* How many users do you want to create
+const totalUsers = 20
+
 async function seed() {
-  await db.sync({ force: true }) // clears db and matches models to tables
-  console.log('db synced!')
+  //* Clear DB and matche models to tables
+  await db.sync({ force: true })
 
-  // Creating Users
-  const users = await Promise.all([
-    User.create({ username: 'cody', password: '123' }),
-    User.create({ username: 'murphy', password: '123' }),
-  ])
-
-  console.log(`seeded ${users.length} users`)
-  console.log(`seeded successfully`)
-  return {
-    users: {
-      cody: users[0],
-      murphy: users[1]
+  console.log('\nPreparing to load users.')
+  //* Create all of our users
+  for (let i = 0; i < totalUsers; i++) {
+    //* User contents
+    const user = {
+      username: faker.internet.userName(),
+      password: faker.internet.password(),
+      firstName: faker.name.firstName(),
+      userType: 'saved',
+      lastName: faker.name.lastName(),
+      phone: faker.phone.phoneNumber(),
+      email: faker.internet.email()
     }
+    //* Create the user
+    await User.create(user)
+    //* For friendly updates
+    if (i % (totalUsers / 10) === 0) console.log(`Loaded ${(i / totalUsers) * 100}% users!`)
   }
+
+  console.log('\nPreparing to load products.')
+  //* Create all of our products
+  for (let i = 0; i < totalProducts; i++) {
+    //* Product contents
+    const product = {
+      name: faker.commerce.productName(),
+      description: faker.commerce.productDescription(),
+      price: faker.commerce.price(),
+      rating: Math.floor(Math.random() * (5 - 0) + 100) / 100,
+      imageUrl: faker.image.imageUrl()
+    }
+    //* Create the product
+    await Product.create(product)
+    //* For friendly updates
+    if (i % (totalProducts / 10) === 0)
+      console.log(`Loaded ${(i / totalProducts) * 100}% products!`)
+  }
+  return
 }
 
 /*
