@@ -13,6 +13,21 @@ const SinglePageProduct = (props) => {
     }
     fetchData();
   }, []);
+
+  function getStars(rating) {
+    // Round to nearest half
+    let output = new Array(5)
+    for (let i = 0; i < 5; i++) {
+      output[i]=<span key ={i}>☆</span>;
+    }
+    for (let i = 0; i <rating; i++)
+      output[i] = (
+        <span key={i} className='stars'>
+          ★
+        </span>
+      );
+    return output;
+  }
   return (
     <div className='singlePage'>
       <div className='imp'>
@@ -23,13 +38,9 @@ const SinglePageProduct = (props) => {
           <div>
             <h1>{product.name}</h1>
             <h2>${product.price} price</h2>
-            <p>rating{product.rating}</p>
-            <div className='rating'>
-              <span>☆</span>
-              <span>☆</span>
-              <span>☆</span>
-              <span>☆</span>
-              <span>☆</span>
+            <div>
+              <label>Rating: </label>
+              {getStars(product.rating).map((each) => each)}
             </div>
             <label>Quantity</label>
             <select name='Quantity'>
