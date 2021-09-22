@@ -70,3 +70,14 @@ form div {
   height: 100%;
   border:0;
 }
+.ProductGrid {
+  background-color: antiquewhite;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(25%, 10fr));
+  text-align: center;
+  grid-gap: 50px;
+}
+.gridImage {
+  height: 50%;
+  width: 50%;
+}

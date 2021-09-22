@@ -44,6 +44,7 @@ async function seed() {
       name: faker.commerce.productName(),
       description: faker.commerce.productDescription(),
       price: faker.commerce.price(),
+      stock: Math.floor(Math.random() * 10),
       rating: Math.floor(Math.random() * (5 - 0) + 100) / 100,
       imageUrl: faker.image.imageUrl()
     }
