@@ -8,7 +8,7 @@ import productsReducer from './products'
 //* CombineReducers
 const reducer = combineReducers({
   auth,
-  products: productsReducer
+  products: productsReducer,
 })
 
 //* Apply the middleware

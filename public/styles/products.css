@@ -1,3 +1,4 @@
+
 * {
   --productContainerHeight: 500vh;
   --productContainerWidth: 80vw;
@@ -71,4 +72,64 @@
   width: 196px; */
   height: var(--productImageWidth);
   width: var(--productImageWidth);
+}
+
+.singlePage {
+  padding-top: 30px;
+  display: flex;
+  flex-direction: column;
+}
+.imp {
+  display: flex;
+  justify-content: space-around;
+}
+#productImage {
+  width: 80%;
+  height: 100%;
+}
+.productInfo {
+  padding: 10px;
+  background: #f7f7f7;
+  border-radius: 5px;
+}
+.addToCart {
+  background-color: rgb(255, 54, 54);
+  color: white;
+  padding: 5px;
+  margin: 5px;
+  border-radius: 5%;
+  text-align: center;
+  align-self: center;
+}
+.aboutItem {
+  margin: 10px;
+  text-align: center;
+  padding: 10px;
+  background: #f7f7f7;
+  border-radius: 5px;
+}
+.desBox {
+  display: flex;
+  justify-content: space-around;
+}
+.description {
+  margin: 5px;
+  width: 50%;
+  height: 100%;
+  background: #ffffff;
+}
+.rating {
+  unicode-bidi: bidi-override;
+  direction: rtl;
+}
+.rating > span {
+  display: inline-block;
+  position: relative;
+  width: 1.1em;
+}
+
+.rating > span:hover:before,
+.rating > span:hover ~ span:before {
+   content: "\2605";
+   position: absolute;
 }
