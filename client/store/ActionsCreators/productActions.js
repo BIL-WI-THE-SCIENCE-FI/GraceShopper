@@ -1,15 +1,15 @@
 import axios from 'axios'
-import { actionTypes } from '../ActionTypes'
+import { FETCH_PRODUCTS, FETCH_PRODUCT } from '../reducers'
 
 // ------------------ Actions creators --------------------
 
 export const _fetchProducts = products => ({
-  type: actionTypes.FETCH_PRODUCTS,
+  type: FETCH_PRODUCTS,
   products
 })
 
 export const _fetchProduct = product => ({
-  type: actionTypes.FETCH_PRODUCT,
+  type: FETCH_PRODUCT,
   product
 })
 
