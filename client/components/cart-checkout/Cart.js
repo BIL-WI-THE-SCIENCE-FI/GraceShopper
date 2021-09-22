@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { productActions } from '../../store/ActionsCreators';
+import { cartActions } from '../../store/ActionsCreators';
 
 const Cart = () => {
   const { cart } = useSelector((state) => state.cart);
