@@ -4,19 +4,6 @@ const {
 } = require('../db')
 const Sequelize = require('sequelize')
 
-//* ============== GET /API/PRODUCTS/ ==============
-//* Get all products
-router.get('/', async (request, response, next) => {
-  try {
-    //* Get the products
-    const products = await Product.findAll()
-    //* Send the response
-    response.json(products)
-  } catch (err) {
-    next(err)
-  }
-})
-
 //* ============== GET /API/PRODUCTS/:PRODUCTID ==============
 //* Get product by id
 router.get('/:productId', async (request, response, next) => {
@@ -54,9 +41,12 @@ router.get('/', async (request, response, next) => {
     //* Get the query
     const query = request.query
 
-    //* If no query was provided send back empty response
-    if (query.page === undefined) {
-      response.status(201).send('No products found')
+    //* If no query was provided send back all products
+    if (query === undefined) {
+      //* Get the products
+      const products = await Product.findAll()
+      //* Send the response
+      response.json(products)
       return
     }
 
@@ -84,6 +74,7 @@ router.get('/', async (request, response, next) => {
     if (isStock) whereBy.stock = { [Sequelize.Op.between]: [minStock, maxStock] }
     if (isRating) whereBy.rating = { [Sequelize.Op.between]: [minRating, maxRating] }
     if (isSearch) whereBy.name = { [Sequelize.Op.iLike]: `%${searchTerm}%` }
+    //* ^ Consider searching thru desc aswell ^
 
     //* Get the products back
     const products = Product.findAll({

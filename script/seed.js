@@ -9,13 +9,27 @@ const faker = require('faker')
 //* EDIT THE FOLLOWING PARAMETERS TO CHANGE HOW THE DATABASE IS POPULATED
 //*
 //* How many products do you want to create
-const totalProducts = 200
+const totalProducts = 20
 //* How many users do you want to create
 const totalUsers = 20
+//* Add admin user with (user: admin) (pass: admin)
+const addAdmin = true
 
 async function seed() {
   //* Clear DB and matche models to tables
   await db.sync({ force: true })
+
+  //* Add the admin user
+  if (addAdmin) {
+    //* User contents
+    const user = {
+      username: 'admin',
+      password: 'admin',
+      userType: 'admin'
+    }
+    //* Create the user
+    await User.create(user)
+  }
 
   console.log('\nPreparing to load users.')
   //* Create all of our users
@@ -44,7 +58,8 @@ async function seed() {
       name: faker.commerce.productName(),
       description: faker.commerce.productDescription(),
       price: faker.commerce.price(),
-      rating: Math.floor(Math.random() * (5 - 0) + 100) / 100,
+      rating: getRandomNumber(true, 5),
+      stock: getRandomNumber(false, 100),
       imageUrl: faker.image.imageUrl()
     }
     //* Create the product
@@ -54,6 +69,13 @@ async function seed() {
       console.log(`Loaded ${(i / totalProducts) * 100}% products!`)
   }
   return
+}
+
+//* Used to get a random number for the stock/count & rating
+function getRandomNumber(decimal, max) {
+  let random = Math.floor(Math.random() * max)
+  if (decimal && Math.random() < 0.5) random += 0.5
+  return random
 }
 
 /*
