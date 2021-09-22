@@ -19,6 +19,7 @@ form div {
   margin: 1em;
   display: inline-block;
 }
+
 #navBar {
   position: relative;
   width: 100%;
@@ -39,15 +40,15 @@ form div {
   height: 30%;
   background: rgba(255, 255, 255, 0.8);
   border-radius: 10px;
-  padding:5px;
+  padding: 5px;
   margin: 10px;
-  position:relative; top:10px
-
+  position: relative;
+  top: 10px;
 }
 #loginCart {
   display: flex;
   justify-content: space-around;
-  flex-grow:0.5;
+  flex-grow: 0.5;
 }
 #search {
   flex-grow: 3.5;
@@ -57,7 +58,7 @@ form div {
   border: 1.25px solid rgba(0, 0, 0, 0.25);
   box-sizing: border-box;
   border-radius: 25px;
-  padding:5px;
+  padding: 5px;
   margin: 10px;
   text-align: left;
 }
@@ -68,16 +69,67 @@ form div {
   bottom: 5px;
   width: 90%;
   height: 100%;
-  border:0;
+  border: 0;
 }
-.ProductGrid {
-  background-color: antiquewhite;
-  display: grid;
-  grid-template-columns: repeat(4, minmax(25%, 10fr));
-  text-align: center;
-  grid-gap: 50px;
+
+/*
+*==================================
+*      Effects for All Pages
+*==================================
+*/
+
+.shadow-nohover {
+  box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.2);
 }
-.gridImage {
-  height: 50%;
-  width: 50%;
+
+.shadow {
+  box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.2);
+}
+
+.shadow:hover {
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+.zoomable:hover {
+  transform: scale(1.05);
+}
+
+.zoomable-small:hover {
+  transform: scale(1.005);
+}
+
+/*
+*==================================
+*           Slide Loading
+*================================== 
+*/
+
+.slide-loading {
+  animation: slide-loading 0.5s ease-in;
+}
+
+@keyframes slide-loading {
+  0% {
+    transform: skewX(53deg) translateX(-100%);
+    opacity: 0;
+  }
+  60% {
+    transform: translateX(0px);
+  }
+  62% {
+    transform: skewX(0deg) translateX(30px);
+  }
+  70% {
+    transform: skew(-20deg);
+  }
+  80% {
+    transform: skew(0deg) translate(0);
+  }
+  90% {
+    transform: skew(-5deg);
+  }
+
+  100% {
+    transform: skew(0deg);
+  }
 }

@@ -2,15 +2,15 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation } from 'react-router'
 import { productActions } from '../../store/ActionsCreators'
-import ProductCell from './ProductCell'
+import ProductCard from './ProductCard'
 
 const defaultQuery = {
   order: 'id',
   page: 1,
   limit: 10,
   filters: {
-    search: { isSearch: true, searchTerm: 'fr' },
-    price: { isPrice: false, minPrice: 200, maxPrice: 500 },
+    search: { isSearch: false, searchTerm: '' },
+    price: { isPrice: false, minPrice: 0, maxPrice: 0 },
     stock: { isStock: false, minStock: 0, maxStock: 0 },
     rating: { isRating: false, minRating: 0, maxRating: 0 }
   }
@@ -141,9 +141,9 @@ const Products = () => {
   }
 
   return (
-    <div className="ProductGrid">
+    <div className="product-container">
       {products.length > 0 ? (
-        products.map(eachProduct => <ProductCell key={eachProduct.id} item={eachProduct} />)
+        products.map(product => <ProductCard key={product.id} product={product} />)
       ) : (
         <p>Loading</p>
       )}
