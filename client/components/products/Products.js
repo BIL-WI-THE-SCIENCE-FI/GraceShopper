@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation } from 'react-router'
+import SimpleBar from 'simplebar-react'
+import 'simplebar/dist/simplebar.min.css'
 import { productActions } from '../../store/ActionsCreators'
 import ProductCard from './ProductCard'
 
@@ -141,6 +143,7 @@ const Products = () => {
   }
 
   return (
+    // <SimpleBar className="product-scroll">
     <div className="product-container">
       {products.length > 0 ? (
         products.map(product => <ProductCard key={product.id} product={product} />)
@@ -148,6 +151,7 @@ const Products = () => {
         <p>Loading</p>
       )}
     </div>
+    // </SimpleBar>
   )
 }
 
