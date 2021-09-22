@@ -54,7 +54,7 @@ router.get('/', async (request, response, next) => {
     // const order = query.order // TODO: Consider doing an order (sort price high low etc)
     const page = parseInt(query.page, 0)
     const limit = parseInt(query.limit, 0)
-    const { search, price, stock, rating } = query.filters
+    const { search, price, stock, rating } = JSON.parse(query.filters)
 
     //* Filter conditions
     const { isSearch, searchTerm } = search
@@ -77,7 +77,7 @@ router.get('/', async (request, response, next) => {
     //* ^ Consider searching thru desc aswell ^
 
     //* Get the products back
-    const products = Product.findAll({
+    const products = await Product.findAll({
       where: whereBy,
       offset: pageBegin,
       limit: limit
