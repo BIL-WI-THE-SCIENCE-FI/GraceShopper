@@ -37,6 +37,7 @@ module.exports = db.define('product', {
   stock: {
     type: Sequelize.INTEGER,
     allowNull: false,
+    defaultValue: 0,
     validate: {
       min: 0
     }
