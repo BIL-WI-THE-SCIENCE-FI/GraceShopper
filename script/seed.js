@@ -60,7 +60,7 @@ async function seed() {
       price: faker.commerce.price(),
       rating: getRandomNumber(true, 5),
       stock: getRandomNumber(false, 100),
-      imageUrl: faker.image.imageUrl()
+      imageUrl: faker.image.image()
     }
     //* Create the product
     await Product.create(product)

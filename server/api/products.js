@@ -42,7 +42,7 @@ router.get('/', async (request, response, next) => {
     const query = request.query
 
     //* If no query was provided send back all products
-    if (query === undefined) {
+    if (query === undefined || query.page === undefined) {
       //* Get the products
       const products = await Product.findAll()
       //* Send the response
