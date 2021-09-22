@@ -24,15 +24,20 @@ const SinglePageProduct = (props) => {
             <h1>{product.name}</h1>
             <h2>${product.price} price</h2>
             <p>rating{product.rating}</p>
+            <div className='rating'>
+              <span>☆</span>
+              <span>☆</span>
+              <span>☆</span>
+              <span>☆</span>
+              <span>☆</span>
+            </div>
             <label>Quantity</label>
             <select name='Quantity'>
               <option value='1'>0</option>
               <option value='1'>1</option>
             </select>
           </div>
-          <div
-            className='addToCart'
-            onClick={() => console.log('add nothing')}>
+          <div className='addToCart' onClick={() => console.log('add nothing')}>
             Add To Cart
           </div>
         </div>
