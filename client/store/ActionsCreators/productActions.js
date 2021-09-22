@@ -1,11 +1,11 @@
 import axios from 'axios'
-
+import {actionTypes} from '../ActionTypes';
 
 
 // ------------------ Actions creators --------------------
 
 export const _fetchProducts = (products) => ({
-  type: FETCH_PRODUCTS,
+  type: actionTypes.FETCH_PRODUCTS,
   products,
 });
 
