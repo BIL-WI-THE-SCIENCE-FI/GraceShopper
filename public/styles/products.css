@@ -1,0 +1,44 @@
+.singlePage {
+  padding-top: 30px;
+  display: flex;
+  flex-direction: column;
+}
+.imp {
+  display: flex;
+  justify-content: space-around;
+}
+#productImage {
+  width: 80%;
+  height: 100%;
+}
+.productInfo {
+  padding: 10px;
+  background: #f7f7f7;
+  border-radius: 5px;
+}
+.addToCart {
+  background-color: rgb(255, 54, 54);
+  color: white;
+  padding: 5px;
+  margin: 5px;
+  border-radius: 5%;
+  text-align: center;
+  align-self: center;
+}
+.aboutItem {
+  margin: 10px;
+  text-align: center;
+  padding: 10px;
+  background: #f7f7f7;
+  border-radius: 5px;
+}
+.desBox {
+  display: flex;
+  justify-content: space-around;
+}
+.description {
+  margin: 5px;
+  width: 50%;
+  height: 100%;
+  background: #ffffff;
+}
