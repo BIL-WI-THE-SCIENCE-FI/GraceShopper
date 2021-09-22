@@ -4,16 +4,34 @@ const {
 } = require('../db')
 module.exports = router
 
-router.get('/', async (req, res, next) => {
+const attributes = ['id', 'username', 'firstName', 'lastName', 'userType', 'phone', 'email', 'cart']
+
+//* ============== GET /API/USERS ==============
+router.get('/', async (request, response, next) => {
   try {
+    //* Return all users
     const users = await User.findAll({
-      // explicitly select only the id and username fields - even though
-      // users' passwords are encrypted, it won't help if we just
-      // send everything to anyone who asks!
-      attributes: ['id', 'username', 'firstName', 'lastName', 'userType', 'phone', 'email', 'cart']
-      //* Adding cart & other info
+      attributes: attributes
     })
-    res.json(users)
+    //* Send response
+    response.json(users)
+  } catch (err) {
+    next(err)
+  }
+})
+
+//* ============== GET /API/USERS/:USERID ==============
+router.get('/:userId', async (request, response, next) => {
+  try {
+    //* Get the product id
+    const userId = request.params.userId
+    //* Find user
+    const user = await User.findOne({
+      where: { id: userId },
+      attributes: attributes
+    })
+    //* Send response
+    response.json(user)
   } catch (err) {
     next(err)
   }
