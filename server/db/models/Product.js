@@ -1,5 +1,4 @@
 const Sequelize = require('sequelize')
-const { format } = require('sequelize/types/lib/utils')
 const db = require('../db')
 
 /*

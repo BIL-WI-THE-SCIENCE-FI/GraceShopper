@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { getMoney } from '../../utils'
 
 //* This is the product card that will appear on the all products
 //* page.
@@ -19,7 +20,7 @@ export default function ProductCard(props) {
             <span>{description}</span>
           </div>
           <div className="info">
-            <p>{`Price: $${price}`}</p>
+            <p>{`Price: $${getMoney(price)}`}</p>
             {/* TODO: Render stars for the rating */}
             <p>{`Rating: ${rating}/5`}</p>
             <p>{`Stock: ${stock}`}</p>
