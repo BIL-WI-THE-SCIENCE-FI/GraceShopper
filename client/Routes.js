@@ -7,7 +7,8 @@ import Cart from './components/cart-checkout/Cart';
 import Home from './components/Home';
 import { me } from './store';
 import SinglePageProduct from './components/products/SinglePageProduct/SinglePageProduct';
-import EditProduct from './components/products/EditProduct';
+import EditProduct from './components/edit-components/EditProduct';
+import DeniedEdit from './components/edit-components/DeniedEdit';
 /**
  * COMPONENT
  */
@@ -37,6 +38,7 @@ class Routes extends Component {
             <Route path='/login' component={LoginPage} />
             <Route path='/signup' component={Signup} />
             <Route path='/products/:id' component={SinglePageProduct} />
+            <Route path='/edit/products/:id' component={DeniedEdit} />
           </Switch>
         )}
       </div>
