@@ -59,6 +59,12 @@
   width: var(--productWidth);
 }
 
+/** Remove the link effect from text */
+.product-card {
+  color: black;
+  text-decoration: none;
+}
+
 .product-card h3 {
   /** */
 }

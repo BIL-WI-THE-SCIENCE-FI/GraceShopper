@@ -76,7 +76,7 @@ const Products = () => {
     const newQuery = { ...query, page: pageNum }
     setQuery(newQuery)
     //* Fetch the new products
-    getCurrentProducts()
+    getCurrentProducts(newQuery)
     history.replace(location.pathname + `?page=${pageNum}&limit=${query.limit}`)
   }
 
@@ -152,11 +152,11 @@ const Products = () => {
 
   //* =============== GET CURRENT PRODUCTS  ===============
   //* Get the current products to be viewed based on query
-  function getCurrentProducts() {
+  function getCurrentProducts(newQuery = query) {
     //* Products are undefined return empty array
     if (products === undefined) return []
     //* desctruc the filters
-    const { search, price, stock, rating } = query.filters
+    const { search, price, stock, rating } = newQuery.filters
     //* filter based on the filters
     const curr = products.filter(product => {
       if (search.isSearch && !isCloseMatch(product.name, search.searchTerm)) return false
@@ -168,7 +168,7 @@ const Products = () => {
     })
 
     //* get the page and limit
-    const { page, limit } = query
+    const { page, limit } = newQuery
     //* get the page end and begin
     const pageEnd = page * limit
     const pageBegin = limit === -1 ? 1 : pageEnd - limit
