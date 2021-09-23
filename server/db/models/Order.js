@@ -2,7 +2,7 @@ const Sequelize = require('sequelize')
 const db = require('../db')
 
 /*
- * This is the model for each Cart.
+ * This is the model for each Order.
  *
  * Each Order should contain the following.
  *
@@ -10,7 +10,7 @@ const db = require('../db')
  * - status
  */
 
-const Order = db.define('cart', {
+const Order = db.define('order', {
   status: {
     type: Sequelize.STRING,
     defaultValue: 'pending'
