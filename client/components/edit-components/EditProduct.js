@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { productActions } from '../../store/ActionsCreators/';
+import { productActions } from '../../store/ActionsCreators';
 import { useParams } from 'react-router-dom';
 import { getMoney } from '../../utils';
 
