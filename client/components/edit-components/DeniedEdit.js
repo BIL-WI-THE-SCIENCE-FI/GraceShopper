@@ -1,6 +1,6 @@
 import React from 'react';
 
 const DeniedEdit = () => {
-  return <span>Permission Denied</span>;
+  return <div id='permissionDenied'>Permission Denied</div>;
 };
 export default DeniedEdit;
