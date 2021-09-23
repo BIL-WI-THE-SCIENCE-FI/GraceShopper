@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize')
+const { format } = require('sequelize/types/lib/utils')
 const db = require('../db')
 
 /*
@@ -14,7 +15,7 @@ const db = require('../db')
  *
  */
 
-module.exports = db.define('product', {
+const Product = db.define('product', {
   //* Product Name is a string that cannot be null
   name: {
     type: Sequelize.STRING,
@@ -25,12 +26,12 @@ module.exports = db.define('product', {
     type: Sequelize.TEXT,
     allowNull: false
   },
-  //* Price is a double that cannot be null or less than 0
+  //* Price is the amount of pennies that the product costs
   price: {
-    type: Sequelize.DOUBLE,
+    type: Sequelize.INTEGER,
     allowNull: false,
     validate: {
-      min: 0.0
+      min: 0
     }
   },
   //* Stock is the current number of products in inventory
@@ -57,3 +58,5 @@ module.exports = db.define('product', {
     allowNull: false
   }
 })
+
+module.exports = Product

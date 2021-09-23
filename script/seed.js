@@ -40,7 +40,7 @@ async function seed() {
     const product = {
       name: faker.commerce.productName(),
       description: faker.commerce.productDescription(),
-      price: faker.commerce.price(),
+      price: faker.commerce.price() * 100,
       rating: getRandomNumber(true, 5),
       stock: getRandomNumber(false, 100),
       imageUrl: faker.image.image()
