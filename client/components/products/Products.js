@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useLocation } from 'react-router'
-// import 'simplebar/dist/simplebar.min.css'
+import { useHistory, useLocation } from 'react-router'
+import SimpleBar from 'simplebar-react'
+import 'simplebar/dist/simplebar.min.css'
 import { productActions } from '../../store/ActionsCreators'
 import ProductCard from './ProductCard'
+import PageSelector from './PageSelector'
 
 const defaultQuery = {
   order: 'id',
@@ -22,14 +24,19 @@ const Products = () => {
 
   const dispatch = useDispatch()
   const location = useLocation()
+  const history = useHistory()
   const [query, setQuery] = useState(getQuery())
+  const [currentProducts, setCurrentProducts] = useState(undefined)
+  const [productsInView, setProductsInView] = useState([])
 
   useEffect(() => {
     async function fetchData() {
-      await dispatch(productActions.fetchProducts(query))
+      await dispatch(productActions.fetchProducts())
+      const current = await getCurrentProducts()
+      if (!arrayEquals(current, currentProducts)) await setCurrentProducts(current)
     }
     fetchData()
-  }, [])
+  }, [currentProducts])
 
   //* Get the query to be used based on the current URL
   function getQuery() {
@@ -55,6 +62,12 @@ const Products = () => {
     }
   }
 
+  //* Check if array is the same
+  function arrayEquals(a, b) {
+    if (a === undefined || b === undefined) return false
+    return JSON.stringify(a) == JSON.stringify(b)
+  }
+
   //* =============== SET PAGE ===============
   //* Set the page and get the updated product list
   //* for that page
@@ -63,8 +76,8 @@ const Products = () => {
     const newQuery = { ...query, page: pageNum }
     setQuery(newQuery)
     //* Fetch the new products
-    await dispatch(productActions.fetchProducts(newQuery))
-    // TODO consider updating the location
+    getCurrentProducts()
+    history.replace(location.pathname + `?page=${pageNum}&limit=${query.limit}`)
   }
 
   //* =============== SET RATING ===============
@@ -74,7 +87,7 @@ const Products = () => {
     const newQuery = { ...query, limit: limit }
     setQuery(newQuery)
     //* Fetch the new products
-    await dispatch(productActions.fetchProducts(newQuery))
+    // await dispatch(productActions.fetchProducts(newQuery))
     // TODO consider updating the location
   }
 
@@ -86,7 +99,7 @@ const Products = () => {
     const newQuery = { ...query, order: order }
     setQuery(newQuery)
     //* Fetch the new products
-    await dispatch(productActions.fetchProducts(newQuery))
+    // await dispatch(productActions.fetchProducts(newQuery))
   }
 
   //* =============== SET PRICE ===============
@@ -99,7 +112,6 @@ const Products = () => {
     const newQuery = { ...query, filter: filter }
     setQuery(newQuery)
     //* Fetch the new products
-    await dispatch(productActions.fetchProducts(newQuery))
   }
 
   //* =============== SET RATING ===============
@@ -112,7 +124,6 @@ const Products = () => {
     const newQuery = { ...query, filter: filter }
     setQuery(newQuery)
     //* Fetch the new products
-    await dispatch(productActions.fetchProducts(newQuery))
   }
 
   //* =============== SET STOCK ===============
@@ -125,7 +136,6 @@ const Products = () => {
     const newQuery = { ...query, filter: filter }
     setQuery(newQuery)
     //* Fetch the new products
-    await dispatch(productActions.fetchProducts(newQuery))
   }
 
   //* =============== SET SEARCH ===============
@@ -138,19 +148,65 @@ const Products = () => {
     const newQuery = { ...query, filter: filter }
     setQuery(newQuery)
     //* Fetch the new products
-    await dispatch(productActions.fetchProducts(newQuery))
+  }
+
+  //* =============== GET CURRENT PRODUCTS  ===============
+  //* Get the current products to be viewed based on query
+  function getCurrentProducts() {
+    //* Products are undefined return empty array
+    if (products === undefined) return []
+    //* desctruc the filters
+    const { search, price, stock, rating } = query.filters
+    //* filter based on the filters
+    const curr = products.filter(product => {
+      if (search.isSearch && !isCloseMatch(product.name, search.searchTerm)) return false
+      if (price.isPrice && !isBetween(product.price, price.minPrice, price.maxPrice)) return false
+      if (stock.isStock && !isBetween(product.price, stock.minStock, stock.maxStock)) return false
+      if (rating.isRating && !isBetween(product.price, rating.minRating, rating.maxRating))
+        return false
+      return true
+    })
+
+    //* get the page and limit
+    const { page, limit } = query
+    //* get the page end and begin
+    const pageEnd = page * limit
+    const pageBegin = limit === -1 ? 1 : pageEnd - limit
+    //* Create the array
+    const toView = curr.slice(pageBegin, pageEnd)
+    setProductsInView(toView)
+    return curr
+  }
+
+  //* Check to see if the string is a close match
+  function isCloseMatch(str, searchTerm) {
+    const fmt = str.toLowerCase().replace(' ')
+    for (let term of searchTerm.split(' ')) if (fmt.includes(term.toLowerCase())) return true
+    return false
+  }
+
+  //* Check to see if the number falls between two numbers
+  function isBetween(num, min, max) {
+    return num >= min && num <= max
   }
 
   return (
-    // <SimpleBar className="product-scroll">
     <div className="product-container">
-      {products.length > 0 ? (
-        products.map(product => <ProductCard key={product.id} product={product} />)
-      ) : (
-        <p>Loading</p>
-      )}
+      <SimpleBar className="product-scroll">
+        <div className="products-container">
+          {productsInView !== undefined && productsInView.length > 0 ? (
+            productsInView.map(product => <ProductCard key={product.id} product={product} />)
+          ) : (
+            <p>Loading...</p>
+          )}
+        </div>
+      </SimpleBar>
+      <PageSelector
+        setPage={setPage}
+        query={query}
+        currentCount={currentProducts === undefined ? 0 : currentProducts.length}
+      />
     </div>
-    // </SimpleBar>
   )
 }
 

@@ -1,20 +1,22 @@
 * {
-  --productContainerHeight: 500vh;
+  --productContainerHeight: 85vh;
   --productContainerWidth: 80vw;
   --productHeight: calc(100vh / 2.5);
   --productWidth: calc(var(--productContainerWidth) / 6);
   --productImageHeight: calc(var(--productHeight) / 3);
   --productImageWidth: calc(var(--productWidth) / 2);
+  /** page selector */
+  --productScrollHeight: calc(var(--productContainerHeight) - 15px);
+  --productScrollWidth: calc(var(--productContainerWidth));
 }
 
 .product-container {
+  justify-content: center;
   margin: auto;
   margin-top: 2vh;
   padding: 10px;
 
-  justify-content: center;
-
-  /* height: var(--productContainerHeight); */
+  height: var(--productContainerHeight);
   width: var(--productContainerWidth);
 
   display: flex;
@@ -23,9 +25,26 @@
   background-color: #f7f7f7;
 }
 
+.product-scroll {
+  /* margin: auto;
+     margin-top: 2vh;
+     padding: 10px;   */
+
+  height: var(--productScrollHeight);
+  width: var(--productScrollWidth);
+
+  background-color: #f7f7f7;
+}
+
+.products-container {
+  justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+}
+
 .product-card {
   margin: 2.5px;
-  padding: 0px 10px 0px 10px;
+  padding: 0px 10px 20px 10px;
 
   text-align: center;
 
@@ -33,10 +52,10 @@
 
   background-color: rgba(255, 255, 255, 1);
 
-  min-height: var(--productHeight);
-  min-width: var(--productWidth);
+  /* min-height: var(--productHeight); */
+  min-width: 196px;
 
-  height: var(--productHeight);
+  /* height: var(--productHeight); */
   width: var(--productWidth);
 }
 
@@ -71,4 +90,28 @@
   width: 196px; */
   height: var(--productImageWidth);
   width: var(--productImageWidth);
+}
+
+.page-selector {
+}
+
+.page-selector span {
+  /* margin: auto 5px auto 5px; */
+}
+
+.page-selector button {
+  font-weight: bold;
+  color: black;
+  border-color: transparent;
+  background-color: transparent;
+  opacity: 0.75;
+}
+
+.page-selector button:hover {
+  opacity: 1;
+}
+
+.page-selector button:disabled {
+  opacity: 0.25;
+  cursor: not-allowed;
 }

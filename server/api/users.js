@@ -1,16 +1,17 @@
 const router = require('express').Router()
 const {
-  models: { User }
+  models: { User, Cart }
 } = require('../db')
 module.exports = router
 
-const attributes = ['id', 'username', 'firstName', 'lastName', 'userType', 'phone', 'email', 'cart']
+const attributes = ['id', 'username', 'firstName', 'lastName', 'userType', 'phone', 'email']
 
 //* ============== GET /API/USERS ==============
 router.get('/', async (request, response, next) => {
   try {
     //* Return all users
     const users = await User.findAll({
+      include: Cart,
       attributes: attributes
     })
     //* Send response
@@ -28,6 +29,7 @@ router.get('/:userId', async (request, response, next) => {
     //* Find user
     const user = await User.findOne({
       where: { id: userId },
+      include: Cart,
       attributes: attributes
     })
     //* Send response
