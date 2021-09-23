@@ -2,7 +2,7 @@
 
 const {
   db,
-  models: { User, Product }
+  models: { User, Product, Cart }
 } = require('../server/db')
 const faker = require('faker')
 
@@ -14,6 +14,8 @@ const totalProducts = 20
 const totalUsers = 20
 //* Add admin user with (user: admin) (pass: admin)
 const addAdmin = true
+//* Add random items to users cart
+const addCartItems = true
 
 async function seed() {
   //* Clear DB and matche models to tables
@@ -29,25 +31,6 @@ async function seed() {
     }
     //* Create the user
     await User.create(user)
-  }
-
-  console.log('\nPreparing to load users.')
-  //* Create all of our users
-  for (let i = 0; i < totalUsers; i++) {
-    //* User contents
-    const user = {
-      username: faker.internet.userName(),
-      password: faker.internet.password(),
-      firstName: faker.name.firstName(),
-      userType: 'saved',
-      lastName: faker.name.lastName(),
-      phone: faker.phone.phoneNumber(),
-      email: faker.internet.email()
-    }
-    //* Create the user
-    await User.create(user)
-    //* For friendly updates
-    if (i % (totalUsers / 10) === 0) console.log(`Loaded ${(i / totalUsers) * 100}% users!`)
   }
 
   console.log('\nPreparing to load products.')
@@ -68,7 +51,46 @@ async function seed() {
     if (i % (totalProducts / 10) === 0)
       console.log(`Loaded ${(i / totalProducts) * 100}% products!`)
   }
+
+  console.log('\nPreparing to load users.')
+  //* Create all of our users
+  for (let i = 0; i < totalUsers; i++) {
+    //* User contents
+    const user = {
+      username: faker.internet.userName(),
+      password: faker.internet.password(),
+      firstName: faker.name.firstName(),
+      userType: 'saved',
+      lastName: faker.name.lastName(),
+      phone: faker.phone.phoneNumber(),
+      email: faker.internet.email()
+    }
+    //* Create the user
+    const userInstance = await User.create(user)
+    //* If we need to give the user a cart
+    if (addCartItems) {
+      //* Cart contents
+      const cart = {
+        items: getCartItems()
+      }
+      const cartInstance = await Cart.create(cart)
+      //* Set the cart
+      await userInstance.setCart(cartInstance)
+    }
+    //* For friendly updates
+    if (i % (totalUsers / 10) === 0) console.log(`Loaded ${(i / totalUsers) * 100}% users!`)
+  }
   return
+}
+
+//* Function used to populate the cart data
+function getCartItems() {
+  const cart = {}
+  //* Add a random number of products to the cart with a random quantity
+  for (let i = 1; i < getRandomNumber(false, totalProducts - 1); i++)
+    cart[i] = getRandomNumber(false, 100)
+  //* Return the cart Json
+  return JSON.stringify(cart)
 }
 
 //* Used to get a random number for the stock/count & rating
