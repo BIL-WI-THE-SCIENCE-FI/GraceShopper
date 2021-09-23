@@ -1,10 +1,13 @@
 const router = require('express').Router()
 const {
-  models: { User, Order }
+  models: { Order, User }
 } = require('../db')
-const Product = require('../db/models/Product')
+const OrderDetails = require('../db/models/OrderDetails')
 
-const attributes = ['id', 'username', 'firstName', 'lastName', 'userType', 'phone', 'email']
+//* ============== GET USERS MOST RECENT ORDER =============
+async function getOpenOrder(userId) {
+  return await Order.findOne({ where: { userId: userId, status: 'pending' } })
+}
 
 //* ============== POST /API/ORDERS/:USERID =============
 //* Update the users order
@@ -12,46 +15,19 @@ router.post('/:userId', async (request, response, next) => {
   try {
     //* Get the product id
     const userId = request.params.userId
-    //* Find order
-    const user = await User.findOne({
-      where: { id: userId },
-      include: Order,
-      attributes: attributes
+    //* Get the order instance
+    const orderInstance = await getOpenOrder(userId)
+    //* Get the info to update the order
+    const { productId, price, quantity } = request.body
+    //* Get the order details
+    const orderDetails = await OrderDetails.findOne({
+      where: { orderId: orderInstance.id, productId: productId }
     })
-
-    //* Get the updated information
-    const { productId, quantity } = request.body
-
-    //! Remove
-    console.log('--------------------')
-    console.log('request.body:', request.body)
-    console.log('productId:', productId)
-    console.log('quantity:', quantity)
-    console.log('--------------------')
-    //! Remove
-
-    //* Find the product
-    const product = await Product.findOne({ where: { id: productId } })
-
-    const orderInstance = user.orders[0]
-
-    // if (orderInstance === undefined) return
-
-    //* Add to order details
-    const orderDetails = await orderInstance.addProduct(product, {
-      through: { quantity: 10, price: product.price * 10 }
-    })
-
-    //! Remove
-    console.log('--------------------')
-    console.log('orderInstance:', orderInstance)
-    console.log('--------------------')
-    console.log('orderDetails:', orderDetails)
-    console.log('--------------------')
-    //! Remove
-
-    //* Save the user
-    await user.save()
+    //* Update the order details
+    orderDetails.price = price * quantity
+    orderDetails.quantity = quantity
+    //* Save the order details
+    await orderDetails.save()
     //* Send response
     response.send(orderInstance)
   } catch (error) {
@@ -60,18 +36,24 @@ router.post('/:userId', async (request, response, next) => {
 })
 
 //* ============== GET /API/ORDERS/:USERID ==============
+//* Get the users current most recent order
 router.get('/:userId', async (request, response, next) => {
   try {
     //* Get the product id
     const userId = request.params.userId
     //* Find user
-    const user = await User.findOne({
-      where: { id: userId },
-      include: Order,
-      attributes: attributes
-    })
+    let order = await getOpenOrder(userId)
+
+    //* If they do not have an order we will create them an order
+    if (order === null) {
+      order = await Order.create()
+      order.userId = parseInt(userId)
+      const user = await User.findOne({ where: { id: userId } })
+      await user.addOrder(order)
+      await order.save()
+    }
     //* Send response
-    response.json(user)
+    response.json(order)
   } catch (err) {
     next(err)
   }
