@@ -1,0 +1,46 @@
+.login {
+  display: flex;
+  text-align: center;
+  justify-content: space-around;
+}
+.loginbody {
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+  row-gap: 10px;
+}
+.signin {
+  background: #CC0000;
+  color: white;
+  padding-top: 10px;
+  margin: 5px;
+  width: 100%;
+  height: 30px;
+  border-radius: 5px;
+  text-align: center;
+  align-self: center;
+}
+.signup {
+  background-color: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
+  padding-top: 10px;
+  margin: 5px;
+  width: 100%;
+  height: 30px;
+  border: 1px solid rgb(0, 0, 0);
+  border-radius: 5px;
+  text-align: center;
+  align-self: center;
+}
+#keepSignIn {
+  display: flex;
+  column-gap: 10px;
+}
+#box {
+  width: 20px;
+  height: 20px;
+}
+.email {
+  width: 100%;
+  height: 30px;
+}

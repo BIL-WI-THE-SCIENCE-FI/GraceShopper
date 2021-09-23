@@ -7,6 +7,7 @@ import { productActions } from '../../store/ActionsCreators'
 import ProductCard from './ProductCard'
 import PageSelector from './PageSelector'
 
+
 const defaultQuery = {
   order: 'id',
   page: 1,
