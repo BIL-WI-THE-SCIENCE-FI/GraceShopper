@@ -41,6 +41,7 @@ form div {
   flex-grow: 1.5;
 }
 #categories {
+  color: black;
   flex-grow: 0.5;
   height: 30%;
   background: rgba(255, 255, 255, 0.8);

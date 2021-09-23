@@ -8,7 +8,9 @@ const Header = () => {
       <Link id='logoLink' to='/home'>
         <img className='logo' src='./Git Logo.png' />
       </Link>
-      <div id='categories'>Categories</div>
+      <Link id='productsLink' to='/products'>
+        <div id='categories'>Products</div>
+      </Link>
       <div id='blank'></div>
       <div id='search'>
         <input id='search-input' placeholder='Search Product' />
