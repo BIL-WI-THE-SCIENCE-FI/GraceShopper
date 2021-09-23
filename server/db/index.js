@@ -13,6 +13,10 @@ Order.belongsTo(User)
 
 Order.belongsToMany(Product, { through: OrderDetails })
 Product.belongsToMany(Order, { through: OrderDetails })
+Order.hasMany(OrderDetails)
+OrderDetails.belongsTo(Order)
+Product.hasMany(OrderDetails)
+OrderDetails.belongsTo(Product)
 
 module.exports = {
   db,

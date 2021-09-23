@@ -2,22 +2,18 @@
 
 const {
   db,
-  models: { User, Product, Cart }
+  models: { User, Product }
 } = require('../server/db')
 const faker = require('faker')
-const Order = require('../server/db/models/Order')
-const OrderDetails = require('../server/db/models/OrderDetails')
 
 //* EDIT THE FOLLOWING PARAMETERS TO CHANGE HOW THE DATABASE IS POPULATED
 //*
 //* How many products do you want to create
-const totalProducts = 5
+const totalProducts = 50
 //* How many users do you want to create
-const totalUsers = 5
+const totalUsers = 10
 //* Add admin user with (user: admin) (pass: admin)
 const addAdmin = true
-//* Add random orders?
-const createOrders = true
 
 async function seed() {
   //* Clear DB and matche models to tables
@@ -35,10 +31,6 @@ async function seed() {
     await User.create(user)
   }
 
-  //! Remove
-  const products = []
-  //! Remove
-
   console.log('\nPreparing to load products.')
   //* Create all of our products
   for (let i = 0; i < totalProducts; i++) {
@@ -52,10 +44,7 @@ async function seed() {
       imageUrl: faker.image.image()
     }
     //* Create the product
-    const productInstance = await Product.create(product)
-    //! Remove
-    await products.push(productInstance)
-    //! Remove
+    await Product.create(product)
     //* For friendly updates
     if (i % (totalProducts / 10) === 0)
       console.log(`Loaded ${(i / totalProducts) * 100}% products!`)
@@ -75,43 +64,12 @@ async function seed() {
       email: faker.internet.email()
     }
     //* Create the user
-    const userInstance = await User.create(user)
-
-    //! Remove
-    // //* If we need to give the user a cart
-    // TODO: IGNORE ALL OF THIS UNTIL I COMPLETE ~ BRYNN
-    if (createOrders) {
-      const orderInstance = await Order.create()
-      await userInstance.addOrder(orderInstance)
-      //   for (let product of products) {
-      //     //
-      //     const orderDetails = await orderInstance.addProduct(product, {
-      //       through: { quantity: 10, price: product.price * 10 }
-      //     })
-      //     await orderInstance.addProduct(product, {
-      //       through: { quantity: 1, price: 1 }
-      //     })
-    }
-    //   //! Remove
-
-    //   //* Set the cart
-    //   // await userInstance
-    // }
+    await User.create(user)
     //* For friendly updates
     if (i % (totalUsers / 10) === 0) console.log(`Loaded ${(i / totalUsers) * 100}% users!`)
   }
   return
 }
-
-// //* Function used to populate the cart data
-// function getCartItems() {
-//   const cart = {}
-//   //* Add a random number of products to the cart with a random quantity
-//   for (let i = 1; i < getRandomNumber(false, totalProducts - 1); i++)
-//     cart[i] = getRandomNumber(false, 100)
-//   //* Return the cart Json
-//   return JSON.stringify(cart)
-// }
 
 //* Used to get a random number for the stock/count & rating
 function getRandomNumber(decimal, max) {
