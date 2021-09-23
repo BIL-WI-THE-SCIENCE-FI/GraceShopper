@@ -1,5 +1,6 @@
-const Sequelize = require('sequelize');
-const db = require('../db');
+
+const Sequelize = require('sequelize')
+const db = require('../db')
 
 /*
  * This is the model for each Product.
