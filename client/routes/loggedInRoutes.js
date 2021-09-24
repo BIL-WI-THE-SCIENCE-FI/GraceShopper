@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
-import { Route, Switch, withRouter } from 'react-router-dom'
+import React, { Component } from 'react';
+import { Route, Switch, withRouter } from 'react-router-dom';
+import { LoginPage } from '../components/Login/LoginPage';
 
 //* v Import components v
-import LoggedInCart from '../components/cart-checkout/LoggedInCart'
-import EditProduct from '../components/edit-components/EditProduct'
-import Home from '../components/Home'
+import LoggedInCart from '../components/cart-checkout/LoggedInCart';
+import EditProduct from '../components/edit-components/EditProduct';
 
 //* ^ Import components ^
 
@@ -12,12 +12,12 @@ class LoggedInRoutes extends Component {
   render() {
     return (
       <Switch>
-        <Route path="/cart" component={LoggedInCart} />
-        <Route path="/edit/products/:id" component={EditProduct} />
-        <Route path="/home" component={Home} />
+        <Route path='/login' component={LoginPage} />
+        <Route path='/cart' component={LoggedInCart} />
+        <Route path='/edit/products/:id' component={EditProduct} />
       </Switch>
-    )
+    );
   }
 }
 
-export default withRouter(LoggedInRoutes)
+export default withRouter(LoggedInRoutes);

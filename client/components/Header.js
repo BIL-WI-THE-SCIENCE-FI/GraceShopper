@@ -1,11 +1,17 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { LoginPage } from './Login/LoginPage';
+import { logout } from '../store';
 
 const Header = () => {
   const loggedInType = useSelector((state) => state.auth.userType);
   const isLoggedIn = useSelector((state) => state.auth.id);
+  const dispatch = useDispatch();
+  const handleLogout = () => {
+    dispatch(logout());
+  };
   return (
     <div id='navBar'>
       <Link id='logoLink' to='/home'>
@@ -21,7 +27,9 @@ const Header = () => {
       </div>
       <div id='loginCart'>
         {isLoggedIn ? (
-          <Link id='logoutLink'>Logout</Link>
+          <Link id='logoutLink' to='/login' onClick={handleLogout}>
+            Logout
+          </Link>
         ) : (
           <Link id='loginLink' to='/login'>
             Login
