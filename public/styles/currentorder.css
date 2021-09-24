@@ -2,32 +2,63 @@
   --orderContainerHeight: 85vh;
   --orderContainerWidth: 80vw;
   /** page selector */
-  --orderScrollHeight: calc(var(--orderContainerHeight) - 15px);
-  --orderScrollWidth: calc(var(--orderContainerWidth));
 
   --orderHeight: calc(var(--orderScrollHeight) / 2);
   --orderWidth: calc(var(--orderScrollWidth) / 6);
   --orderImageHeight: calc(var(--orderHeight) / 3);
   --orderImageWidth: calc(var(--orderWidth));
+
+  --padding: 10px;
+
+  --gridHalf: calc((var(--orderContainerWidth) / 2) - var(--padding));
+
+  --orderScrollHeight: calc(var(--orderContainerHeight) - (var(--padding) * 2));
+  --orderScrollWidth: calc(var(--gridHalf) - var(--padding));
 }
 
 .currentorder-container {
   justify-content: center;
   margin: auto;
   margin-top: 2vh;
-  padding: 10px;
+  padding: var(--padding);
 
-  height: var(--productContainerHeight);
-  width: var(--productContainerWidth);
+  height: var(--orderContainerHeight);
+  width: var(--orderContainerWidth);
 
   display: grid;
+  grid-template-columns: 2;
+  grid-template-rows: 2;
+
+  padding: 5px;
 
   background-color: #f7f7f7;
 }
 
+.currentorder-container .one {
+  padding: 5px;
+
+  width: var(--gridHalf);
+
+  background-color: green;
+
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.currentorder-container .two {
+  padding: 5px;
+
+  width: var(--gridHalf);
+
+  background-color: red;
+
+  grid-column: 2;
+}
+
 .currentorder-scroll {
-  height: 500px;
-  width: 500px;
+  padding: 10px;
+  height: var(--orderScrollHeight);
+  width: var(--orderScrollWidth);
   background-color: brown;
 }
 
