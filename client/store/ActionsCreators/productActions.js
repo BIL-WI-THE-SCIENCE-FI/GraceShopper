@@ -18,9 +18,7 @@ export const _fetchProduct = product => ({
 export const fetchProducts = (query = undefined) => {
   return async dispatch => {
     try {
-      console.log('im called')
       const response = await axios.get('/api/products', { params: query })
-      console.log('hey', response.data)
       dispatch(_fetchProducts(response.data))
     } catch (error) {
       console.log('Failed to fetch all products')
