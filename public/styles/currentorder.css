@@ -1,13 +1,14 @@
 * {
   --orderContainerHeight: 85vh;
   --orderContainerWidth: 80vw;
-  --orderHeight: calc(100vh / 2.5);
-  --orderWidth: calc(var(--orderContainerWidth) / 6);
-  --orderImageHeight: calc(var(--orderHeight) / 3);
-  --orderImageWidth: calc(var(--orderWidth) / 2);
   /** page selector */
   --orderScrollHeight: calc(var(--orderContainerHeight) - 15px);
   --orderScrollWidth: calc(var(--orderContainerWidth));
+
+  --orderHeight: calc(var(--orderScrollHeight) / 2);
+  --orderWidth: calc(var(--orderScrollWidth) / 6);
+  --orderImageHeight: calc(var(--orderHeight) / 3);
+  --orderImageWidth: calc(var(--orderWidth));
 }
 
 .currentorder-container {
@@ -19,8 +20,26 @@
   height: var(--productContainerHeight);
   width: var(--productContainerWidth);
 
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
 
   background-color: #f7f7f7;
+}
+
+.currentorder-scroll {
+  height: 500px;
+  width: 500px;
+  background-color: brown;
+}
+
+.currentorder-productcard {
+  margin: 5px 0px 5px 0px;
+  background-color: gray;
+}
+
+.currentorder-productcard {
+}
+
+.currentorder-productcard img {
+  height: var(--orderImageHeight);
+  width: var(--orderImageWidth);
 }

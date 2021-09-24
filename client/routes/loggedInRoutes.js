@@ -12,7 +12,7 @@ class LoggedInRoutes extends Component {
   render() {
     return (
       <Switch>
-        <Route path="/cart/:id" component={LoggedInCart} />
+        <Route path="/cart" component={LoggedInCart} />
         <Route path="/edit/products/:id" component={EditProduct} />
         <Route path="/home" component={Home} />
       </Switch>
