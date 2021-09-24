@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import SimpleBar from 'simplebar-react'
 import 'simplebar/dist/simplebar.min.css'
@@ -11,6 +11,7 @@ const LoggedInCart = () => {
   //* Get the cart from store
   const auth = useSelector(state => state.auth)
   const { order } = useSelector(state => state.order)
+  const [selected, setSelected] = useState({})
 
   useEffect(() => {
     async function fetchData() {
@@ -23,18 +24,16 @@ const LoggedInCart = () => {
   //* Return the jsx
   return (
     <div className="currentorder-container">
-      <div>
+      <div className="one">
+        <SimpleBar className="currentorder-scroll">{getProducts(order.orderdetails)}</SimpleBar>
+      </div>
+      <div className="two">
         <div>
-          <SimpleBar className="currentorder-scroll">{getProducts(order.orderdetails)}</SimpleBar>
+          <h3>Total:</h3>
+          <span>{order !== undefined ? 'test' : 'test'}</span>
         </div>
         <div>
-          <div>
-            <h3>Total:</h3>
-            <span>{order !== undefined ? 'test' : 'test'}</span>
-          </div>
-          <div>
-            <button onClick={() => {}}>Checkout</button>
-          </div>
+          <button onClick={() => {}}>Checkout</button>
         </div>
       </div>
     </div>
