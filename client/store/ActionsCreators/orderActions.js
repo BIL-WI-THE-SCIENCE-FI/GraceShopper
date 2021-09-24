@@ -19,7 +19,7 @@ export const setOrders = orders => ({
 export const fetchOrder = userId => {
   return async dispatch => {
     try {
-      const { data } = await axios.get(`/api/orders/${userId}`)
+      const { data } = await axios.get(`/api/orders/current/${userId}`)
       //! Remove
       console.log('--------------------')
       console.log('data:', data)

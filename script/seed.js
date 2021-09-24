@@ -2,7 +2,7 @@
 
 const {
   db,
-  models: { User, Product }
+  models: { User, Product, Order }
 } = require('../server/db')
 const faker = require('faker')
 
@@ -14,6 +14,8 @@ const totalProducts = 50
 const totalUsers = 10
 //* Add admin user with (user: admin) (pass: admin)
 const addAdmin = true
+//* Add random order history (PREFORMANCE HEAVY)
+const addOrderHistory = true
 
 async function seed() {
   //* Clear DB and matche models to tables
@@ -31,7 +33,10 @@ async function seed() {
     await User.create(user)
   }
 
-  console.log('\nPreparing to load products.')
+  //* Products to use for fake data
+  const products = []
+
+  console.log(`\nPreparing to load ${totalProducts} products.`)
   //* Create all of our products
   for (let i = 0; i < totalProducts; i++) {
     //* Product contents
@@ -44,13 +49,15 @@ async function seed() {
       imageUrl: faker.image.image()
     }
     //* Create the product
-    await Product.create(product)
+    const productInstance = await Product.create(product)
+    //* If need fake order history
+    if (addOrderHistory) await products.push(productInstance)
     //* For friendly updates
     if (i % (totalProducts / 10) === 0)
       console.log(`Loaded ${(i / totalProducts) * 100}% products!`)
   }
 
-  console.log('\nPreparing to load users.')
+  console.log(`\nPreparing to load ${totalUsers} users. Order History: ${addOrderHistory}`)
   //* Create all of our users
   for (let i = 0; i < totalUsers; i++) {
     //* User contents
@@ -64,7 +71,23 @@ async function seed() {
       email: faker.internet.email()
     }
     //* Create the user
-    await User.create(user)
+    const userInstance = await User.create(user)
+
+    //* If we should add random order history
+    if (addOrderHistory) {
+      const orderInstance = await Order.create()
+      await userInstance.addOrder(orderInstance)
+
+      //* Add random order details
+      for (let i = 0; i < getRandomNumber(false, totalProducts - 1); i++) {
+        const product = await products[i]
+        const quantity = getRandomNumber(false, 100) + 1
+        const price = (await product.price) * quantity
+        //* add the product to the order details
+        await orderInstance.addProduct(product, { through: { quantity: quantity, price: price } })
+      }
+    }
+
     //* For friendly updates
     if (i % (totalUsers / 10) === 0) console.log(`Loaded ${(i / totalUsers) * 100}% users!`)
   }
