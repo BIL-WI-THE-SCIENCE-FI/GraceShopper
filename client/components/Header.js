@@ -6,7 +6,7 @@ const Header = () => {
   return (
     <div id='navBar'>
       <Link id='logoLink' to='/home'>
-        <img className='logo' src='./Git Logo.png' />
+        <img className='logo' src='/Git Logo.png' />
       </Link>
       <Link id='productsLink' to='/products'>
         <div id='categories'>Products</div>
@@ -21,7 +21,7 @@ const Header = () => {
           Login
         </Link>
         <div id='cartContainer'>
-          <img className='logo' src='./CartLogo.png' />
+          <img className='logo' src='/CartLogo.png' />
           <div id='cartLabel'>(0)</div>
         </div>
       </div>
