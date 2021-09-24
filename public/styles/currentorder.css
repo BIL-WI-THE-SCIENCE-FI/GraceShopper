@@ -1,0 +1,26 @@
+* {
+  --orderContainerHeight: 85vh;
+  --orderContainerWidth: 80vw;
+  --orderHeight: calc(100vh / 2.5);
+  --orderWidth: calc(var(--orderContainerWidth) / 6);
+  --orderImageHeight: calc(var(--orderHeight) / 3);
+  --orderImageWidth: calc(var(--orderWidth) / 2);
+  /** page selector */
+  --orderScrollHeight: calc(var(--orderContainerHeight) - 15px);
+  --orderScrollWidth: calc(var(--orderContainerWidth));
+}
+
+.currentorder-container {
+  justify-content: center;
+  margin: auto;
+  margin-top: 2vh;
+  padding: 10px;
+
+  height: var(--productContainerHeight);
+  width: var(--productContainerWidth);
+
+  display: flex;
+  flex-wrap: wrap;
+
+  background-color: #f7f7f7;
+}
