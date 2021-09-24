@@ -9,7 +9,7 @@ export default function ProductCard(props) {
   //* Obtain the information required thru props
   const { id, name, description, price, rating, stock, imageUrl } =
     props.product;
-  const isLoggedIn = useSelector((state) => state.auth.user);
+  const isLoggedIn = useSelector((state) => state.auth.id);
   //* Return the component JSX
   return (
     <Link to={`/products/${id}`} className='product-card shadow zoomable-small'>
