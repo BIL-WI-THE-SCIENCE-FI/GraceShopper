@@ -11,6 +11,7 @@ export const Home = (props) => {
   const { products } = useSelector((state) => state.products);
   const [index, setIndex] = useState(0);
   const timeoutRef = useRef(null);
+  const dispatch = useDispatch();
   useEffect(() => {
     async function fetchData() {
       await dispatch(productActions.fetchProducts());
