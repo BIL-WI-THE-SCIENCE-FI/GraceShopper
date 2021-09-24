@@ -6,14 +6,16 @@ const OrderDetails = require('../db/models/OrderDetails')
 
 //* ============== GET USERS MOST RECENT ORDER =============
 async function getOpenOrder(userId) {
-  return await Order.findOne({ where: { userId: userId, status: 'pending' } })
+  return await Order.findOne({
+    where: { userId: userId, status: 'pending' }
+  })
 }
 
 //* ============== POST /API/ORDERS/:USERID =============
 //* Update the users order
 router.post('/:userId', async (request, response, next) => {
   try {
-    //* Get the product id
+    //* Get the user id
     const userId = request.params.userId
     //* Get the order instance
     const orderInstance = await getOpenOrder(userId)
@@ -35,25 +37,56 @@ router.post('/:userId', async (request, response, next) => {
   }
 })
 
+// //* ============== GET /API/ORDERS/:USERID ==============
+// //* Get the users current most recent order
+// router.get('/:userId', async (request, response, next) => {
+//   try {
+//     //* Get the user id
+//     const userId = request.params.userId
+
+//     //* Find user
+//     let order = await getOpenOrder(userId)
+
+//     //* If they do not have an order we will create them an order
+//     if (order === null) {
+//       order = await Order.create()
+//       order.userId = parseInt(userId)
+//       const user = await User.findOne({ where: { id: userId } })
+//       await user.addOrder(order)
+//       await order.save()
+//     }
+//     //* Send response
+//     response.json(order)
+//   } catch (err) {
+//     next(err)
+//   }
+// })
+
 //* ============== GET /API/ORDERS/:USERID ==============
 //* Get the users current most recent order
 router.get('/:userId', async (request, response, next) => {
   try {
-    //* Get the product id
+    //* Get the user id
     const userId = request.params.userId
-    //* Find user
-    let order = await getOpenOrder(userId)
 
-    //* If they do not have an order we will create them an order
-    if (order === null) {
-      order = await Order.create()
-      order.userId = parseInt(userId)
-      const user = await User.findOne({ where: { id: userId } })
-      await user.addOrder(order)
-      await order.save()
-    }
+    const orderDetails = OrderDetails.findAll({})
+
     //* Send response
-    response.json(order)
+    response.json(orderDetails)
+  } catch (err) {
+    next(err)
+  }
+})
+
+//* ============== GET /API/ORDERS/ALL/:USERID ==============
+//* Get all of the users orders
+router.get('all/:userId', async (request, response, next) => {
+  try {
+    //* Get the user id
+    const userId = request.params.userId
+    //* Find all the users orders
+    const orders = await Order.findAll({ where: { userId: userId } })
+    response.json(orders)
   } catch (err) {
     next(err)
   }

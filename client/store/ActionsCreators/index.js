@@ -1,2 +1,2 @@
-export * as cartActions from './cartActions';
-export * as productActions from './productActions';
+export * as orderActions from './orderActions'
+export * as productActions from './productActions'
