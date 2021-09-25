@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios'
-import { useLocation } from 'react-router';
+import { Link, Redirect } from 'react-router-dom';
 import { authenticateSignup } from '../../store';
 
 const Signup = () => {
   const dispatch = useDispatch();
-  const authInfo = useSelector((state) => state.auth);
+  const isLoggedIn = useSelector((state) => state.auth.id);
   const [usernames, setUsernames] = useState({})
   const [userEmails, setUserEmails] = useState({});
   const [userInput, setUserInput] = useState({
@@ -20,18 +20,22 @@ const Signup = () => {
     errors: {},
   });
   useEffect(() => {
+    let mounted = true
     async function fetchUsers() {
       const uname = {}
-      const email ={}
+      const email = {}
       const response = await axios('/api/users')
       response.data.forEach(user => {
         uname[user.username] = user.username;
         email[user.email] = user.email
       })
-      setUsernames(uname)
-      setUserEmails(email)
+      if (mounted) {
+        setUsernames(uname)
+        setUserEmails(email)
+      }
     }
     fetchUsers();
+    return () => { mounted = false };
   }, []);
   const handleSubmit = (evt) => {
     evt.preventDefault();
@@ -80,78 +84,82 @@ const Signup = () => {
 
   return (
     <div className='login'>
-      <div className='loginbody'>
-        <div className='signupBox'>
-          <h1>Sign into your account</h1>
-        </div>
-        <form id='signupform' onSubmit={handleSubmit} name='signup'>
-          <div className='emailBox'>
-            <input
-              className='email'
-              name='email'
-              type='text'
-              onChange={handleChange}
-              placeholder='Email'
-            />
-            {userInput.errors != '' && (
-              <span className='error'>{userInput.errors.email}</span>
-            )}
-          </div>
-          <div className='emailBox'>
-            <input
-              className='email'
-              name='firstName'
-              type='text'
-              onChange={handleChange}
-              placeholder='Frist Name'
-            />
-            {userInput.errors != '' && (
-              <span className='error'>{userInput.errors.firstName}</span>
-            )}
-          </div>
-          <div className='emailBox'>
-            <input
-              className='email'
-              name='lastName'
-              onChange={handleChange}
-              placeholder='Last Name'
-              type='text'
-            />
-            {userInput.errors != '' && (
-              <span className='error'>{userInput.errors.lastName}</span>
-            )}
-          </div>
-          <div className='emailBox'>
-            <input
-              className='email'
-              name='username'
-              type='text'
-              onChange={handleChange}
-              placeholder='Username'
-            />
-            {userInput.errors != '' && (
-              <span className='error'>{userInput.errors.username}</span>
-            )}
-          </div>
-          <div className='emailBox'>
-            <input
-              className='email'
-              name='password'
-              onChange={handleChange}
-              placeholder='Password'
-              type='password'
-            />
-            {userInput.errors != '' && (
-              <span className='error'>{userInput.errors.password}</span>
-            )}
-          </div>
-          <div className='signupBox'>
-            <button className='signin' name='button1'>
-              sign up
+      {isLoggedIn ? (
+        <Redirect to='/home' />
+      ) : (
+          <div className='loginbody'>
+            <div className='signupBox'>
+              <h1>Sign into your account</h1>
+            </div>
+            <form id='signupform' onSubmit={handleSubmit} name='signup'>
+              <div className='emailBox'>
+                <input
+                  className='email'
+                  name='email'
+                  type='text'
+                  onChange={handleChange}
+                  placeholder='Email'
+                />
+                {userInput.errors != '' && (
+                  <span className='error'>{userInput.errors.email}</span>
+                )}
+              </div>
+              <div className='emailBox'>
+                <input
+                  className='email'
+                  name='firstName'
+                  type='text'
+                  onChange={handleChange}
+                  placeholder='Frist Name'
+                />
+                {userInput.errors != '' && (
+                  <span className='error'>{userInput.errors.firstName}</span>
+                )}
+              </div>
+              <div className='emailBox'>
+                <input
+                  className='email'
+                  name='lastName'
+                  onChange={handleChange}
+                  placeholder='Last Name'
+                  type='text'
+                />
+                {userInput.errors != '' && (
+                  <span className='error'>{userInput.errors.lastName}</span>
+                )}
+              </div>
+              <div className='emailBox'>
+                <input
+                  className='email'
+                  name='username'
+                  type='text'
+                  onChange={handleChange}
+                  placeholder='Username'
+                />
+                {userInput.errors != '' && (
+                  <span className='error'>{userInput.errors.username}</span>
+                )}
+              </div>
+              <div className='emailBox'>
+                <input
+                  className='email'
+                  name='password'
+                  onChange={handleChange}
+                  placeholder='Password'
+                  type='password'
+                />
+                {userInput.errors != '' && (
+                  <span className='error'>{userInput.errors.password}</span>
+                )}
+              </div>
+              <div className='signupBox'>
+                <button className='signin' name='button1'>
+                  sign up
             </button>
+              </div>
+            </form>
           </div>
-        </form>
-      </div>
+        )}
     </div>
   );
 };
