@@ -47,11 +47,6 @@ const SinglePageProduct = props => {
               options={getOptions(stock)}
               onChange={event => {
                 setQuantity(event.value)
-                //! Remove
-                console.log('--------------------')
-                console.log('event.value:', event.value)
-                console.log('--------------------')
-                //! Remove
               }}
             />
           </div>
@@ -80,14 +75,10 @@ function getOptions(stock) {
 
 //* If a user clicks add tocart
 async function handleAddToCart(product, quantity, userId) {
-  //! Remove
-  console.log('--------------------')
-  console.log('quantity:', quantity)
-  console.log('--------------------')
-  //! Remove
   //* User is not logged in
   if (userId === undefined) {
     //* User is logged in
+    // TODO: user is not logged in
   } else {
     try {
       const body = {

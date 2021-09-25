@@ -30,27 +30,17 @@ const LoggedInCart = () => {
   const total = getTotal(order)
 
   function getProduct(id) {
-    if (order && order.orderdetails)
-      for (let detail of order.orderdetails)
-        if (detail.product.id === id) {
-          return detail.product
+    if (order && order.orderdetails) {
+      for (let detail of order.orderdetails) {
+        if (detail.productId === id) {
+          console.log(detail.product)
+          return detail
         }
+      }
+    }
   }
 
-  //! Remove
-  console.log('--------------------')
-  console.log('selected:', selected ? selected.id : selected)
-  try {
-    console.log('selected.id - 1:', selected.id - 1)
-    console.log('product:', getProduct(selected.id))
-    console.log('qty', order.orderdetails[selected.id - 1].quantity)
-  } catch (error) {
-    console.log('order.orderdetails:', order.orderdetails)
-  }
-  console.log('--------------------')
-  //! Remove
-
-  const quantity = selected === undefined ? 1 : order.orderdetails[selected.id - 1].quantity
+  const quantity = selected === undefined ? 1 : getProduct(selected.id).quantity
 
   //* Return the jsx
   return (
