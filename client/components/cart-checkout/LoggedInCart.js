@@ -77,7 +77,7 @@ const LoggedInCart = () => {
 //* Get all of the product cards
 function getProducts(orderDetails, setSelected, selected, removed, setRemoved) {
   if (orderDetails === undefined || orderDetails.length === 0) {
-    return <span>There is nothing in your cart!</span>
+    return <h2>There is nothing in your cart!</h2>
   }
 
   //* Map the details (products) in the orderDetails
