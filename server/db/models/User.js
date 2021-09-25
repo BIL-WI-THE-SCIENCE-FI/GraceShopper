@@ -1,13 +1,13 @@
-const Sequelize = require('sequelize');
-const db = require('../db');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
-const Order = require('./Order');
-const { unique } = require('faker');
+const Sequelize = require('sequelize')
+const db = require('../db')
+const jwt = require('jsonwebtoken')
+const bcrypt = require('bcrypt')
+const Order = require('./Order')
+const { unique } = require('faker')
 
-const SALT_ROUNDS = 5;
+const SALT_ROUNDS = 5
 //* process.env.JWT
-const TOKEN = 'st1nkyp3t3';
+const TOKEN = 'st1nkyp3t3'
 
 const User = db.define(
   'user',
@@ -15,97 +15,98 @@ const User = db.define(
     username: {
       type: Sequelize.STRING,
       unique: true,
-      allowNull: false,
+      allowNull: false
     },
     password: {
-      type: Sequelize.STRING,
+      type: Sequelize.STRING
     },
-    //* Type of user browsing "guest", "saved", "admin"
+    //* Type of user browsing "standard", "admin"
     userType: {
       type: Sequelize.STRING,
-      defaultValue: 'guest',
+      defaultValue: 'standard'
     },
     //* first Name
     firstName: {
-      type: Sequelize.STRING,
+      type: Sequelize.STRING
     },
     //* last Name
     lastName: {
-      type: Sequelize.STRING,
+      type: Sequelize.STRING
     },
     //* Phone number
     phone: {
-      type: Sequelize.STRING,
+      type: Sequelize.STRING
     },
     //* Email must be email
     email: {
       type: Sequelize.STRING,
+      allowNull: true,
       validate: {
-        isEmail: true,
+        isEmail: true
       },
-      unique: true,
-    },
+      unique: true
+    }
   },
   {
     defaultScope: {
-      include: [{ model: Order }],
-    },
+      include: [{ model: Order }]
+    }
   }
-);
+)
 
-module.exports = User;
+module.exports = User
 
 /**
  * instanceMethods
  */
 User.prototype.correctPassword = function (candidatePwd) {
   //we need to compare the plain version to an encrypted version of the password
-  return bcrypt.compare(candidatePwd, this.password);
-};
+  return bcrypt.compare(candidatePwd, this.password)
+}
 
 User.prototype.generateToken = function () {
-  return jwt.sign({ id: this.id }, TOKEN);
-};
+  return jwt.sign({ id: this.id }, TOKEN)
+}
 
 /**
  * classMethods
  */
 User.authenticate = async function ({ username, password }) {
-  const user = await this.findOne({ where: { username } });
+  const user = await this.findOne({ where: { username } })
   if (!user || !(await user.correctPassword(password))) {
-    const error = Error('Incorrect username/password');
-    error.status = 401;
-    throw error;
+    const error = Error('Incorrect username/password')
+    error.status = 401
+    throw error
   }
-  return user.generateToken();
-};
+  return user.generateToken()
+}
 
 User.findByToken = async function (token) {
   try {
-    const { id } = await jwt.verify(token, TOKEN);
+    const { id } = await jwt.verify(token, TOKEN)
 
-    const user = await User.findByPk(id);
+    const user = await User.findByPk(id)
     if (!user) {
-      throw 'nooo';
+      throw 'nooo'
     }
-    return user;
+    return user
   } catch (ex) {
-    const error = Error('bad token');
-    error.status = 401;
-    throw error;
+    const error = Error('bad token')
+    error.status = 401
+    throw error
   }
-};
+}
 
 /**
  * hooks
  */
-const hashPassword = async (user) => {
+const hashPassword = async user => {
   //in case the password has been changed, we want to encrypt it with bcrypt
   if (user.changed('password')) {
-    user.password = await bcrypt.hash(user.password, SALT_ROUNDS);
+    user.password = await bcrypt.hash(user.password, SALT_ROUNDS)
   }
-};
+}
 
-User.beforeCreate(hashPassword);
-User.beforeUpdate(hashPassword);
-User.beforeBulkCreate((users) => Promise.all(users.map(hashPassword)));
+User.beforeCreate(hashPassword)
+User.beforeUpdate(hashPassword)
+User.beforeBulkCreate(users => Promise.all(users.map(hashPassword)))

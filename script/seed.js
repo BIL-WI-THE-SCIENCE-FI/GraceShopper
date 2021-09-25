@@ -16,22 +16,14 @@ const totalUsers = 10
 const addAdmin = true
 //* Add random order history (PREFORMANCE HEAVY)
 const addOrderHistory = true
+//* All users share the same password
+const samePassword = true
+//* What should that password be
+const userPassword = 'password'
 
 async function seed() {
   //* Clear DB and matche models to tables
   await db.sync({ force: true })
-
-  //* Add the admin user
-  if (addAdmin) {
-    //* User contents
-    const user = {
-      username: 'admin',
-      password: 'admin',
-      userType: 'admin'
-    }
-    //* Create the user
-    await User.create(user)
-  }
 
   //* Products to use for fake data
   const products = []
@@ -57,19 +49,36 @@ async function seed() {
       console.log(`Loaded ${(i / totalProducts) * 100}% products!`)
   }
 
+  const userNames = {}
+  const emails = {}
+
   console.log(`\nPreparing to load ${totalUsers} users. Order History: ${addOrderHistory}`)
   //* Create all of our users
   for (let i = 0; i < totalUsers; i++) {
     //* User contents
     const user = {
       username: faker.internet.userName(),
-      password: faker.internet.password(),
+      password: samePassword ? userPassword : faker.internet.password(),
       firstName: faker.name.firstName(),
-      userType: 'saved',
+      userType: 'standard',
       lastName: faker.name.lastName(),
       phone: faker.phone.phoneNumber(),
       email: faker.internet.email()
     }
+
+    //* username must be unique
+    while (userNames[user.username]) {
+      user.username = faker.internet.userName()
+    }
+
+    //* email must be unique
+    while (emails[user.email]) {
+      user.username = faker.internet.email()
+    }
+
+    userNames[user.username] = true
+    emails[user.email] = true
+
     //* Create the user
     const userInstance = await User.create(user)
 
@@ -90,6 +99,32 @@ async function seed() {
 
     //* For friendly updates
     if (i % (totalUsers / 10) === 0) console.log(`Loaded ${(i / totalUsers) * 100}% users!`)
+  }
+
+  //* Add the admin user
+  if (addAdmin) {
+    //* User contents
+    const user = {
+      username: 'admin',
+      password: 'admin',
+      userType: 'admin'
+    }
+    //* Create the admin user
+    const userInstance = await User.create(user)
+    //* If we should add random order history
+    if (addOrderHistory) {
+      const orderInstance = await Order.create()
+      await userInstance.addOrder(orderInstance)
+
+      //* Add random order details
+      for (let i = 0; i < getRandomNumber(false, totalProducts - 1); i++) {
+        const product = await products[i]
+        const quantity = getRandomNumber(false, 100) + 1
+        const price = (await product.price) * quantity
+        //* add the product to the order details
+        await orderInstance.addProduct(product, { through: { quantity: quantity, price: price } })
+      }
+    }
   }
   return
 }
