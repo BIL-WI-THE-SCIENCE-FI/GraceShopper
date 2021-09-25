@@ -90,7 +90,7 @@ async function seed() {
       //* Add random order details
       for (let i = 0; i < getRandomNumber(false, totalProducts - 1); i++) {
         const product = await products[i]
-        const quantity = getRandomNumber(false, 100) + 1
+        const quantity = getRandomNumber(false, product.stock - 1) + 1
         const price = (await product.price) * quantity
         //* add the product to the order details
         await orderInstance.addProduct(product, { through: { quantity: quantity, price: price } })
@@ -119,7 +119,7 @@ async function seed() {
       //* Add random order details
       for (let i = 0; i < getRandomNumber(false, totalProducts - 1); i++) {
         const product = await products[i]
-        const quantity = getRandomNumber(false, 100) + 1
+        const quantity = getRandomNumber(false, product.stock - 1) + 1
         const price = (await product.price) * quantity
         //* add the product to the order details
         await orderInstance.addProduct(product, { through: { quantity: quantity, price: price } })

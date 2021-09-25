@@ -1,3 +1,4 @@
+import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import SimpleBar from 'simplebar-react'
@@ -5,37 +6,48 @@ import 'simplebar/dist/simplebar.min.css'
 import { orderActions } from '../../store/ActionsCreators'
 import { getMoney } from '../../utils'
 import ProductCardCart from './ProductCardCart'
-import Select from 'react-select'
-import axios from 'axios'
 
 //* The cart that will be viewed when a user is logged in
 const LoggedInCart = () => {
   const dispatch = useDispatch()
   const userId = useSelector(state => state.auth.id)
+  const [update, setUpdate] = useState(true)
 
   useEffect(() => {
     async function fetchData() {
       //* Fetch the users cart
-      await dispatch(orderActions.fetchOrder(userId))
+      if (update) {
+        await dispatch(orderActions.fetchOrder(userId))
+        await setUpdate(false)
+      }
     }
     fetchData()
-  }, [])
+  }, [update])
 
   const { order } = useSelector(state => state.order)
   const [selected, setSelected] = useState(undefined)
   const total = getTotal(order)
+
+  const quantity = selected === undefined ? 1 : order.orderdetails[selected.id - 1].quantity
 
   //* Return the jsx
   return (
     <div className="currentorder-container">
       <div className="one">
         <SimpleBar className="currentorder-scroll">
-          {getProducts(order.orderdetails, setSelected, selected, userId)}
+          {getProducts(order.orderdetails, setSelected, selected, userId, update)}
         </SimpleBar>
       </div>
       <div className="two">
         <div className="currentorder-productview">
-          <ProductCardCart product={selected} />
+          <ProductCardCart
+            product={selected}
+            setUpdate={setUpdate}
+            setSelected={setSelected}
+            userId={userId}
+            quantity={quantity}
+            handleUpdateQuantity={handleUpdateQuantity}
+          />
         </div>
         <div className="currentorder-total">
           <h3>{`Total: $${total}`}</h3>
@@ -55,7 +67,7 @@ const LoggedInCart = () => {
 }
 
 //* Get all of the product cards
-function getProducts(orderDetails, setSelected, selected, userId) {
+function getProducts(orderDetails, setSelected, selected, update) {
   if (orderDetails === undefined || orderDetails.length === 0) {
     return <span>There is nothing in your cart!</span>
   }
@@ -63,7 +75,7 @@ function getProducts(orderDetails, setSelected, selected, userId) {
   //* Map the details (products) in the orderDetails
   const products = orderDetails.map(detail => {
     //* Get all of the information from the detail
-    const { price, quantity, product } = detail
+    let { price, quantity, product } = detail
     const { id, name, description, imageUrl } = product
 
     //* If the selected card is undefined,
@@ -71,6 +83,11 @@ function getProducts(orderDetails, setSelected, selected, userId) {
     if (selected === undefined) {
       selected = product
       setSelected(product)
+      //! Remove
+      console.log('--------------------')
+      console.log('selectedupdated:', product.name)
+      console.log('--------------------')
+      //! Remove
     }
 
     return (
@@ -79,6 +96,11 @@ function getProducts(orderDetails, setSelected, selected, userId) {
         className="currentorder-productcard zoomable-small shadow-nohover"
         onClick={() => {
           setSelected(product)
+          //! Remove
+          console.log('--------------------')
+          console.log('selected:', product.name)
+          console.log('--------------------')
+          //! Remove
         }}
       >
         <img src={imageUrl} />
@@ -87,15 +109,7 @@ function getProducts(orderDetails, setSelected, selected, userId) {
           <p>{description}</p>
           <div>
             <span>{'Price: $' + getMoney(price)}</span>
-            {/* <span>{'Qty: ' + quantity}</span> */}
-            <Select
-              className="orderpage-quantity"
-              defaultValue={{ value: quantity, label: quantity }}
-              options={getOptions(quantity)}
-              onChange={event => {
-                handleUpdateQuantity(product, event.value, userId)
-              }}
-            />
+            <span>{'Qty: ' + quantity}</span>
           </div>
         </div>
       </div>
@@ -117,33 +131,38 @@ function getTotal(order) {
   return getMoney(total)
 }
 
-//* Get the quantity options for the quantity selector
-function getOptions(quantity) {
-  const options = []
-  for (let i = 1; i < quantity + 1; i++) options.push({ value: i, label: i })
-  return options
-}
-
-//* If a user clicks add tocart
-async function handleUpdateQuantity(product, quantity, userId) {
+//* If a user changes quantity
+async function handleUpdateQuantity(
+  product,
+  quantity,
+  userId,
+  setUpdate,
+  remove = false,
+  setSelected
+) {
   //* User is not logged in
   if (userId === undefined) {
     //* User is logged in
+    // TODO:
   } else {
     try {
       const body = {
         productId: product.id,
         price: product.price,
         quantity: quantity,
-        addition: false
+        addition: false,
+        remove: remove
       }
       await axios.post(`/api/orders/${userId}`, body)
-      return true
+      if (remove) {
+        // TODO add so that if they remove the first item
+        setSelected(undefined)
+      }
     } catch (error) {
       console.log('There was an error whilst attempting to add that item to your cart!')
-      return false
     }
   }
+  setUpdate(true)
 }
 
 export default LoggedInCart
