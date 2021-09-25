@@ -60,13 +60,13 @@ export default function LoggedOutCart() {
       updateHeader={updateHeader}
     />
   )
-  // return <></>
 }
 
 //* Get all of the product cards
 function getProducts(products, cart, selected, setSelected, removed, setRemoved) {
   const productIds = Object.keys(cart)
 
+  //* If there is nothing in the useres cart
   if (productIds.length === 0) {
     return <h2>There is nothing in your cart!</h2>
   }

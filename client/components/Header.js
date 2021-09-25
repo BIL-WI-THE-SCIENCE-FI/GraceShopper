@@ -16,15 +16,15 @@ const Header = () => {
   useEffect(() => {
     async function fetchData() {
       //* Fetch the users cart
-      if (isLoggedIn) {
-        await dispatch(orderActions.fetchOrder(isLoggedIn))
-      }
+      if (isLoggedIn) await dispatch(orderActions.fetchOrder(isLoggedIn))
     }
     fetchData()
-  }, [])
+  }, [isLoggedIn])
 
   //* Calculate the number of products we should be showing
   const itemsInCart = getTotalItems(order, isLoggedIn ? true : false)
+
+  // TODO: if logged in as admin. add a (users) button they can click
 
   return (
     <div id="navBar">

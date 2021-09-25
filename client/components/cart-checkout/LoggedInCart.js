@@ -1,12 +1,9 @@
-import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import SimpleBar from 'simplebar-react'
 import 'simplebar/dist/simplebar.min.css'
 import { orderActions } from '../../store/ActionsCreators'
 import { getMoney } from '../../utils'
 import OrderDisplay from './OrderDisplay'
-import ProductCardCart from './ProductCardCart'
 
 //* The cart that will be viewed when a user is logged in
 const LoggedInCart = () => {
