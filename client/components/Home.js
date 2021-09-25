@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Carousel } from 'react-bootstrap';
 import { productActions } from '../store/ActionsCreators';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { Link } from 'react-router-dom';
+
 /**
  * COMPONENT
  */
@@ -18,11 +20,10 @@ export const Home = (props) => {
     }
     fetchData();
   }, []);
-  const urls = products.length > 0 ? products.filter((p) => (p.id < 14 && p.id >10)) : [];;
+  const urls =
+    products.length > 0 ? products.filter((p) => p.id < 14 && p.id > 10) : [];
   const tenProducts =
-    products.length > 0
-      ? products.filter((p) => p.id < 10)
-      : [];
+    products.length > 0 ? products.filter((p) => p.id < 10) : [];
   const delay = 4000;
   function resetTimeout() {
     if (timeoutRef.current) {
@@ -55,7 +56,9 @@ export const Home = (props) => {
                 style={{ transform: `translate3d(${-index * 100}%, 0, 0)` }}
               >
                 {urls.map((p, index) => (
-                  <img className='slide' key={index} src={p.imageUrl} />
+                  <Link key={index} to={`products/${p.id}`}>
+                    <img className='slide' src={p.imageUrl} />
+                  </Link>
                 ))}
               </div>
             </div>
@@ -69,12 +72,13 @@ export const Home = (props) => {
           <Carousel>
             {tenProducts.map((each) => (
               <Carousel.Item key={each.id}>
-                <img
-                  className='d-block w-100'
-                  src={each.imageUrl}
-                  alt='First slide'
-                  height="400px"
-                />
+                <Link to={`/products/${each.id}`}>
+                  <img
+                    className='d-block w-100 slide'
+                    src={each.imageUrl}
+                    alt='First slide'
+                  />
+                </Link>
                 <Carousel.Caption>
                   <h3>First slide label</h3>
                 </Carousel.Caption>
