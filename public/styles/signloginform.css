@@ -41,6 +41,16 @@
 .signup:hover {
   background-color: rgb(202, 202, 202);
 }
+#signupform {
+  display: flex;
+  flex-direction: column;
+}
+.error {
+  width: 100px;;
+  height: 10px;
+  color:red;
+  font-size: 10px;
+}
 #keepSignIn {
   display: flex;
   column-gap: 10px;
@@ -51,10 +61,17 @@
   height: 20px;
 }
 .email {
+  width:400px;
   width: 95%;
   height: 30px;
 }
 .emailBox {
+  display: flex;
+  text-align: left;
   width: 90%;
   height:30px;
+}
+.signupBox {
+  width:405px;
+  text-align: left;
 }

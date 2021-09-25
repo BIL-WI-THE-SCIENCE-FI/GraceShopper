@@ -45,7 +45,6 @@ export const authenticateSignup = (user,method) => async (dispatch) => {
     window.localStorage.setItem(TOKEN, res.data.token);
     dispatch(me());
   } catch (authError) {
-    console.log('authError', authError)
     return dispatch(setAuth({ error: authError }));
   }
 };
