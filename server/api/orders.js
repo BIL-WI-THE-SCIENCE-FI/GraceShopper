@@ -2,6 +2,7 @@ const router = require('express').Router()
 const {
   models: { Order, User, OrderDetails, Product }
 } = require('../db')
+const Sequelize = require('sequelize')
 
 //* ============== GET USERS MOST RECENT ORDER =============
 async function getOpenOrder(userId) {
@@ -26,14 +27,21 @@ router.post('/:userId', async (request, response, next) => {
     //* Get the order instance
     const orderInstance = await getOpenOrder(userId)
     //* Get the info to update the order
-    const { productId, price, quantity } = request.body
+    const { productId, price, quantity, addition } = request.body
     //* Get the order details
     const orderDetails = await OrderDetails.findOne({
       where: { orderId: orderInstance.id, productId: productId }
     })
-    //* Update the order details
-    orderDetails.price = price * quantity
-    orderDetails.quantity = quantity
+
+    //* New quantity we should update details with
+    let nquantity = quantity
+    //* Should we add to their current number of products
+    if (addition) nquantity = orderDetails.quantity + quantity
+
+    //* Update the details
+    orderDetails.quantity = nquantity
+    orderDetails.price = price * nquantity
+
     //* Save the order details
     await orderDetails.save()
     //* Send response
@@ -58,7 +66,8 @@ router.get('/all/:userId', async (request, response, next) => {
           model: OrderDetails,
           include: Product
         }
-      ]
+      ],
+      order: Sequelize.col('id')
     })
     //* Send response
     response.json(orders)

@@ -5,44 +5,32 @@ import 'simplebar/dist/simplebar.min.css'
 import { orderActions } from '../../store/ActionsCreators'
 import { getMoney } from '../../utils'
 import ProductCardCart from './ProductCardCart'
+import Select from 'react-select'
+import axios from 'axios'
 
 //* The cart that will be viewed when a user is logged in
 const LoggedInCart = () => {
   const dispatch = useDispatch()
-
-  //* Get the cart from store
-  const auth = useSelector(state => state.auth)
-  const { order } = useSelector(state => state.order)
-  const [selected, setSelected] = useState(undefined)
+  const userId = useSelector(state => state.auth.id)
 
   useEffect(() => {
     async function fetchData() {
       //* Fetch the users cart
-      await dispatch(orderActions.fetchOrder(auth.id))
+      await dispatch(orderActions.fetchOrder(userId))
     }
     fetchData()
   }, [])
 
-  const total = getTotal()
-
-  //* Get the total value of the cart
-  function getTotal() {
-    let total = 0
-    //* If the the cart doesn't exist, nothing to total
-    if (order === undefined) return total
-    if (order.orderdetails === undefined) return total
-    if (order.orderdetails.length === 0) return total
-    //* Add all of the product prices
-    for (let product of order.orderdetails) total += product.price
-    return getMoney(total)
-  }
+  const { order } = useSelector(state => state.order)
+  const [selected, setSelected] = useState(undefined)
+  const total = getTotal(order)
 
   //* Return the jsx
   return (
     <div className="currentorder-container">
       <div className="one">
         <SimpleBar className="currentorder-scroll">
-          {getProducts(order.orderdetails, setSelected, selected)}
+          {getProducts(order.orderdetails, setSelected, selected, userId)}
         </SimpleBar>
       </div>
       <div className="two">
@@ -67,7 +55,7 @@ const LoggedInCart = () => {
 }
 
 //* Get all of the product cards
-function getProducts(orderDetails, setSelected, selected) {
+function getProducts(orderDetails, setSelected, selected, userId) {
   if (orderDetails === undefined || orderDetails.length === 0) {
     return <span>There is nothing in your cart!</span>
   }
@@ -99,7 +87,15 @@ function getProducts(orderDetails, setSelected, selected) {
           <p>{description}</p>
           <div>
             <span>{'Price: $' + getMoney(price)}</span>
-            <span>{'Qty: ' + quantity}</span>
+            {/* <span>{'Qty: ' + quantity}</span> */}
+            <Select
+              className="orderpage-quantity"
+              defaultValue={{ value: quantity, label: quantity }}
+              options={getOptions(quantity)}
+              onChange={event => {
+                handleUpdateQuantity(product, event.value, userId)
+              }}
+            />
           </div>
         </div>
       </div>
@@ -107,6 +103,47 @@ function getProducts(orderDetails, setSelected, selected) {
   })
 
   return products
+}
+
+//* Get the total value of the cart
+function getTotal(order) {
+  let total = 0
+  //* If the the cart doesn't exist, nothing to total
+  if (order === undefined) return total
+  if (order.orderdetails === undefined) return total
+  if (order.orderdetails.length === 0) return total
+  //* Add all of the product prices
+  for (let product of order.orderdetails) total += product.price
+  return getMoney(total)
+}
+
+//* Get the quantity options for the quantity selector
+function getOptions(quantity) {
+  const options = []
+  for (let i = 1; i < quantity + 1; i++) options.push({ value: i, label: i })
+  return options
+}
+
+//* If a user clicks add tocart
+async function handleUpdateQuantity(product, quantity, userId) {
+  //* User is not logged in
+  if (userId === undefined) {
+    //* User is logged in
+  } else {
+    try {
+      const body = {
+        productId: product.id,
+        price: product.price,
+        quantity: quantity,
+        addition: false
+      }
+      await axios.post(`/api/orders/${userId}`, body)
+      return true
+    } catch (error) {
+      console.log('There was an error whilst attempting to add that item to your cart!')
+      return false
+    }
+  }
 }
 
 export default LoggedInCart
