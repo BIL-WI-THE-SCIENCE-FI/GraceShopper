@@ -93,7 +93,15 @@ function getSelect(
       value={{ value: quantity, label: quantity }}
       options={getOptions(stock)}
       onChange={async event => {
-        await handleUpdateQuantity(product, event.value, userId, setUpdate, setSelected, setRemoved)
+        await handleUpdateQuantity(
+          product,
+          event.value,
+          userId,
+          setUpdate,
+          false,
+          setSelected,
+          setRemoved
+        )
       }}
     />
   )

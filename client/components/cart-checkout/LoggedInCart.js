@@ -5,6 +5,7 @@ import SimpleBar from 'simplebar-react'
 import 'simplebar/dist/simplebar.min.css'
 import { orderActions } from '../../store/ActionsCreators'
 import { getMoney } from '../../utils'
+import OrderDisplay from './OrderDisplay'
 import ProductCardCart from './ProductCardCart'
 
 //* The cart that will be viewed when a user is logged in
@@ -39,39 +40,53 @@ const LoggedInCart = () => {
 
   //* Return the jsx
   return (
-    <div className="currentorder-container">
-      <div className="one">
-        <SimpleBar className="currentorder-scroll">
-          {getProducts(order.orderdetails, setSelected, selected, removed, setRemoved)}
-        </SimpleBar>
-      </div>
-      <div className="two">
-        <div className="currentorder-productview">
-          <ProductCardCart
-            product={selected}
-            setUpdate={setUpdate}
-            setSelected={setSelected}
-            userId={userId}
-            quantity={quantity}
-            handleUpdateQuantity={handleUpdateQuantity}
-            setRemoved={setRemoved}
-          />
-        </div>
-        <div className="currentorder-total">
-          <h3>{`Total: $${total}`}</h3>
-          <div>
-            <button
-              onClick={() => {
-                console.log('you bougt mail')
-              }}
-            >
-              Checkout
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+    <OrderDisplay
+      products={getProducts(order.orderdetails, setSelected, selected, removed, setRemoved)}
+      selected={selected}
+      setUpdate={setUpdate}
+      setSelected={setSelected}
+      userId={userId}
+      quantity={quantity}
+      handleUpdateQuantity={handleUpdateQuantity}
+      setRemoved={setRemoved}
+      total={total}
+    />
   )
+  // TODO: Remove this after some testing for no issues
+  // return (
+  //   <div className="currentorder-container">
+  //     <div className="one">
+  //       <SimpleBar className="currentorder-scroll">
+  //         {getProducts(order.orderdetails, setSelected, selected, removed, setRemoved)}
+  //       </SimpleBar>
+  //     </div>
+  //     <div className="two">
+  //       <div className="currentorder-productview">
+  //         <ProductCardCart
+  //           product={selected}
+  //           setUpdate={setUpdate}
+  //           setSelected={setSelected}
+  //           userId={userId}
+  //           quantity={quantity}
+  //           handleUpdateQuantity={handleUpdateQuantity}
+  //           setRemoved={setRemoved}
+  //         />
+  //       </div>
+  //       <div className="currentorder-total">
+  //         <h3>{`Total: $${total}`}</h3>
+  //         <div>
+  //           <button
+  //             onClick={() => {
+  //               console.log('you bougt mail')
+  //             }}
+  //           >
+  //             Checkout
+  //           </button>
+  //         </div>
+  //       </div>
+  //     </div>
+  //   </div>
+  // )
 }
 
 //* Get all of the product cards

@@ -77,9 +77,28 @@ function getOptions(stock) {
 async function handleAddToCart(product, quantity, userId) {
   //* User is not logged in
   if (userId === undefined) {
-    //* User is logged in
-    // TODO: user is not logged in
+    try {
+      //* Get the order from localStorage
+      const order = JSON.parse(localStorage.getItem('order'))
+
+      //* They have no order as of current
+      if (order === null) {
+        localStorage.setItem('order', JSON.stringify({ [product.id]: quantity }))
+        return true
+      }
+
+      //* Get the new quantity
+      quantity = order[product.id] ? order[product.id] + quantity : quantity
+      //* update their current
+      localStorage.setItem('order', JSON.stringify({ ...order, [product.id]: quantity }))
+      return true
+      //* If there was err
+    } catch (error) {
+      console.log('There was an error whilst attempting to add that item to your cart!')
+      return false
+    }
   } else {
+    //* User is logged in
     try {
       const body = {
         productId: product.id,
