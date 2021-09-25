@@ -3,17 +3,26 @@
   --orderContainerWidth: 80vw;
   /** page selector */
 
+  --padding: 10px;
+  --subPadding: 5px;
+
+  --orderSubHeight: calc(var(--orderContainerHeight) - (var(--padding) * 2));
+  --orderSubWidth: calc(var(--gridHalf) * 1.25);
+
+  --gridHalf: calc((var(--orderContainerWidth) / 2) - (var(--padding) * 2));
+
+  --orderScrollHeight: calc(var(--orderSubHeight) - (var(--subPadding) * 2));
+  --orderScrollWidth: calc(var(--gridHalf) * 1.25 - (var(--subPadding) * 2));
+
   --orderHeight: calc(var(--orderScrollHeight) / 2);
   --orderWidth: calc(var(--orderScrollWidth) / 6);
   --orderImageHeight: calc(var(--orderHeight) / 3);
   --orderImageWidth: calc(var(--orderWidth));
 
-  --padding: 10px;
+  --orderTwoWidth: calc(var(--gridHalf) / 1.3);
 
-  --gridHalf: calc((var(--orderContainerWidth) / 2) - var(--padding));
-
-  --orderScrollHeight: calc(var(--orderContainerHeight) - (var(--padding) * 2));
-  --orderScrollWidth: calc(var(--gridHalf) - var(--padding));
+  /* --orderSingleImageHeight: calc(var(--orderTwoWidth)); */
+  --orderSingleImageWidth: calc((var(--orderTwoWidth) / 2) - 10px);
 }
 
 .currentorder-container {
@@ -29,48 +38,164 @@
   grid-template-columns: 2;
   grid-template-rows: 2;
 
-  padding: 5px;
-
   background-color: #f7f7f7;
 }
 
 .currentorder-container .one {
   padding: 5px;
 
-  width: var(--gridHalf);
+  height: var(--orderSubHeight);
+  width: var(--orderSubWidth);
 
-  background-color: green;
+  background-color: rgba(247, 247, 247, 1);
 
   grid-column: 1;
   grid-row: 1;
 }
 
-.currentorder-container .two {
-  padding: 5px;
-
-  width: var(--gridHalf);
-
-  background-color: red;
-
-  grid-column: 2;
-}
-
 .currentorder-scroll {
-  padding: 10px;
+  padding: 0px 15px 0px 5px;
   height: var(--orderScrollHeight);
   width: var(--orderScrollWidth);
-  background-color: brown;
+
+  background-color: rgba(247, 247, 247, 1);
 }
 
 .currentorder-productcard {
   margin: 5px 0px 5px 0px;
-  background-color: gray;
+  background-color: rgba(219, 219, 219, 0.664);
+
+  border-radius: 3px;
+
+  height: var(--orderImageHeight + 3px);
+
+  display: grid;
+
+  grid-template-columns: 2;
+  grid-template-rows: 1;
+  justify-content: start;
+  text-align: left;
 }
 
-.currentorder-productcard {
+.currentorder-productcard .content {
+  /* background-color: rgba(255, 255, 255, 0.3); */
+
+  padding: 0px 10px 0px 10px;
+  margin: 5px;
+  grid-column: 2;
+  text-overflow: ellipsis ellipsis;
+
+  display: flex;
+
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.currentorder-productcard .content h5 {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: auto;
+}
+
+.currentorder-productcard .content p {
+  font-size: 0.8rem;
+}
+
+.currentorder-productcard .content div:last-child span {
+  font-size: 0.9rem;
+  margin: 0px 5px 0px 0px;
 }
 
 .currentorder-productcard img {
   height: var(--orderImageHeight);
   width: var(--orderImageWidth);
+
+  margin: 3px;
+  border-radius: 3px;
+
+  /** Image background color */
+
+  grid-column: 1;
+}
+
+.currentorder-container .two {
+  padding: 5px;
+
+  margin: 0px 10px 0px 10px;
+
+  width: var(--orderTwoWidth);
+
+  /* background-color: red; */
+
+  grid-column: 2;
+}
+
+.currentorder-total {
+  display: flex;
+  justify-content: space-between;
+  vertical-align: middle;
+  margin-bottom: 10px;
+  padding: 10px;
+}
+
+.currentorder-total h3 {
+  margin: auto;
+}
+
+.currentorder-total button {
+  background-color: rgb(255, 54, 54);
+  border: none;
+  color: white;
+  padding: 5px;
+  margin: 5px;
+  border-radius: 5%;
+  text-align: center;
+  align-self: center;
+}
+
+.currentorder-total button:hover {
+  background-color: rgb(179, 22, 22);
+}
+
+.currentorder-productview {
+  /* background-color: red; */
+}
+
+.product-card-cart .card {
+  padding: 10px;
+  background-color: #f7f7f7;
+}
+
+.product-card-cart {
+  text-align: center;
+  text-decoration: none;
+  color: black;
+}
+
+.product-card-cart:hover {
+  text-align: center;
+  text-decoration: none;
+  color: black;
+}
+
+.product-card-cart .card img {
+  height: 196px;
+  width: var(--orderSingleImageWidth);
+  border-radius: 3px;
+  margin-bottom: 5px;
+}
+
+.product-card-cart .card .desc {
+  margin: 5px 0px 20px 0px;
+  font-size: 1rem;
+}
+
+.product-card-cart .card .info {
+  display: flex;
+  justify-content: center;
+}
+
+.product-card-cart .card .info p {
+  margin: 0px 5px 0px 5px;
+  font-size: 0.9rem;
 }
