@@ -1,0 +1,12 @@
+#edit-product-flex {
+  display: flex;
+  justify-content: center;
+  font-size: 40pt;
+  color: red;
+}
+#edit-product-label {
+  background-color: grey;
+  margin-top: 1vh;
+  padding: 1vh;
+  border-radius: 30px;
+}
