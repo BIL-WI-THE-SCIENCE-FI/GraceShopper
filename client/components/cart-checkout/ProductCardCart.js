@@ -11,24 +11,30 @@ export default function ProductCardCart(props) {
   const { product, userId, quantity, handleUpdateQuantity, setUpdate, setSelected, setRemoved } =
     props
   //* Obtain the information required thru props
-  const { name, description, price, rating, stock, imageUrl } = product
+  const { id, name, description, price, rating, stock, imageUrl } = product
 
-  //* Return the component JSX `/products/${id}`
+  //* Return the component JSX
   return (
     <div className="product-card-cart">
       <div className="card shadow zoomable-small">
-        <div>
-          <img src={imageUrl} alt="Product Image" />
-          <h4>{name}</h4>
-        </div>
-        <div className="content">
-          <div className="desc">
-            <span>{description}</span>
+        <div
+          onClick={() => {
+            history.push(`/products/${id}`)
+          }}
+        >
+          <div>
+            <img src={imageUrl} alt="Product Image" />
+            <h4>{name}</h4>
           </div>
-          <div className="info">
-            <p>{`Price: $${getMoney(price)}`}</p>
-            {getStars(rating)}
-            <p>{`Stock: ${stock}`}</p>
+          <div className="content">
+            <div className="desc">
+              <span>{description}</span>
+            </div>
+            <div className="info">
+              <p>{`Price: $${getMoney(price)}`}</p>
+              {getStars(rating)}
+              <p>{`Stock: ${stock}`}</p>
+            </div>
           </div>
         </div>
         <div className="product-card-cart-controls">

@@ -29,15 +29,10 @@ const LoggedInCart = () => {
   const [selected, setSelected] = useState(undefined)
   const total = getTotal(order)
 
+  //* Get the next product detail
   function getProduct(id) {
-    if (order && order.orderdetails) {
-      for (let detail of order.orderdetails) {
-        if (detail.productId === id) {
-          console.log(detail.product)
-          return detail
-        }
-      }
-    }
+    if (order && order.orderdetails)
+      for (let detail of order.orderdetails) if (detail.productId === id) return detail
   }
 
   const quantity = selected === undefined ? 1 : getProduct(selected.id).quantity
@@ -114,7 +109,6 @@ function getProducts(orderDetails, setSelected, selected, removed, setRemoved) {
           <div>
             <span>{'Price: $' + getMoney(price)}</span>
             <span>{'Qty: ' + quantity}</span>
-            <span>{'id: ' + id}</span>
           </div>
         </div>
       </div>
