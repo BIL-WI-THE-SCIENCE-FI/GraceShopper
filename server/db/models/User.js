@@ -3,7 +3,6 @@ const db = require('../db')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const Order = require('./Order')
-const { unique } = require('faker')
 
 const SALT_ROUNDS = 5
 //* process.env.JWT
