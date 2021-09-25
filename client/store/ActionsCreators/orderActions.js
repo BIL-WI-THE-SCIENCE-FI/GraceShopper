@@ -20,11 +20,6 @@ export const fetchOrder = userId => {
   return async dispatch => {
     try {
       const { data } = await axios.get(`/api/orders/current/${userId}`)
-      //! Remove
-      console.log('--------------------')
-      console.log('data:', data)
-      console.log('--------------------')
-      //! Remove
       dispatch(setOrder(data))
     } catch (error) {
       console.log('Failed to fetch current order for user: ' + userId)
@@ -37,11 +32,6 @@ export const fetchOrders = userId => {
   return async dispatch => {
     try {
       const { data } = await axios.get(`/api/orders/all/${userId}`)
-      //! Remove
-      console.log('--------------------')
-      console.log('data:', data)
-      console.log('--------------------')
-      //! Remove
       dispatch(setOrders(data))
     } catch (error) {
       console.log('Failed to fetch order history for user: ' + userId)

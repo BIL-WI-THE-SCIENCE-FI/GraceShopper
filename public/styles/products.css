@@ -43,6 +43,12 @@
   background: #ffffff;
 }
 
+.singlepage-quantity {
+  height: 50px;
+  width: 125px;
+  
+}
+
 .rating > span:hover:before,
 .rating > span:hover ~ span:before {
   content: '\2605';
@@ -50,3 +56,4 @@
 .stars {
   color: rgb(66, 66, 50);
 }
+

@@ -2,70 +2,21 @@ const router = require('express').Router()
 const {
   models: { Order, User, OrderDetails, Product }
 } = require('../db')
+const Sequelize = require('sequelize')
 
 //* ============== GET USERS MOST RECENT ORDER =============
 async function getOpenOrder(userId) {
   return await Order.findOne({
     where: { userId: userId, status: 'pending' },
-    // include: [{ model: OrderDetails }, { model: Product }]
     include: [
       {
         model: OrderDetails,
         include: Product
       }
-    ]
+    ],
+    order: [[OrderDetails, 'productId']]
   })
 }
-
-//* ============== POST /API/ORDERS/:USERID =============
-//* Update the users order (update a product)
-router.post('/:userId', async (request, response, next) => {
-  try {
-    //* Get the user id
-    const userId = request.params.userId
-    //* Get the order instance
-    const orderInstance = await getOpenOrder(userId)
-    //* Get the info to update the order
-    const { productId, price, quantity } = request.body
-    //* Get the order details
-    const orderDetails = await OrderDetails.findOne({
-      where: { orderId: orderInstance.id, productId: productId }
-    })
-    //* Update the order details
-    orderDetails.price = price * quantity
-    orderDetails.quantity = quantity
-    //* Save the order details
-    await orderDetails.save()
-    //* Send response
-    response.send(orderInstance)
-  } catch (error) {
-    next(error)
-  }
-})
-
-//* ============== GET /API/ORDERS/ALL/:USERID ==============
-//* Get all of the users orders
-router.get('/all/:userId', async (request, response, next) => {
-  try {
-    //* Get the user id
-    const userId = request.params.userId
-
-    //* Find all the users orders
-    const orders = await Order.findAll({
-      where: { userId: userId },
-      include: [
-        {
-          model: OrderDetails,
-          include: Product
-        }
-      ]
-    })
-    //* Send response
-    response.json(orders)
-  } catch (err) {
-    next(err)
-  }
-})
 
 //* ============== GET /API/ORDERS/:USERID ==============
 //* Get the users current most recent order
@@ -88,6 +39,93 @@ router.get('/current/:userId', async (request, response, next) => {
 
     //* Send response
     response.json(order)
+  } catch (err) {
+    next(err)
+  }
+})
+
+//* ============== POST /API/ORDERS/:USERID =============
+//* Update the users order (update a product)
+router.post('/:userId', async (request, response, next) => {
+  try {
+    //* Get the user id
+    const userId = request.params.userId
+    //* Get the order instance
+    const orderInstance = await getOpenOrder(userId)
+    //* Get the info to update the order
+    const { productId, price, quantity, addition, remove } = request.body
+
+    //* If we need to remove it
+    if (remove) {
+      const product = await Product.findOne({ where: { id: productId } })
+      await orderInstance.removeProduct(product)
+    } else {
+      //* Get the order details
+      const orderDetails = await OrderDetails.findOne({
+        where: { orderId: orderInstance.id, productId: productId }
+      })
+
+      //* Already has item in cart
+      if (orderDetails !== null) {
+        //* New quantity we should update details with
+        let nquantity = quantity
+        //* Should we add to their current number of products
+        if (addition) nquantity = orderDetails ? orderDetails.quantity + quantity : quantity
+
+        //* Update the details
+        orderDetails.quantity = nquantity
+        orderDetails.price = price * nquantity
+        //* Save the order details
+        await orderDetails.save()
+      } else {
+        //* Find the product
+        const product = await Product.findOne({ where: { id: productId } })
+        //* Add it to the order
+        await orderInstance.addProduct(product, {
+          through: { price: price * quantity, quantity: quantity }
+        })
+      }
+    }
+
+    //! Remove
+
+    console.log('-------[order details updated]-------')
+    console.log('productId:', productId)
+    console.log('price:', price)
+    console.log('quantity:', quantity)
+    console.log('addition:', addition)
+    console.log('remove:', remove)
+    console.log('---------------------------')
+    //! Remove
+
+    //* Send response
+    response.send(orderInstance)
+  } catch (error) {
+    next(error)
+  }
+})
+
+//* ============== GET /API/ORDERS/ALL/:USERID ==============
+//* Get all of the users orders
+router.get('/all/:userId', async (request, response, next) => {
+  try {
+    //* Get the user id
+    const userId = request.params.userId
+
+    //* Find all the users orders
+    const orders = await Order.findAll({
+      where: { userId: userId },
+      include: [
+        {
+          model: OrderDetails,
+          include: Product
+        }
+      ],
+      order: Sequelize.col('id')
+    })
+
+    //* Send response
+    response.json(orders)
   } catch (err) {
     next(err)
   }

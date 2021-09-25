@@ -199,3 +199,30 @@
   margin: 0px 5px 0px 5px;
   font-size: 0.9rem;
 }
+
+/** The div that contains the quantity selector and remove button */
+.product-card-cart-controls {
+  display: flex;
+  justify-content: center;
+}
+
+/** The quantity selector */
+.product-card-cart-controls .orderpage-quantity {
+  margin-right: 5px;
+}
+
+/** The remove from cart button*/
+.product-card-cart-controls button {
+  background-color: rgb(255, 54, 54);
+  border: none;
+  color: white;
+  padding: 5px;
+  border-radius: 5%;
+  text-align: center;
+  align-self: center;
+}
+
+/** The remove from cart button*/
+.product-card-cart-controls button:hover {
+  background-color: rgb(179, 22, 22);
+}
