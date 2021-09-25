@@ -24,7 +24,7 @@ router.get('/', async (request, response, next) => {
 //* ============== GET /API/USERS/:USERID ==============
 router.get('/:userId', async (request, response, next) => {
   try {
-    //* Get the product id
+    //* Get the user id
     const userId = request.params.userId
     //* Find user
     const user = await User.findOne({
@@ -36,5 +36,61 @@ router.get('/:userId', async (request, response, next) => {
     response.json(user)
   } catch (err) {
     next(err)
+  }
+})
+
+//* ============== POST /API/USER/:USERID ==============
+//* This will update the user with new information
+router.post('/:userid', async (request, response, next) => {
+  try {
+    //* The user's id
+    const userId = request.params.userId
+    //* Get the user using the id
+    const user = await User.findOne({ where: { id: userId } })
+
+    //* If we couldn't find user
+    if (user === null) {
+      response.status(500).send('No user was found!')
+      return
+    }
+    //* Get the updated info
+    const { firstName, lastName, phone, email } = request.body
+
+    //* Make the proper changes
+    user.firstName = firstName ? firstName : user.firstName
+    user.lastName = lastName ? lastName : user.lastName
+    user.phone = phone ? phone : user.phone
+    user.email = email ? email : user.email
+
+    //* Save the user
+    await user.save()
+    //* Send new user back
+    response.send(user)
+  } catch (error) {
+    next(error)
+  }
+})
+
+//* ============== DELETE /API/USER/:USERID ==============
+//* Deletes a user from the database
+router.delete('/', async (request, response, next) => {
+  try {
+    //* The user's id
+    const userId = request.params.userId
+    //* Find user with that by
+    const user = await User.findOne({
+      where: { id: userId }
+    })
+    //* If we couldn't find user
+    if (user === null) {
+      response.status(500).send('No user was found!')
+      return
+    }
+    await user.destroy()
+    //* Send reponse
+    response.send(user)
+  } catch (error) {
+    //* If there is an error, we pass it on
+    next(error)
   }
 })
