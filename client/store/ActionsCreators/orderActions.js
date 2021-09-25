@@ -1,7 +1,8 @@
 import axios from 'axios'
-import { GET_ORDERS, GET_ORDER } from '../reducers'
+import { unstable_batchedUpdates } from 'react-dom'
+import { GET_ORDERS, GET_ORDER, UPDATE_HEADER } from '../reducers'
 
-// ------------------ Actions creators --------------------
+//* ------------------ Actions creators --------------------
 //* Set the current order
 export const setOrder = order => ({
   type: GET_ORDER,
@@ -14,7 +15,13 @@ export const setOrders = orders => ({
   payload: orders
 })
 
-// ------------------ Thunk creators -----------------------
+//* Add a cart object to storage so we can update header
+export const updateHeader = cart => ({
+  type: UPDATE_HEADER,
+  payload: cart
+})
+
+//* ------------------ Thunk creators -----------------------
 //* Used to fetch the current order
 export const fetchOrder = userId => {
   return async dispatch => {
