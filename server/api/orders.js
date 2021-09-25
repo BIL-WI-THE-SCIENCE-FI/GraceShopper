@@ -65,21 +65,30 @@ router.post('/:userId', async (request, response, next) => {
         where: { orderId: orderInstance.id, productId: productId }
       })
 
-      //* New quantity we should update details with
-      let nquantity = quantity
-      //* Should we add to their current number of products
-      if (addition) nquantity = orderDetails.quantity + quantity
+      //* Already has item in cart
+      if (orderDetails !== null) {
+        //* New quantity we should update details with
+        let nquantity = quantity
+        //* Should we add to their current number of products
+        if (addition) nquantity = orderDetails ? orderDetails.quantity + quantity : quantity
 
-      //* Update the details
-      orderDetails.quantity = nquantity
-      orderDetails.price = price * nquantity
-      //* Save the order details
-      await orderDetails.save()
+        //* Update the details
+        orderDetails.quantity = nquantity
+        orderDetails.price = price * nquantity
+        //* Save the order details
+        await orderDetails.save()
+      } else {
+        //* Find the product
+        const product = await Product.findOne({ where: { id: productId } })
+        //* Add it to the order
+        await orderInstance.addProduct(product, {
+          through: { price: price * quantity, quantity: quantity }
+        })
+      }
     }
 
     //! Remove
-    // console.log('-------[order]-------')
-    // console.log(Order.prototype)
+
     console.log('-------[order details updated]-------')
     console.log('productId:', productId)
     console.log('price:', price)
