@@ -117,7 +117,7 @@ async function seed() {
       await userInstance.addOrder(orderInstance)
 
       //* Add random order details
-      for (let i = 0; i < getRandomNumber(false, totalProducts - 1); i++) {
+      for (let i = 0; i < totalProducts - 1; i++) {
         const product = await products[i]
         const quantity = getRandomNumber(false, product.stock - 1) + 1
         const price = (await product.price) * quantity

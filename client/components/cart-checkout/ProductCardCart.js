@@ -8,7 +8,8 @@ import { getMoney, getStars } from '../../utils'
 export default function ProductCardCart(props) {
   if (props.product === undefined) return <></>
   const history = useHistory() // TODO click to redir
-  const { product, userId, quantity, handleUpdateQuantity, setUpdate, setSelected } = props
+  const { product, userId, quantity, handleUpdateQuantity, setUpdate, setSelected, setRemoved } =
+    props
   //* Obtain the information required thru props
   const { name, description, price, rating, stock, imageUrl } = product
 
@@ -31,10 +32,27 @@ export default function ProductCardCart(props) {
           </div>
         </div>
         <div className="product-card-cart-controls">
-          {getSelect(quantity, stock, product, userId, setUpdate, handleUpdateQuantity)}
+          {getSelect(
+            quantity,
+            stock,
+            product,
+            userId,
+            setUpdate,
+            handleUpdateQuantity,
+            setSelected,
+            setRemoved
+          )}
           <button
             onClick={async () => {
-              await handleUpdateQuantity(product, 0, userId, setUpdate, true, setSelected)
+              await handleUpdateQuantity(
+                product,
+                0,
+                userId,
+                setUpdate,
+                true,
+                setSelected,
+                setRemoved
+              )
             }}
           >
             Remove
@@ -53,14 +71,23 @@ function getOptions(quantity) {
 }
 
 //* Get the select menu
-function getSelect(quantity, stock, product, userId, setUpdate, handleUpdateQuantity) {
+function getSelect(
+  quantity,
+  stock,
+  product,
+  userId,
+  setUpdate,
+  handleUpdateQuantity,
+  setSelected,
+  setRemoved
+) {
   return (
     <Select
       className="orderpage-quantity"
       value={{ value: quantity, label: quantity }}
       options={getOptions(stock)}
       onChange={async event => {
-        await handleUpdateQuantity(product, event.value, userId, setUpdate)
+        await handleUpdateQuantity(product, event.value, userId, setUpdate, setSelected, setRemoved)
       }}
     />
   )

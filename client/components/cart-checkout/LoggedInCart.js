@@ -12,6 +12,7 @@ const LoggedInCart = () => {
   const dispatch = useDispatch()
   const userId = useSelector(state => state.auth.id)
   const [update, setUpdate] = useState(true)
+  const [removed, setRemoved] = useState(undefined)
 
   useEffect(() => {
     async function fetchData() {
@@ -28,6 +29,27 @@ const LoggedInCart = () => {
   const [selected, setSelected] = useState(undefined)
   const total = getTotal(order)
 
+  function getProduct(id) {
+    if (order && order.orderdetails)
+      for (let detail of order.orderdetails)
+        if (detail.product.id === id) {
+          return detail.product
+        }
+  }
+
+  //! Remove
+  console.log('--------------------')
+  console.log('selected:', selected ? selected.id : selected)
+  try {
+    console.log('selected.id - 1:', selected.id - 1)
+    console.log('product:', getProduct(selected.id))
+    console.log('qty', order.orderdetails[selected.id - 1].quantity)
+  } catch (error) {
+    console.log('order.orderdetails:', order.orderdetails)
+  }
+  console.log('--------------------')
+  //! Remove
+
   const quantity = selected === undefined ? 1 : order.orderdetails[selected.id - 1].quantity
 
   //* Return the jsx
@@ -35,7 +57,7 @@ const LoggedInCart = () => {
     <div className="currentorder-container">
       <div className="one">
         <SimpleBar className="currentorder-scroll">
-          {getProducts(order.orderdetails, setSelected, selected, userId, update)}
+          {getProducts(order.orderdetails, setSelected, selected, removed, setRemoved)}
         </SimpleBar>
       </div>
       <div className="two">
@@ -47,6 +69,7 @@ const LoggedInCart = () => {
             userId={userId}
             quantity={quantity}
             handleUpdateQuantity={handleUpdateQuantity}
+            setRemoved={setRemoved}
           />
         </div>
         <div className="currentorder-total">
@@ -67,7 +90,7 @@ const LoggedInCart = () => {
 }
 
 //* Get all of the product cards
-function getProducts(orderDetails, setSelected, selected, update) {
+function getProducts(orderDetails, setSelected, selected, removed, setRemoved) {
   if (orderDetails === undefined || orderDetails.length === 0) {
     return <span>There is nothing in your cart!</span>
   }
@@ -80,14 +103,10 @@ function getProducts(orderDetails, setSelected, selected, update) {
 
     //* If the selected card is undefined,
     //* by default set the first item as selected
-    if (selected === undefined) {
+    if (selected === undefined && id !== removed) {
       selected = product
       setSelected(product)
-      //! Remove
-      console.log('--------------------')
-      console.log('selectedupdated:', product.name)
-      console.log('--------------------')
-      //! Remove
+      setRemoved(undefined)
     }
 
     return (
@@ -96,11 +115,6 @@ function getProducts(orderDetails, setSelected, selected, update) {
         className="currentorder-productcard zoomable-small shadow-nohover"
         onClick={() => {
           setSelected(product)
-          //! Remove
-          console.log('--------------------')
-          console.log('selected:', product.name)
-          console.log('--------------------')
-          //! Remove
         }}
       >
         <img src={imageUrl} />
@@ -110,6 +124,7 @@ function getProducts(orderDetails, setSelected, selected, update) {
           <div>
             <span>{'Price: $' + getMoney(price)}</span>
             <span>{'Qty: ' + quantity}</span>
+            <span>{'id: ' + id}</span>
           </div>
         </div>
       </div>
@@ -138,7 +153,8 @@ async function handleUpdateQuantity(
   userId,
   setUpdate,
   remove = false,
-  setSelected
+  setSelected,
+  setRemoved
 ) {
   //* User is not logged in
   if (userId === undefined) {
@@ -155,11 +171,12 @@ async function handleUpdateQuantity(
       }
       await axios.post(`/api/orders/${userId}`, body)
       if (remove) {
-        // TODO add so that if they remove the first item
-        setSelected(undefined)
+        await setRemoved(product.id)
+        await setSelected(undefined)
       }
     } catch (error) {
-      console.log('There was an error whilst attempting to add that item to your cart!')
+      console.log('Error attempting to remove that item from cart!')
+      console.log(error)
     }
   }
   setUpdate(true)
