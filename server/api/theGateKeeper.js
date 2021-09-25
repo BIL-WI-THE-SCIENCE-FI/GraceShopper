@@ -1,13 +1,21 @@
-const isLoggedIn = (req, res, next) => {
-  const authorizedHeader = req.headers.authorization;
-  console.log('hello world', authorizedHeader);
-  if (!authorizedHeader) {
-    return res.status(403).json({
-      status: 403,
-      message: 'ACCESS DENIED',
-    });
-  } else {
-    next();
+const router = require('express').Router();
+console.log('made it to theGateKeeper');
+
+const isLoggedIn = async (req, res, next) => {
+  try {
+    console.log('hello world');
+    const authorizedHeader = req.headers.authorization;
+    console.log('hello world', authorizedHeader);
+    if (!authorizedHeader) {
+      return res.status(403).json({
+        status: 403,
+        message: 'ACCESS DENIED',
+      });
+    } else {
+      next();
+    }
+  } catch (error) {
+    next(error);
   }
 };
 
@@ -20,11 +28,15 @@ const isAdmin = (req, res, next) => {
       message: 'ACCESS DENIED',
     });
   } else {
-    next();
+    return;
   }
 };
 
-module.exports = { router, isLoggedIn, isAdmin };
+router.use('/', (req, res, next) => {
+  console.log('at least this is working');
+});
+
+module.exports = { gateRouter: router, isLoggedIn, isAdmin };
 // this is to protect against backend unwanted actions
 // function to check for admin and logged in
 
