@@ -36,6 +36,7 @@ const LoggedInCart = () => {
       for (let detail of order.orderdetails) if (detail.productId === id) return detail
   }
 
+  //* quantity of current item
   const quantity = selected === undefined ? 1 : getProduct(selected.id).quantity
 
   //* Return the jsx
@@ -47,7 +48,7 @@ const LoggedInCart = () => {
       setSelected={setSelected}
       userId={userId}
       quantity={quantity}
-      handleUpdateQuantity={handleUpdateQuantity}
+      // handleUpdateQuantity={handleUpdateQuantity}
       setRemoved={setRemoved}
       total={total}
     />
@@ -145,40 +146,40 @@ function getTotal(order) {
   return getMoney(total)
 }
 
-//* If a user changes quantity
-async function handleUpdateQuantity(
-  product,
-  quantity,
-  userId,
-  setUpdate,
-  remove = false,
-  setSelected,
-  setRemoved
-) {
-  //* User is not logged in
-  if (userId === undefined) {
-    //* User is logged in
-    // TODO:
-  } else {
-    try {
-      const body = {
-        productId: product.id,
-        price: product.price,
-        quantity: quantity,
-        addition: false,
-        remove: remove
-      }
-      await axios.post(`/api/orders/${userId}`, body)
-      if (remove) {
-        await setRemoved(product.id)
-        await setSelected(undefined)
-      }
-    } catch (error) {
-      console.log('Error attempting to remove that item from cart!')
-      console.log(error)
-    }
-  }
-  setUpdate(true)
-}
+// //* If a user changes quantity
+// async function handleUpdateQuantity(
+//   product,
+//   quantity,
+//   userId,
+//   setUpdate,
+//   remove = false,
+//   setSelected,
+//   setRemoved
+// ) {
+//   //* User is not logged in
+//   if (userId === undefined) {
+//     //* User is logged in
+//     // TODO:
+//   } else {
+//     try {
+//       const body = {
+//         productId: product.id,
+//         price: product.price,
+//         quantity: quantity,
+//         addition: false,
+//         remove: remove
+//       }
+//       await axios.post(`/api/orders/${userId}`, body)
+//       if (remove) {
+//         await setRemoved(product.id)
+//         await setSelected(undefined)
+//       }
+//     } catch (error) {
+//       console.log('Error attempting to remove that item from cart!')
+//       console.log(error)
+//     }
+//   }
+//   setUpdate(true)
+// }
 
 export default LoggedInCart
