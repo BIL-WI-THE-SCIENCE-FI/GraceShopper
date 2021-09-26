@@ -31,12 +31,24 @@ const Header = () => {
     await dispatch(logout())
   }
 
+  //* Search for item
+  async function attemptSearch(event) {
+    const value = event.target.value
+    if (event.key !== 'Enter') return
+    if (value.length === 0) history.push(`/products`)
+    else history.push(`/products?search=${value}`)
+  }
+
+  //* Handle changes in search bar
+  async function handleChange(event) {
+    const value = event.target.value
+    if (value.length === 0) history.push(`/products`)
+  }
+
   return (
     <div className="header">
       <div className="header-navbar">
-        {/* <div className="logo-link"> */}
         <img className="logo" src="/Git Logo.png" onClick={() => history.push('/home')} />
-        {/* </div> */}
         <div className="oursite">TarGit.com</div>
         <div className="products-link">
           <div className="products" onClick={() => history.push('/products')}>
@@ -45,7 +57,12 @@ const Header = () => {
         </div>
         <div className="blank"></div>
         <div className="search">
-          <input className="search-input" placeholder="Search Product" />
+          <input
+            className="search-input"
+            placeholder="Search Product"
+            onKeyDown={event => attemptSearch(event)}
+            onChange={event => handleChange(event)}
+          />
           <div className="search-label">Search</div>
         </div>
         <div className="blank"></div>
