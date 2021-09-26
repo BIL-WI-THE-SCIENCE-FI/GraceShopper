@@ -32,34 +32,35 @@ const Header = () => {
   }
 
   return (
-    <div>
-      <div id="navBar">
-        <div id="logoLink" onClick={() => history.push('/home')}>
-          <img className="logo" src="/Git Logo.png" />
-        </div>
+    <div className="header">
+      <div className="header-navbar">
+        {/* <div className="logo-link"> */}
+        <img className="logo" src="/Git Logo.png" onClick={() => history.push('/home')} />
+        {/* </div> */}
         <div className="oursite">TarGit.com</div>
-        <div id="productsLink" onClick={() => history.push('/products')}>
-          <div id="categories">View Products</div>
+        <div className="products-link">
+          <div className="products" onClick={() => history.push('/products')}>
+            View Products
+          </div>
         </div>
-        <div id="blank"></div>
-        <div id="search">
-          <input id="search-input" placeholder="Search Product" />
-          <div id="search-label">Search</div>
+        <div className="blank"></div>
+        <div className="search">
+          <input className="search-input" placeholder="Search Product" />
+          <div className="search-label">Search</div>
         </div>
-        <div id="loginCart">
+        <div className="blank"></div>
+        <div className="extras-container">
           <DropItem
             loggedIn={isLoggedIn}
             admin={loggedInType === 'admin'}
             logoutUser={logoutUser}
           />
-          <div
-            id="cartContainer"
-            onClick={() => {
-              history.push('/cart')
-            }}
-          >
-            <img className="logo" src="/CartLogo.png" />
-            <div id="cartLabel">{`(${itemsInCart})`}</div>
+          {/* Cart Icon */}
+          <div className="cart-container" onClick={() => history.push('/cart')}>
+            <div className="logo-cart-container">
+              <img className="logo-cart" src="/CartLogo.png" />
+            </div>
+            <div className="cart-label">{`${itemsInCart}`}</div>
           </div>
         </div>
       </div>

@@ -20,7 +20,16 @@ form div {
   display: inline-block;
 }
 
-#navBar {
+/*
+*==================================
+*      HEADER / NAV BAR
+*==================================
+*/
+
+.header {
+}
+
+.header-navbar {
   position: relative;
   width: 100%;
   display: flex;
@@ -28,17 +37,23 @@ form div {
   align-items: center;
   justify-content: space-around;
   text-align: center;
-  background: #cc0000;
+
+  z-index: 99 !important;
+
+  background-color: #cc0000;
+
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 0 0 10px 10px;
 }
 
+/** Logo (targit) */
 .logo {
   flex-grow: 0.5;
   max-width: 70px;
   max-height: 70px;
 }
 
+/** TarGit.com phrase*/
 .oursite {
   font-size: 2rem;
   font-weight: bold;
@@ -46,11 +61,13 @@ form div {
   color: rgba(255, 255, 255, 0.9);
 }
 
-#blank {
-  flex-grow: 1.5;
+/** Space between search bar*/
+.blank {
+  flex-grow: 1;
 }
 
-#categories {
+/** The products button*/
+.products {
   color: black;
   flex-grow: 0.5;
   height: 30%;
@@ -60,48 +77,56 @@ form div {
   margin: auto;
 }
 
-#loginCart {
+.extras-container {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-grow: 0.5;
+  flex-grow: 0.1;
   margin-right: 25px;
 }
 
-#loginLink,
-#logoutLink {
-  background: rgba(255, 255, 255, 0.8);
-  color: black;
-  flex-grow: 0.5;
-  height: 30%;
-  border-radius: 10px;
-  padding: 5px;
-  margin: 10px;
-  top: 10px;
-}
-#cartContainer {
+/** ======= CART ICON ======= */
+
+.cart-container {
   position: relative;
   text-align: center;
   color: white;
 }
 
-#cartLabel {
-  font-weight: bold;
+.logo-cart-container {
+  width: 48px;
+  height: 48px;
+
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+
+  border-radius: 50%;
+  display: flex;
+}
+
+.logo-cart {
+  width: 46px;
+  height: 46px;
+
+  padding-top: 2px;
+
+  margin: auto;
+  margin-right: 5px;
   position: absolute;
-  top: 51%;
-  left: 49%;
+}
+
+.cart-label {
+  font-weight: bold;
+  font-size: 0.8rem;
+  position: absolute;
+  top: 61%;
+  left: 52%;
   transform: translate(-30%, -100%);
 }
-#search-input {
-  left: 5px;
-  margin: 2px;
-  width: 90%;
-  height: 100%;
-  border: 0;
-}
-#search-label {
-}
-#search {
+
+/** ======= SEARCH BAR ======= */
+
+.search {
   flex-grow: 3.5;
   background: #ffffff;
   display: flex;
@@ -114,6 +139,19 @@ form div {
   padding: 5px;
   margin: 10px;
   text-align: left;
+}
+
+.search-input {
+  left: 5px;
+  margin: 2px;
+  margin-left: 10px;
+  width: 90%;
+  height: 100%;
+  border: 0;
+}
+
+.search-label {
+  margin-right: 10px;
 }
 
 /*
