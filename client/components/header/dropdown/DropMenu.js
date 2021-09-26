@@ -74,11 +74,6 @@ function DropMenu(props) {
   //* Calculate new menu height
   function calcHeight(el) {
     const height = el.offsetHeight + 35
-    //! Remove
-    console.log('--------------------')
-    console.log('height:', height)
-    console.log('--------------------')
-    //! Remove
     setMenuHeight(height)
   }
 

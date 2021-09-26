@@ -91,13 +91,26 @@
 #form_product_edit .product-edit-input textarea {
   min-height: 20px;
   max-height: 100px;
+  font-size: 0.8rem;
 }
 
 #form_product_edit .form-text-box {
   width: var(--editProductFormInputWidthStandard);
 }
 
+#form_product_edit .form-text-box-error {
+  border: 1px solid red;
+  border-radius: 2px;
+  width: var(--editProductFormInputWidthStandard);
+}
+
 #form_product_edit .form-text-box-small {
+  width: var(--editProductFormInputWidthSmall);
+}
+
+#form_product_edit .form-text-box-small-error {
+  border: 1px solid red;
+  border-radius: 2px;
   width: var(--editProductFormInputWidthSmall);
 }
 
@@ -109,7 +122,7 @@
   height: var(--editProductFormImageHeight);
   width: var(--editProductFormImageWidth);
 
-  background-color: brown;
+  background-color: rgba(219, 219, 219, 0.664);
 }
 
 .submit-button {
@@ -123,6 +136,17 @@
   align-self: center;
 }
 
-.submit-button {
+.submit-button:hover {
   background-color: rgb(179, 22, 22);
+}
+
+.product-edit-error-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.product-edit-error-container span {
+  font-size: 0.9rem;
+  color: red;
+  transition: transform 0.3s ease;
 }
