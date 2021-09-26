@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function PriceFilter(props) {
+export default function RatingFilter(props) {
   const { isValid, setRatingFilter, rating } = props
   //* Return JSX
   return (

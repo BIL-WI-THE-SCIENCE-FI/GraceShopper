@@ -211,6 +211,7 @@ const Products = () => {
         setPriceFilter={setPriceFilter}
         setRatingFilter={setRatingFilter}
         setStockFilter={setStockFilter}
+        setLimit={setLimit}
       />
       <div className="product-container">
         <SimpleBar className="product-scroll">

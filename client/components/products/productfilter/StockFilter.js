@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function PriceFilter(props) {
+export default function StockFilter(props) {
   const { isValid, setStockFilter, stock } = props
   //* Return JSX
   return (

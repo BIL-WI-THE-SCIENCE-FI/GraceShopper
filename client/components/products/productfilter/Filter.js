@@ -3,11 +3,12 @@ import { Link } from 'react-router-dom'
 import PriceFilter from './PriceFilter'
 import StockFilter from './StockFilter'
 import RatingFilter from './RatingFilter'
+import ItemsPerPage from './ItemsPerPage'
 
 // TODO: complete this feature, shouldn't take me long ~ brynn
 
 const FilterPanel = props => {
-  const { query, setOrder, setPriceFilter, setRatingFilter, setStockFilter } = props
+  const { query, setOrder, setPriceFilter, setRatingFilter, setStockFilter, setLimit } = props
   const { price, stock, rating } = query.filters
 
   return (
@@ -16,6 +17,7 @@ const FilterPanel = props => {
         <PriceFilter isValid={isValid} setPriceFilter={setPriceFilter} price={price} />
         <StockFilter isValid={isValid} setStockFilter={setStockFilter} stock={stock} />
         <RatingFilter isValid={isValid} setRatingFilter={setRatingFilter} rating={rating} />
+        <ItemsPerPage isValid={isValid} setLimit={setLimit} limit={query.limit} />
       </div>
     </div>
   )
