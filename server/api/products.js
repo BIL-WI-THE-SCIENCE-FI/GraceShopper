@@ -147,7 +147,7 @@ router.put('/', async (request, response, next) => {
 
 //* ============== DELETE /API/PRODUCTS/:PRODUCTID ==============
 //* Deletes a product from the database
-router.put('/', async (request, response, next) => {
+router.delete('/', async (request, response, next) => {
   try {
     //* The product's id
     const productId = request.params.productId

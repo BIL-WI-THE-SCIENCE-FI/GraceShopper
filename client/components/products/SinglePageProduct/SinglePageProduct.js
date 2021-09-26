@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { productActions } from '../../../store/ActionsCreators'
+import { productActions, orderActions } from '../../../store/ActionsCreators'
 import { getMoney, getStars } from '../../../utils'
 import { useParams } from 'react-router-dom'
 import Select from 'react-select'
@@ -19,6 +19,11 @@ const SinglePageProduct = props => {
     }
     fetchData()
   }, [])
+
+  //* Used to update header cart number
+  async function updateHeader(cart) {
+    await dispatch(orderActions.updateHeader(cart))
+  }
 
   //* Get the information required to complete this component
   const userId = useSelector(state => state.auth.id)
@@ -50,7 +55,10 @@ const SinglePageProduct = props => {
               }}
             />
           </div>
-          <div className="addToCart" onClick={() => handleAddToCart(product, quantity, userId)}>
+          <div
+            className="addToCart"
+            onClick={() => handleAddToCart(product, quantity, userId, updateHeader)}
+          >
             Add To Cart
           </div>
         </div>
@@ -74,12 +82,35 @@ function getOptions(stock) {
 }
 
 //* If a user clicks add tocart
-async function handleAddToCart(product, quantity, userId) {
+async function handleAddToCart(product, quantity, userId, updateHeader) {
   //* User is not logged in
   if (userId === undefined) {
-    //* User is logged in
-    // TODO: user is not logged in
+    try {
+      //* Get the order from localStorage
+      const order = JSON.parse(localStorage.getItem('order'))
+
+      //* They have no order as of current
+      if (order === null) {
+        const cart = { [product.id]: quantity }
+        localStorage.setItem('order', JSON.stringify(cart))
+        updateHeader(cart)
+        return true
+      }
+
+      //* Get the new quantity
+      quantity = order[product.id] ? order[product.id] + quantity : quantity
+      //* update their current
+      const cart = { ...order, [product.id]: quantity }
+      localStorage.setItem('order', JSON.stringify(cart))
+      updateHeader(cart)
+      return true
+      //* If there was err
+    } catch (error) {
+      console.log('There was an error whilst attempting to add that item to your cart!')
+      return false
+    }
   } else {
+    //* User is logged in
     try {
       const body = {
         productId: product.id,

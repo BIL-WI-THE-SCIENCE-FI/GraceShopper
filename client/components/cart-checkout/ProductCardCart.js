@@ -7,9 +7,18 @@ import { getMoney, getStars } from '../../utils'
 //* page.
 export default function ProductCardCart(props) {
   if (props.product === undefined) return <></>
-  const history = useHistory() // TODO click to redir
-  const { product, userId, quantity, handleUpdateQuantity, setUpdate, setSelected, setRemoved } =
-    props
+  const history = useHistory()
+  const {
+    product,
+    userId,
+    quantity,
+    handleUpdateQuantity,
+    setUpdate,
+    setSelected,
+    setRemoved,
+    cart,
+    updateHeader
+  } = props
   //* Obtain the information required thru props
   const { id, name, description, price, rating, stock, imageUrl } = product
 
@@ -46,7 +55,9 @@ export default function ProductCardCart(props) {
             setUpdate,
             handleUpdateQuantity,
             setSelected,
-            setRemoved
+            setRemoved,
+            cart,
+            updateHeader
           )}
           <button
             onClick={async () => {
@@ -57,7 +68,9 @@ export default function ProductCardCart(props) {
                 setUpdate,
                 true,
                 setSelected,
-                setRemoved
+                setRemoved,
+                cart,
+                updateHeader
               )
             }}
           >
@@ -85,7 +98,9 @@ function getSelect(
   setUpdate,
   handleUpdateQuantity,
   setSelected,
-  setRemoved
+  setRemoved,
+  cart = null,
+  updateHeader = null
 ) {
   return (
     <Select
@@ -93,7 +108,17 @@ function getSelect(
       value={{ value: quantity, label: quantity }}
       options={getOptions(stock)}
       onChange={async event => {
-        await handleUpdateQuantity(product, event.value, userId, setUpdate, setSelected, setRemoved)
+        await handleUpdateQuantity(
+          product,
+          event.value,
+          userId,
+          setUpdate,
+          false,
+          setSelected,
+          setRemoved,
+          cart,
+          updateHeader
+        )
       }}
     />
   )

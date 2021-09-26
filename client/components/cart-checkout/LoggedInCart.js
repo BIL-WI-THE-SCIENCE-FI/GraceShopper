@@ -1,11 +1,9 @@
-import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import SimpleBar from 'simplebar-react'
 import 'simplebar/dist/simplebar.min.css'
 import { orderActions } from '../../store/ActionsCreators'
 import { getMoney } from '../../utils'
-import ProductCardCart from './ProductCardCart'
+import OrderDisplay from './OrderDisplay'
 
 //* The cart that will be viewed when a user is logged in
 const LoggedInCart = () => {
@@ -35,49 +33,29 @@ const LoggedInCart = () => {
       for (let detail of order.orderdetails) if (detail.productId === id) return detail
   }
 
+  //* quantity of current item
   const quantity = selected === undefined ? 1 : getProduct(selected.id).quantity
 
   //* Return the jsx
   return (
-    <div className="currentorder-container">
-      <div className="one">
-        <SimpleBar className="currentorder-scroll">
-          {getProducts(order.orderdetails, setSelected, selected, removed, setRemoved)}
-        </SimpleBar>
-      </div>
-      <div className="two">
-        <div className="currentorder-productview">
-          <ProductCardCart
-            product={selected}
-            setUpdate={setUpdate}
-            setSelected={setSelected}
-            userId={userId}
-            quantity={quantity}
-            handleUpdateQuantity={handleUpdateQuantity}
-            setRemoved={setRemoved}
-          />
-        </div>
-        <div className="currentorder-total">
-          <h3>{`Total: $${total}`}</h3>
-          <div>
-            <button
-              onClick={() => {
-                console.log('you bougt mail')
-              }}
-            >
-              Checkout
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+    <OrderDisplay
+      products={getProducts(order.orderdetails, setSelected, selected, removed, setRemoved)}
+      selected={selected}
+      setUpdate={setUpdate}
+      setSelected={setSelected}
+      userId={userId}
+      quantity={quantity}
+      // handleUpdateQuantity={handleUpdateQuantity}
+      setRemoved={setRemoved}
+      total={total}
+    />
   )
 }
 
 //* Get all of the product cards
 function getProducts(orderDetails, setSelected, selected, removed, setRemoved) {
   if (orderDetails === undefined || orderDetails.length === 0) {
-    return <span>There is nothing in your cart!</span>
+    return <h2>There is nothing in your cart!</h2>
   }
 
   //* Map the details (products) in the orderDetails
@@ -128,42 +106,6 @@ function getTotal(order) {
   //* Add all of the product prices
   for (let product of order.orderdetails) total += product.price
   return getMoney(total)
-}
-
-//* If a user changes quantity
-async function handleUpdateQuantity(
-  product,
-  quantity,
-  userId,
-  setUpdate,
-  remove = false,
-  setSelected,
-  setRemoved
-) {
-  //* User is not logged in
-  if (userId === undefined) {
-    //* User is logged in
-    // TODO:
-  } else {
-    try {
-      const body = {
-        productId: product.id,
-        price: product.price,
-        quantity: quantity,
-        addition: false,
-        remove: remove
-      }
-      await axios.post(`/api/orders/${userId}`, body)
-      if (remove) {
-        await setRemoved(product.id)
-        await setSelected(undefined)
-      }
-    } catch (error) {
-      console.log('Error attempting to remove that item from cart!')
-      console.log(error)
-    }
-  }
-  setUpdate(true)
 }
 
 export default LoggedInCart
