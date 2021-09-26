@@ -163,13 +163,6 @@ const Products = () => {
     //* desctruc the filters
     const { search, price, stock, rating } = newQuery.filters
     //* filter based on the filters
-    //! Remove
-    console.log('--------------------')
-    console.log('price:', newQuery.filters.price)
-    console.log('stock:', newQuery.filters.stock)
-    console.log('rating:', newQuery.filters.rating)
-    console.log('--------------------')
-    //! Remove
     const curr = products.filter(product => {
       if (search.isSearch && !isCloseMatch(product.name, search.searchTerm)) return false
       if (price.isPrice && !isBetween(product.price, price.minPrice * 100, price.maxPrice * 100))

@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router'
-import { productActions } from '../../store/ActionsCreators'
 import { useParams } from 'react-router-dom'
+import { productActions } from '../../store/ActionsCreators'
 import { getMoney } from '../../utils'
 
 const EditProduct = () => {
@@ -41,18 +42,30 @@ const EditProduct = () => {
   //* Attempt to submit form
   function attemptSubmit() {
     //* Check for errors using state
-    const errors = checkValidity(state)
+    const errors = checkValidity(state, product)
     setErrors(errors)
     //* If there are errors
-    if (errors.length > 0) return false
-    // TODO: Attempt to submit
+    if (Object.values(errors).length > 0) return false
+    //* Async function to make update request
+    async function updateProduct() {
+      try {
+        //* Make attempt to update
+        await axios.post(`/api/products/${product.id}`, state)
+        //* Catch errors
+      } catch (error) {
+        errors.error = 'Failed to update product'
+        return false
+      }
+    }
+    //* Update product
+    updateProduct()
     return true
   }
 
   //* Update item in state
   function updateState(target, value) {
-    const newState = { ...state, [target]: value }
-    setErrors(checkValidity(newState))
+    const newState = { ...state, [target]: target === 'price' ? value * 100 : value }
+    setErrors(checkValidity(newState, product))
     setState(newState)
   }
 
@@ -91,7 +104,7 @@ const EditProduct = () => {
             step="1"
             min="1"
             name="price"
-            value={`${getMoney(state.price)}`}
+            value={getMoney(state.price)}
             placeholder="Product Price"
             onChange={event => updateState('price', event.target.value)}
           />
@@ -123,9 +136,11 @@ const EditProduct = () => {
         <div className="product-edit-input">
           <button
             className="submit-button"
-            onClick={event => {
+            onClick={async event => {
               event.preventDefault()
-              attemptSubmit()
+              const pass = await attemptSubmit()
+              // TODO: props input of prior url
+              if (pass) history.push('/home')
             }}
           >
             Submit
@@ -135,7 +150,7 @@ const EditProduct = () => {
             onClick={event => {
               event.preventDefault()
               // TODO: props input of prior url
-              history.goBack()
+              history.push('/home')
             }}
           >
             Cancel
@@ -148,11 +163,14 @@ const EditProduct = () => {
 }
 
 //* Check validity and get error message
-function checkValidity(state) {
+function checkValidity(state, product) {
   //* destructure state
   const { name, description, stock, price, imageUrl } = state
   const errors = []
 
+  //* Check if nothing has changed
+  if (JSON.stringify(state) === JSON.stringify(product))
+    errors.same = 'You must change something, or cancel!'
   //* Check if name is valid
   if (name.length <= 0) errors.name = 'You must provide a product name!'
   //* Check if description is vaild
