@@ -77,6 +77,12 @@ form div {
   margin: auto;
 }
 
+/** The products button*/
+.products:hover {
+  background: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+}
+
 .extras-container {
   display: flex;
   align-items: center;
@@ -91,6 +97,12 @@ form div {
   position: relative;
   text-align: center;
   color: white;
+  cursor: pointer;
+}
+
+.logo-cart-container:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
 }
 
 .logo-cart-container {
@@ -117,10 +129,10 @@ form div {
 
 .cart-label {
   font-weight: bold;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   position: absolute;
   top: 61%;
-  left: 52%;
+  left: 54%;
   transform: translate(-30%, -100%);
 }
 
