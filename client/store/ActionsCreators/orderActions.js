@@ -1,6 +1,5 @@
 import axios from 'axios'
-import { unstable_batchedUpdates } from 'react-dom'
-import { GET_ORDERS, GET_ORDER, UPDATE_HEADER } from '../reducers'
+import { GET_ORDER, GET_ORDERS, UPDATE_HEADER } from '../reducers'
 
 //* ------------------ Actions creators --------------------
 //* Set the current order

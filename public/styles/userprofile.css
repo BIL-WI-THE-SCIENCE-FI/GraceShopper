@@ -1,0 +1,64 @@
+* {
+  --userProfileHeight: 85vh;
+  --userProfileWidth: 80vw;
+
+  --profilePadding: 10px;
+
+  --userProfileGridHeight: calc(var(--userProfileHeight) - (var(--profilePadding) * 2));
+  --userProfileGridWidth: calc(var(--userProfileWidth) - (var(--profilePadding) * 2));
+
+  --userProfileGridCellHeight: calc(var(--userProfileGridHeight) / 2);
+  --userProfileGridCellWidth: calc(var(--userProfileGridWidth) / 2);
+}
+
+.user-profile {
+  margin: auto;
+  margin-top: 2vh;
+  padding: var(--profilePadding);
+  height: var(--userProfileHeight);
+  width: var(--userProfileWidth);
+  background-color: gray;
+}
+
+.user-profile-container {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 50% 50%;
+}
+
+.user-profile-info {
+  padding: 10px;
+
+  display: flex;
+  grid-column: 1;
+  grid-row: 1;
+  flex-direction: column;
+
+  background-color: green;
+}
+
+.user-profile-image {
+  grid-column: 2;
+  grid-row: 1;
+
+  background-color: darkcyan;
+}
+
+.user-profile-image img {
+  padding: 10px;
+  height: var(--userProfileGridCellHeight);
+  width: var(--userProfileGridCellWidth);
+
+  background-color: brown;
+}
+
+.user-profile-order {
+  padding: 10px;
+  height: var(--userProfileGridCellHeight);
+  width: calc(var(--userProfileGridCellWidth) * 2);
+
+  grid-column: 1/2;
+  grid-row: 2;
+
+  background-color: chocolate;
+}

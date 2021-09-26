@@ -5,12 +5,14 @@ import thunkMiddleware from 'redux-thunk'
 import auth from './auth'
 import productsReducer from './reducers/productsReducer'
 import orderReducer from './reducers/orderReducer'
+import userReducer from './reducers/userReducer'
 
 //* CombineReducers
 const reducer = combineReducers({
   auth,
   products: productsReducer,
-  order: orderReducer
+  order: orderReducer,
+  user: userReducer
 })
 
 //* Apply the middleware

@@ -26,8 +26,7 @@ const Products = () => {
   const dispatch = useDispatch()
   const location = useLocation()
   const history = useHistory()
-  const [query, setQuery] = useState(Object.assign(defaultQuery))
-  // const [query, setQuery] = useState(getQuery())
+  const [query, setQuery] = useState(getQuery())
   const [currentProducts, setCurrentProducts] = useState(undefined)
   const [productsInView, setProductsInView] = useState([])
 
