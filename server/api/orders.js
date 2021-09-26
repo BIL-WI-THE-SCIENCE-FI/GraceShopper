@@ -88,7 +88,6 @@ router.post('/:userId', async (request, response, next) => {
     }
 
     //! Remove
-
     console.log('-------[order details updated]-------')
     console.log('productId:', productId)
     console.log('price:', price)
