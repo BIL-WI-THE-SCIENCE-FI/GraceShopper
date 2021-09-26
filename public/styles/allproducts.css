@@ -29,6 +29,10 @@
 .filter span {
   font-weight: bold;
 }
+
+.filter label {
+}
+
 .product-filter-input {
   margin: 5px;
 }
@@ -105,14 +109,15 @@
 }
 
 .product-card .content .desc {
-  background-color: red;
+  /* background-color: red; */
   margin: 5px 0px 20px 0px;
   font-size: 0.9rem;
 }
 
 .product-card .content .info {
   display: flex;
-  background-color: gray;
+  justify-content: center;
+  /* background-color: gray; */
 }
 
 .product-card .content .info p {
@@ -127,6 +132,9 @@
   margin: auto;
   border-radius: 3px;
 
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
+  padding: 3px;
   /* height: 196px;
   width: 196px; */
   height: var(--productImageWidth);
