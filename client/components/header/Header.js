@@ -34,12 +34,13 @@ const Header = () => {
   return (
     <div>
       <div id="navBar">
-        <Link id="logoLink" to="/home">
+        <div id="logoLink" onClick={() => history.push('/home')}>
           <img className="logo" src="/Git Logo.png" />
-        </Link>
-        <Link id="productsLink" to="/products">
-          <div id="categories">Products</div>
-        </Link>
+        </div>
+        <div className="oursite">TarGit.com</div>
+        <div id="productsLink" onClick={() => history.push('/products')}>
+          <div id="categories">View Products</div>
+        </div>
         <div id="blank"></div>
         <div id="search">
           <input id="search-input" placeholder="Search Product" />
@@ -62,21 +63,6 @@ const Header = () => {
           </div>
         </div>
       </div>
-    </div>
-  )
-}
-
-//* Get Login button
-function getLogin(isLoggedIn) {
-  //! Remove
-  console.log('--------------------')
-  console.log('isLoggedIn:', isLoggedIn)
-  console.log('--------------------')
-  //! Remove
-  if (isLoggedIn) return <></>
-  return (
-    <div id="loginLink" onClick={() => history.push('"/login"')}>
-      Login
     </div>
   )
 }

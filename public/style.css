@@ -39,6 +39,13 @@ form div {
   max-height: 70px;
 }
 
+.oursite {
+  font-size: 2rem;
+  font-weight: bold;
+  margin: auto 20px auto 5px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
 #blank {
   flex-grow: 1.5;
 }
@@ -50,8 +57,7 @@ form div {
   background: rgba(255, 255, 255, 0.8);
   border-radius: 10px;
   padding: 5px;
-  margin: 10px;
-  top: 10px;
+  margin: auto;
 }
 
 #loginCart {
@@ -59,8 +65,7 @@ form div {
   align-items: center;
   justify-content: center;
   flex-grow: 0.5;
-
-  background-color: green;
+  margin-right: 25px;
 }
 
 #loginLink,

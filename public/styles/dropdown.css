@@ -12,8 +12,21 @@
 }
 
 .drop-item {
-  width: 32px;
-  height: 32px;
+  width: 48px;
+  height: 48px;
+
+  padding-top: 6.5px;
+  margin: auto;
+
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+
+  border-radius: 50%;
+}
+
+.drop-item:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+  border: 2px solid rgba(255, 255, 255, 0.3);
 }
 
 .svgicon {
