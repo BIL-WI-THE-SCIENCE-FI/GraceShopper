@@ -1,56 +1,56 @@
-console.log('made it to theGateKeeper');
-const User = require('../db/models/User');
+console.log('made it to theGateKeeper')
+const User = require('../db/models/User')
 
 const isCorrectUser = async (req, res, next) => {
   try {
-    const authorizedHeader = req.headers.authorization;
-    console.log('hello world', authorizedHeader);
+    const authorizedHeader = req.headers.authorization
+    console.log('hello world', authorizedHeader)
     if (!authorizedHeader) {
       return res.status(403).json({
         status: 403,
-        message: 'ACCESS DENIED',
-      });
+        message: 'ACCESS DENIED'
+      })
     } else {
-      next();
+      next()
     }
   } catch (error) {
-    next(error);
+    next(error)
   }
-};
+}
+
 const isLoggedIn = async (req, res, next) => {
   try {
-    const authorizedHeader = req.headers.authorization;
+    const authorizedHeader = req.headers.authorization
     if (!authorizedHeader) {
       return res.status(403).json({
         status: 403,
-        message: 'ACCESS DENIED',
-      });
+        message: 'ACCESS DENIED'
+      })
     } else {
-      next();
+      next()
     }
   } catch (error) {
-    next(error);
+    next(error)
   }
-};
+}
 
 const isAdmin = async (req, res, next) => {
   try {
-    const authorizedHeader = req.headers.authorization;
-    const userInstance = User.findByToken(authorizedHeader);
-    if (!authorizedHeader && userInstance.userType !== admin) {
+    const authorizedHeader = req.headers.authorization
+    if (!authorizedHeader || (await User.findByToken(authorizedHeader).userType) !== 'admin') {
       return res.status(403).json({
         status: 403,
-        message: 'ACCESS DENIED ADMIN PERMISSION REQUIRED',
-      });
+        message: 'ACCESS DENIED ADMIN PERMISSION REQUIRED'
+      })
     } else {
-      next();
+      next()
     }
   } catch (error) {
-    next(error);
+    next(error)
   }
-};
+}
 
-module.exports = { isLoggedIn, isAdmin, isCorrectUser };
+module.exports = { isLoggedIn, isAdmin, isCorrectUser }
 // this is to protect against backend unwanted actions
 // function to check for admin and logged in
 
