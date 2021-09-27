@@ -30,16 +30,24 @@ const LoggedInCart = () => {
   //* Get the next product detail
   function getProduct(id) {
     if (order && order.orderdetails)
-      for (let detail of order.orderdetails) if (detail.productId === id) return detail
+      for (let detail of order.orderdetails) if (detail.productId === id) return detail.quantity
   }
 
   //* quantity of current item
-  const quantity = selected === undefined ? 1 : getProduct(selected.id).quantity
+  const quantity = selected === undefined ? 1 : getProduct(selected.id)
+  //* get the products
+  const products = getProducts(
+    order ? order.orderdetails : undefined,
+    setSelected,
+    selected,
+    removed,
+    setRemoved
+  )
 
   //* Return the jsx
   return (
     <OrderDisplay
-      products={getProducts(order.orderdetails, setSelected, selected, removed, setRemoved)}
+      products={products}
       selected={selected}
       setUpdate={setUpdate}
       setSelected={setSelected}
@@ -55,7 +63,7 @@ const LoggedInCart = () => {
 //* Get all of the product cards
 function getProducts(orderDetails, setSelected, selected, removed, setRemoved) {
   if (orderDetails === undefined || orderDetails.length === 0) {
-    return <h2>There is nothing in your cart!</h2>
+    return undefined
   }
 
   //* Map the details (products) in the orderDetails
