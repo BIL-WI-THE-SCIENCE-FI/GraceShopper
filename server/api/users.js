@@ -17,7 +17,7 @@ const attributes = [
 ];
 
 //* ============== GET /API/USERS ==============
-router.get('/', async (request, response, next) => {
+router.get('/', [isAdmin], async (request, response, next) => {
   try {
     // TODO: query less data
     //* Return all users
@@ -43,7 +43,7 @@ router.get('/', async (request, response, next) => {
 });
 
 //* ============== GET /API/USERS/:USERID ==============
-router.get('/:userId', async (request, response, next) => {
+router.get('/:userId', [isCorrectUser], async (request, response, next) => {
   try {
     //* Get the user id
     const userId = request.params.userId;
@@ -72,7 +72,7 @@ router.get('/:userId', async (request, response, next) => {
 
 //* ============== POST /API/USER/:USERID ==============
 //* This will update the user with new information
-router.post('/:userid', async (request, response, next) => {
+router.post('/:userid', [isCorrectUser], async (request, response, next) => {
   try {
     //* The user's id
     const userId = request.params.userId;
@@ -104,7 +104,7 @@ router.post('/:userid', async (request, response, next) => {
 
 //* ============== DELETE /API/USER/:USERID ==============
 //* Deletes a user from the database
-router.delete('/', async (request, response, next) => {
+router.delete('/', [isAdmin], async (request, response, next) => {
   try {
     //* The user's id
     const userId = request.params.userId;
