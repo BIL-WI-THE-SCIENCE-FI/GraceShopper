@@ -50,7 +50,6 @@ const EditProduct = () => {
     if (Object.values(errors).length > 0) return false;
     //* Async function to make update request
     //^ Make initial check before request to see if Token even exists
-    console.log(token);
     async function updateProduct() {
       try {
         //* Make attempt to update
