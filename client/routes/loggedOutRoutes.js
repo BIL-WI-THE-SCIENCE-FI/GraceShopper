@@ -15,6 +15,7 @@ class LoggedOutRoutes extends Component {
         <Route path="/login" component={LoginPage} />
         <Route path="/signup" component={Signup} />
         <Route path="/cart" component={LoggedOutCart} />
+        <Route path="/checkout" component={LoginPage} />
         <Route path="/edit/products/:id" component={DeniedEdit} />
       </Switch>
     )

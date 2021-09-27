@@ -18,6 +18,7 @@ const attributes = [
 //* ============== GET /API/USERS ==============
 router.get('/', async (request, response, next) => {
   try {
+    // TODO: query less data
     //* Return all users
     const users = await User.findAll({
       include: [
