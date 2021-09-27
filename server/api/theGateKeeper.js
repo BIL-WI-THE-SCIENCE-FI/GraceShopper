@@ -1,9 +1,8 @@
-const router = require('express').Router();
 console.log('made it to theGateKeeper');
+const User = require('../db/models/User');
 
-const isLoggedIn = async (req, res, next) => {
+const isCorrectUser = async (req, res, next) => {
   try {
-    console.log('hello world');
     const authorizedHeader = req.headers.authorization;
     console.log('hello world', authorizedHeader);
     if (!authorizedHeader) {
@@ -18,25 +17,40 @@ const isLoggedIn = async (req, res, next) => {
     next(error);
   }
 };
-
-const isAdmin = (req, res, next) => {
-  const authorizedHeader = req.headers.authorization;
-  console.log('Hello World');
-  if (!authorizedHeader) {
-    return res.status(403).json({
-      status: 403,
-      message: 'ACCESS DENIED',
-    });
-  } else {
-    return;
+const isLoggedIn = async (req, res, next) => {
+  try {
+    const authorizedHeader = req.headers.authorization;
+    if (!authorizedHeader) {
+      return res.status(403).json({
+        status: 403,
+        message: 'ACCESS DENIED',
+      });
+    } else {
+      next();
+    }
+  } catch (error) {
+    next(error);
   }
 };
 
-router.use('/', (req, res, next) => {
-  console.log('at least this is working');
-});
+const isAdmin = async (req, res, next) => {
+  try {
+    const authorizedHeader = req.headers.authorization;
+    const userInstance = User.findByToken(authorizedHeader);
+    if (!authorizedHeader && userInstance.userType !== admin) {
+      return res.status(403).json({
+        status: 403,
+        message: 'ACCESS DENIED ADMIN PERMISSION REQUIRED',
+      });
+    } else {
+      next();
+    }
+  } catch (error) {
+    next(error);
+  }
+};
 
-module.exports = { gateRouter: router, isLoggedIn, isAdmin };
+module.exports = { isLoggedIn, isAdmin, isCorrectUser };
 // this is to protect against backend unwanted actions
 // function to check for admin and logged in
 

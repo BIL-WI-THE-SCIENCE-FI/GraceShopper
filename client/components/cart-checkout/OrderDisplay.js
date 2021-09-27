@@ -1,5 +1,6 @@
 import axios from 'axios'
 import React from 'react'
+import { useHistory } from 'react-router'
 import SimpleBar from 'simplebar-react'
 import 'simplebar/dist/simplebar.min.css'
 import ProductCardCart from './ProductCardCart'
@@ -7,6 +8,7 @@ import ProductCardCart from './ProductCardCart'
 //* This component will render when directed to /cart
 //* It will show a logged out users cart
 export default function OrderDisplay(props) {
+  const history = useHistory()
   const {
     products,
     selected,
@@ -20,6 +22,7 @@ export default function OrderDisplay(props) {
     cart,
     updateHeader
   } = props
+
   //* Return JSX
   return (
     <div className="currentorder-container">
@@ -43,11 +46,7 @@ export default function OrderDisplay(props) {
         <div className="currentorder-total">
           <h3>{`Total: $${total}`}</h3>
           <div>
-            <button
-              onClick={() => {
-                console.log('you bougt mail')
-              }}
-            >
+            <button onClick={() => (userId ? history.push('/checkout') : history.push('/login'))}>
               Checkout
             </button>
           </div>

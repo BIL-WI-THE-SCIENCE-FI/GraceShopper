@@ -113,6 +113,7 @@ function getProducts(products, cart, selected, setSelected, removed, setRemoved)
 //* Get the total value of the cart
 function getTotal(cart, products) {
   let total = 0
+  if (cart === undefined || products === undefined) return total
   const productIds = Object.keys(cart)
   if (productIds.length === 0 || products.length === 0) return total
   //* Add all of the product prices
