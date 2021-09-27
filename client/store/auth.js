@@ -39,7 +39,7 @@ export const authenticate =
       return dispatch(setAuth({ error: authError }));
     }
   };
-export const authenticateSignup = (user,method) => async (dispatch) => {
+export const authenticateSignup = (user, method) => async (dispatch) => {
   try {
     const res = await axios.post(`/auth/${method}`, user);
     window.localStorage.setItem(TOKEN, res.data.token);
