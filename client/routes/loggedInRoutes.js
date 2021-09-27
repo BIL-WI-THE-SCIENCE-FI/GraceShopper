@@ -18,7 +18,7 @@ class LoggedInRoutes extends Component {
         <Route path="/checkout" component={Checkout} />
         <Route path="/login" component={LoginPage} />
         <Route path="/signup" component={Signup} />
-        <Route path="/cart" component={LoggedInCart} />
+        <Route exact path="/cart" component={LoggedInCart} />
         <Route path="/edit/products/:id" component={EditProduct} />
         <Route path="/profile/:id" component={UserProfile} />
         <Route path="/profile" component={UserProfile} />

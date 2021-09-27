@@ -20,6 +20,9 @@ export default function Checkout() {
   }, [])
 
   const { order } = useSelector(state => state.order)
+
+  console.log(order)
+
   //* Total order price
   const total = getTotal(order)
 

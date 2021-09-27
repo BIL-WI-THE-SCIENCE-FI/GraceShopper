@@ -23,6 +23,20 @@ export default function OrderDisplay(props) {
     updateHeader
   } = props
 
+  async function clickCheckout() {
+    if (userId) {
+      console.log(products)
+      if (products === undefined || products.length === 0) {
+        alert('You have nothing in your cart!')
+        return
+      }
+      history.push('/checkout')
+      return
+    }
+    history.push('/login')
+    alert('You must log in to check out!')
+  }
+
   //* Return JSX
   return (
     <div className="currentorder-container">
@@ -46,9 +60,7 @@ export default function OrderDisplay(props) {
         <div className="currentorder-total">
           <h3>{`Total: $${total}`}</h3>
           <div>
-            <button onClick={() => (userId ? history.push('/checkout') : history.push('/login'))}>
-              Checkout
-            </button>
+            <button onClick={() => clickCheckout()}>Checkout</button>
           </div>
         </div>
       </div>

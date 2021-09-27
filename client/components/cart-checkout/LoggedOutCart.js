@@ -10,6 +10,12 @@ import OrderDisplay from './OrderDisplay'
 export default function LoggedOutCart() {
   const dispatch = useDispatch()
 
+  //! Remove
+  console.log('--------------------')
+  console.log('"This runs":', 'This runs')
+  console.log('--------------------')
+  //! Remove
+
   const [update, setUpdate] = useState(true)
   const [removed, setRemoved] = useState(undefined)
   const [selected, setSelected] = useState(undefined)

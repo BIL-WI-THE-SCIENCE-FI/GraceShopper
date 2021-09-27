@@ -1,6 +1,7 @@
 import axios from 'axios'
 import React, { useState } from 'react'
 import { useHistory } from 'react-router'
+import { updateHeader } from '../../store/ActionsCreators/orderActions'
 import { getMoney } from '../../utils'
 
 //* This component will render when directed to /
@@ -34,12 +35,13 @@ export default function CheckoutForm(props) {
     const errors = checkValidity(state)
     setErrors(errors)
     //* If there are errors
-    //if (Object.values(errors).length > 0) return false
+    //!if (Object.values(errors).length > 0) return false
     //* Async function to make update request
     async function updateOrder() {
       try {
         //* Make attempt to update
         await axios.get(`/api/orders/update/${userId}`)
+        await updateHeader({})
         //* Catch errors
       } catch (error) {
         errors.error = 'Failed to update order'
@@ -129,7 +131,7 @@ export default function CheckoutForm(props) {
             event.preventDefault()
             const pass = await attemptSubmit()
             // TODO: props input of prior url
-            // if (pass) history.push('/home')
+            if (pass) history.push('/home')
           }}
         >
           Submit
@@ -139,7 +141,7 @@ export default function CheckoutForm(props) {
           onClick={event => {
             event.preventDefault()
             // TODO: props input of prior url
-            // history.push('/cart')
+            history.push('/cart')
           }}
         >
           Cancel
