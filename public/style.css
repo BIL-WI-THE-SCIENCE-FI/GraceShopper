@@ -257,9 +257,10 @@ form div {
 }
 .author {
   background-color: rgb(202, 211, 211);
-  
+  margin-top: 20px;
   width: 250px;
   height: 250px;
+  align-self: center;
   box-shadow: 0 10px 30px 1px rgb(0 0 0 / 30%);
   border-radius: 50%;
 }
@@ -270,14 +271,18 @@ form div {
 .aboutbox {
   display: flex;
   flex-direction: column;
-  width: 80%;
+  width: 100%;
 }
 .aboutAuthor {
   margin-top: 30px;
   width: 300px;
 }
-.authorBox {
+label {
   text-align: center;
+}
+.authorBox {
   display:flex;
   flex-direction: column;
+  text-align: justify ;
+  
 }
