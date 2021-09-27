@@ -5,7 +5,9 @@ body {
 a {
   text-decoration: none;
 }
-
+h1 {
+  font-family: Cursive;
+}
 label {
   display: block;
 }
@@ -64,25 +66,38 @@ form div {
 /** Space between search bar*/
 .blank {
   flex-grow: 1;
+  display: flex;
 }
 
 /** The products button*/
 .products {
-  color: black;
+  color: white;
   flex-grow: 0.5;
   height: 30%;
-  background: rgba(255, 255, 255, 0.8);
   border-radius: 10px;
   padding: 5px;
   margin: auto;
 }
-
+.about {
+  flex-grow: 0.5;
+  color:white;
+  height: 30%;
+  border-radius: 10px;
+  padding: 5px;
+  margin: auto;
+}
+.space {
+  flex-grow: 1;
+}
 /** The products button*/
-.products:hover {
+.products:hover  {
   background: rgba(255, 255, 255, 0.5);
   cursor: pointer;
 }
-
+.about:hover {
+  background: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+}
 .extras-container {
   display: flex;
   align-items: center;
@@ -109,8 +124,8 @@ form div {
   width: 48px;
   height: 48px;
 
-  background-color: rgba(255, 255, 255, 0.8);
-  border: 2px solid rgba(255, 255, 255, 0.2);
+  /* background-color: rgba(255, 255, 255, 0.8);
+  border: 2px solid rgba(255, 255, 255, 0.2); */
 
   border-radius: 50%;
   display: flex;
@@ -226,4 +241,17 @@ form div {
   100% {
     transform: skew(0deg);
   }
+}
+
+/*
+*==================================
+*           About page
+*================================== 
+*/
+
+.aboutPage {
+  margin-top:20px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
 }

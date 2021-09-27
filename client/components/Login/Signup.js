@@ -88,8 +88,8 @@ const Signup = () => {
         <Redirect to='/home' />
       ) : (
           <div className='loginbody'>
-            <div className='signupBox'>
-              <h1>Sign into your account</h1>
+            <div className='signupTitle'>
+              <h2>Signup your account</h2>
             </div>
             <form id='signupform' onSubmit={handleSubmit} name='signup'>
               <div className='emailBox'>
@@ -153,7 +153,7 @@ const Signup = () => {
                 )}
               </div>
               <div className='signupBox'>
-                <button className='signin' name='button1'>
+                <button className='signupPage' name='button1'>
                   sign up
             </button>
               </div>

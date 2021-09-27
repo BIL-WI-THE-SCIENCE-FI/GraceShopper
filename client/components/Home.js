@@ -46,7 +46,7 @@ export const Home = (props) => {
   }, [index]); //updating
   return (
     <div>
-      <h3>Welcome, {username}</h3>
+      <h3>Welcome, {username? username:'Guest'}</h3>
       <div className='home'>
         <div className='homeBody'>
           <div className='firstImage'>
