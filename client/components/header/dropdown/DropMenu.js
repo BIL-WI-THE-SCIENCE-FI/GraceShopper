@@ -122,9 +122,13 @@ function DropMenu(props) {
           ) : (
             <></>
           )}
-          <DropdownItem leftIcon={<Profile />} click={() => history.push('/profile')}>
-            My Profile
-          </DropdownItem>
+          {loggedIn ? (
+            <DropdownItem leftIcon={<Profile />} click={() => history.push('/profile')}>
+              My Profile
+            </DropdownItem>
+          ) : (
+            <></>
+          )}
           {/* Handle the login */}
           {loggedIn ? (
             <DropdownItem rightIcon={<Logout />} click={() => logoutUser()}>
