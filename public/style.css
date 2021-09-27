@@ -251,7 +251,33 @@ form div {
 
 .aboutPage {
   margin-top:20px;
+  text-align: center;
+  display: flex;
+  justify-content: space-around;
+}
+.author {
+  background-color: rgb(202, 211, 211);
+  
+  width: 250px;
+  height: 250px;
+  box-shadow: 0 10px 30px 1px rgb(0 0 0 / 30%);
+  border-radius: 50%;
+}
+.authors {
+  display: flex;
+  justify-content: space-around;
+}
+.aboutbox {
   display: flex;
   flex-direction: column;
+  width: 80%;
+}
+.aboutAuthor {
+  margin-top: 30px;
+  width: 300px;
+}
+.authorBox {
   text-align: center;
+  display:flex;
+  flex-direction: column;
 }
