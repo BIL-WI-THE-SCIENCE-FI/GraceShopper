@@ -4,8 +4,6 @@ import { useHistory } from 'react-router'
 import { updateHeader } from '../../store/ActionsCreators/orderActions'
 import { getMoney } from '../../utils'
 
-//* This component will render when directed to /
-//* It will
 export default function CheckoutForm(props) {
   const history = useHistory()
   const { userId, total } = props
@@ -28,14 +26,13 @@ export default function CheckoutForm(props) {
     setState(newState)
   }
 
-  //TODO submit
   //* Attempt to submit form
   function attemptSubmit() {
     //* Check for errors using state
     const errors = checkValidity(state)
     setErrors(errors)
     //* If there are errors
-    //! if (Object.values(errors).length > 0) return false
+    if (Object.values(errors).length > 0) return false
     //* Async function to make update request
     async function updateOrder() {
       try {

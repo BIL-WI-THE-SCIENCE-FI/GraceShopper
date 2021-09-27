@@ -12,13 +12,14 @@ export default function Checkout() {
   const history = useHistory()
   const dispatch = useDispatch()
   const userId = useSelector(state => state.auth.id)
+  const token = window.localStorage.getItem('token')
 
   const [loaded, setLoaded] = useState(false)
 
   useEffect(() => {
     async function fetchData() {
       //* Fetch the users cart
-      await dispatch(orderActions.fetchOrder(userId))
+      await dispatch(orderActions.fetchOrder(userId, token))
       setLoaded(true)
     }
     fetchData()
