@@ -59,7 +59,9 @@ const SinglePageProduct = props => {
           </div>
           <div
             className="addToCart"
-            onClick={() => handleAddToCart(product, quantity, userId, updateHeader)}
+            onClick={async () =>
+              alert(await handleAddToCart(product, quantity, userId, updateHeader))
+            }
           >
             Add To Cart
           </div>
@@ -85,6 +87,9 @@ function getOptions(stock) {
 
 //* If a user clicks add tocart
 async function handleAddToCart(product, quantity, userId, updateHeader) {
+  //* If the product is out of stock
+  if (product.stock === 0) return 'That item is out of stock!'
+
   //* User is not logged in
   if (userId === undefined) {
     try {
@@ -96,7 +101,7 @@ async function handleAddToCart(product, quantity, userId, updateHeader) {
         const cart = { [product.id]: quantity }
         localStorage.setItem('order', JSON.stringify(cart))
         updateHeader(cart)
-        return true
+        return `${quantity}x ${product.name} has been added to your cart!`
       }
 
       //* Get the new quantity
@@ -105,11 +110,10 @@ async function handleAddToCart(product, quantity, userId, updateHeader) {
       const cart = { ...order, [product.id]: quantity }
       localStorage.setItem('order', JSON.stringify(cart))
       updateHeader(cart)
-      return true
+      return `${quantity}x ${product.name} has been added to your cart!`
       //* If there was err
     } catch (error) {
-      console.log('There was an error whilst attempting to add that item to your cart!')
-      return false
+      return `Item was not added to your cart!`
     }
   } else {
     //* User is logged in
@@ -121,10 +125,9 @@ async function handleAddToCart(product, quantity, userId, updateHeader) {
         addition: true
       }
       await axios.post(`/api/orders/${userId}`, body)
-      return true
+      return `${quantity}x ${product.name} has been added to your cart!`
     } catch (error) {
-      console.log('There was an error whilst attempting to add that item to your cart!')
-      return false
+      return `Item was not added to your cart!`
     }
   }
 }

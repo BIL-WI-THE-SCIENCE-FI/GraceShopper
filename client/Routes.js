@@ -15,14 +15,23 @@ class Routes extends Component {
   }
 
   render() {
-    const { isLoggedIn } = this.props
+    const { isLoggedIn, loaded } = this.props
 
-    return (
-      <div>
-        <UniversalRoutes />
-        {isLoggedIn ? <LoggedInRoutes /> : <LoggedOutRoutes />}
-      </div>
-    )
+    //* Check if the user has been authenticated or not first
+    if (loaded) {
+      return (
+        <div>
+          <UniversalRoutes />
+          {isLoggedIn ? <LoggedInRoutes /> : <LoggedOutRoutes />}
+        </div>
+      )
+    } else {
+      return (
+        <div>
+          <UniversalRoutes />
+        </div>
+      )
+    }
   }
 }
 
@@ -33,7 +42,8 @@ const mapState = state => {
   return {
     // Being 'logged in' for our purposes will be defined has having a state.auth that has a truthy id.
     // Otherwise, state.auth will be an empty object, and state.auth.id will be falsey
-    isLoggedIn: !!state.auth.id
+    isLoggedIn: !!state.auth.id,
+    loaded: state.auth.loaded
   }
 }
 
