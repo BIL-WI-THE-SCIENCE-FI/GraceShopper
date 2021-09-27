@@ -5,7 +5,7 @@ const isCorrectUser = async (req, res, next) => {
     const authorizedHeader = req.headers.authorization;
     if (
       //^ Must have sent headers.authorization to the backend
-      !authorizedHeader &&
+      !authorizedHeader ||
       //^ Must be admin or  the correct user for the record to be updated.
       ((await User.findByToken(authorizedHeader).userType) !== 'admin' ||
         (await User.findByToken(authorizedHeader).userId) !== req.params.id)
