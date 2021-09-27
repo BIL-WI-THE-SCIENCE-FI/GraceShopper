@@ -125,6 +125,7 @@ async function handleAddToCart(product, quantity, userId, updateHeader) {
         addition: true
       }
       await axios.post(`/api/orders/${userId}`, body)
+      updateHeader({})
       return `${quantity}x ${product.name} has been added to your cart!`
     } catch (error) {
       return `Item was not added to your cart!`

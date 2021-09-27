@@ -8,7 +8,7 @@ import { getMoney } from '../../utils'
 //* It will
 export default function CheckoutForm(props) {
   const history = useHistory()
-  const { userId } = props
+  const { userId, total } = props
   const [state, setState] = useState({
     name: '',
     cardnumber: '',
@@ -35,7 +35,7 @@ export default function CheckoutForm(props) {
     const errors = checkValidity(state)
     setErrors(errors)
     //* If there are errors
-    //!if (Object.values(errors).length > 0) return false
+    //! if (Object.values(errors).length > 0) return false
     //* Async function to make update request
     async function updateOrder() {
       try {
@@ -57,6 +57,7 @@ export default function CheckoutForm(props) {
   return (
     <form id="form_product_edit">
       <span>Checkout</span>
+      <h4>{`Total $${total}`}</h4>
       <label htmlFor="name">Name</label>
       <div className="product-edit-input">
         <input

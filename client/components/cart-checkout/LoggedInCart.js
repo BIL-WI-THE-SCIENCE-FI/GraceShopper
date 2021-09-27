@@ -35,11 +35,13 @@ const LoggedInCart = () => {
 
   //* quantity of current item
   const quantity = selected === undefined ? 1 : getProduct(selected.id).quantity
+  //* get the products
+  const products = getProducts(order.orderdetails, setSelected, selected, removed, setRemoved)
 
   //* Return the jsx
   return (
     <OrderDisplay
-      products={getProducts(order.orderdetails, setSelected, selected, removed, setRemoved)}
+      products={products}
       selected={selected}
       setUpdate={setUpdate}
       setSelected={setSelected}
