@@ -1,15 +1,37 @@
 import React, { useEffect, useState, useRef } from 'react';
 
-
 const About = () => {
   return (
     <div className='aboutPage'>
-      <h1> About Us</h1>
-      <div className='author'>Jing</div>
-      <div className='author'>Brynner</div>
-      <div className='author'>Nicholas</div>
-      <p> Three guys from internet working on this shopping page. Shhhh...</p>
+      <div className='aboutbox'>
+        <h1> About Us</h1>
+        <div className='authors'>
+          <div className='authorBox'>
+            <label>Brynner</label>
+            <div className='author'></div>
+            <p className='aboutAuthor'>about you</p>
+          </div>
+          <div className='authorBox'>
+            <label>Nicholas</label>
+            <div className='author'></div>
+            <p className='aboutAuthor'>about you</p>
+          </div>
+          <div className='authorBox'>
+            <label>Jing</label>
+            <div className='author'></div>
+            <p className='aboutAuthor'>
+              Jing was a secondary school math and computer science teacher in
+              NYC.
+            </p>
+          </div>
+        </div>
+        <p>
+          {' '}
+          Three guys from internet coincidentally meet in the Fullstack Academy,
+          they made this website for their Grace Shopper project.{' '}
+        </p>
+      </div>
     </div>
   );
-}
-export default About
+};
+export default About;
