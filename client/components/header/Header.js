@@ -49,15 +49,19 @@ const Header = () => {
     <div className="header">
       <div className="header-navbar">
         <img className="logo" src="/Git Logo.png" onClick={() => history.push('/home')} />
-        <div className="oursite">TarGit.com</div>
+        <div className="oursite" onClick={() => history.push('/home')}>
+          TarGit.com
+        </div>
         <div className="products-link">
           <div className="products" onClick={() => history.push('/products')}>
             View Products
           </div>
         </div>
         <div className="blank">
-          <div className='about' onClick={_=>history.push('/about')}>About</div>
-          <div className='space'></div>
+          <div className="about" onClick={_ => history.push('/about')}>
+            About
+          </div>
+          <div className="space"></div>
         </div>
         <div className="search">
           <input

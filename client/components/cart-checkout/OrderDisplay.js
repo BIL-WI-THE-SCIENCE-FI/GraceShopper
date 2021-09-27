@@ -47,7 +47,7 @@ export default function OrderDisplay(props) {
       <div className="two">
         <div className="currentorder-productview">
           <ProductCardCart
-            product={selected}
+            product={products ? selected : undefined}
             setUpdate={setUpdate}
             setSelected={setSelected}
             userId={userId}
