@@ -1,7 +1,10 @@
-import React, { useEffect } from 'react'
+import { Collapse, Button } from 'react-bootstrap'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory, useParams } from 'react-router'
 import { userActions } from '../../store/ActionsCreators'
+import SimpleBar from 'simplebar-react'
+import 'simplebar/dist/simplebar.min.css'
 
 //* Show the users profile information
 export default function UserProfile() {
@@ -37,17 +40,23 @@ export default function UserProfile() {
     <div className="user-profile">
       <div className="user-profile-container">
         <div className="user-profile-info">
-          <span>{'Username: ' + username}</span>
-          <span>{'First: ' + firstName}</span>
-          <span>{'Last: ' + lastName}</span>
-          <span>{'Email: ' + email}</span>
-          <span>{'Phone: ' + phone}</span>
+          <div className="displays">
+            {getDisplayItem('Username', username)}
+            {getDisplayItem('First', firstName)}
+            {getDisplayItem('Last', lastName)}
+            {getDisplayItem('Email', email)}
+            {getDisplayItem('Phone', phone)}
+            {getDisplayItem('Image', imageUrl)}
+          </div>
+          <button className="zoomable">Edit Profile</button>
         </div>
         <div className="user-profile-image">
           <img src={imageUrl} alt="No Image Found" />
         </div>
         <div className="user-profile-order">
-          <div></div>
+          <div>
+            <SimpleBar className="user-profile-scroll">{getOrders(orders)}</SimpleBar>
+          </div>
         </div>
       </div>
     </div>
@@ -56,8 +65,93 @@ export default function UserProfile() {
 
 //* Get the JSX of the orders
 function getOrders(orders) {
+  //* Order have not loaded yet
+  if (!orders) {
+    return <></>
+  }
   //* If the user has no orders
   if (orders.length === 0) return <></>
   // TODO:
-  return orders.map(order => {})
+  return orders.map(order => {
+    console.log(order)
+    return <OrderItem key={order.id} order={order} />
+  })
+}
+
+//* Order item component
+function OrderItem(props) {
+  const [open, setOpen] = useState(false)
+  const { id, status, orderdetails } = props.order
+
+  return (
+    <div className="individual-order-item">
+      <div
+        className="order-item-container"
+        onClick={() => setOpen(!open)}
+        aria-controls="example-collapse-text"
+        aria-expanded={open}
+      >
+        <div className="order-item">
+          {getDisplayItem('Status', status)}
+          {getDisplayItem('Products', orderdetails.length)}
+        </div>
+      </div>
+      <Collapse in={open}>
+        <div id={`order-${id}`} className="order-collapse">
+          <ul>
+            <li>
+              Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
+              ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt
+              sapiente ea proident.
+            </li>
+            <li>
+              Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
+              ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt
+              sapiente ea proident.
+            </li>
+            <li>
+              Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
+              ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt
+              sapiente ea proident.
+            </li>
+            <li>
+              Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
+              ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt
+              sapiente ea proident.
+            </li>
+            <li>
+              Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
+              ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt
+              sapiente ea proident.
+            </li>
+            <li>
+              Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
+              ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt
+              sapiente ea proident.
+            </li>
+            <li>
+              Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
+              ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt
+              sapiente ea proident.
+            </li>
+            <li>
+              Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
+              ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt
+              sapiente ea proident.
+            </li>
+          </ul>
+        </div>
+      </Collapse>
+    </div>
+  )
+}
+
+//* Get the user display items
+function getDisplayItem(type, phrase) {
+  return (
+    <div className="display" key={type}>
+      <label>{type + ':'}</label>
+      <span>{phrase ? phrase : 'None'}</span>
+    </div>
+  )
 }
