@@ -87,19 +87,19 @@ User.authenticate = async function ({ username, password }) {
 }
 
 User.findByToken = async function (token) {
-  try {
-    const { id } = await jwt.verify(token, TOKEN)
+  // try {
+  const { id } = await jwt.verify(token, TOKEN)
 
-    const user = await User.findByPk(id)
-    if (!user) {
-      throw 'nooo'
-    }
-    return user
-  } catch (ex) {
-    const error = Error('bad token')
-    error.status = 401
-    throw error
+  const user = await User.findByPk(id)
+  if (!user) {
+    throw 'nooo'
   }
+  return user
+  // } catch (ex) {
+  //   const error = Error('bad token')
+  //   error.status = 401
+  //   throw error
+  // }
 }
 
 /**
