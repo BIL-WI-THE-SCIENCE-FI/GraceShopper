@@ -36,6 +36,12 @@ const User = db.define(
     phone: {
       type: Sequelize.STRING
     },
+    //* Profile Image
+    imageUrl: {
+      type: Sequelize.STRING,
+      defaultValue: 'http://placeimg.com/640/480/a',
+      allowNull: false
+    },
     //* Email must be email
     email: {
       type: Sequelize.STRING,

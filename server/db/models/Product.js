@@ -54,7 +54,7 @@ const Product = db.define('product', {
   //* ImageUrl is the url to the image, cannot be null
   imageUrl: {
     type: Sequelize.STRING,
-    defaultValue: 'http://placeimg.com/640/480/',
+    defaultValue: 'http://placeimg.com/640/480/a',
     allowNull: false
   }
 })

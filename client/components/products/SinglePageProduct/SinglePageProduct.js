@@ -30,6 +30,8 @@ const SinglePageProduct = props => {
   const { product } = useSelector(state => state.products)
   const { imageUrl, name, rating, price, stock, description } = product
 
+  // TODO: after add to cart redierct to all products again
+
   return (
     <div className="singlePage">
       <div className="imp">

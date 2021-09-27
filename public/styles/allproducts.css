@@ -117,7 +117,8 @@
 .product-card .content .info {
   display: flex;
   justify-content: center;
-  /* background-color: gray; */
+  margin: auto;
+  width: 60%;
 }
 
 .product-card .content .info p {

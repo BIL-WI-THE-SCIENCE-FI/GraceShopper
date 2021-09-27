@@ -31,21 +31,48 @@ const Products = () => {
   const [productsInView, setProductsInView] = useState([])
 
   useEffect(() => {
+    //* fetch data
     async function fetchData() {
       await dispatch(productActions.fetchProducts())
-      const current = await getCurrentProducts()
-      if (!arrayEquals(current, currentProducts)) await setCurrentProducts(current)
+      await updateProducts()
     }
+
+    //* Create a url listener so we can wait or search bar changes
+    const unListen = history.listen(async location => {
+      if (location.pathname !== '/products') return
+      const query = getQuery(location.search)
+      await setQuery(query)
+      await updateProducts(query)
+    })
+
     fetchData()
+    //* Unlisten
+    return () => unListen()
   }, [currentProducts])
 
+  //* Update the products in view
+  async function updateProducts(newQuery = query) {
+    const current = await getCurrentProducts(newQuery)
+    if (!arrayEquals(current, currentProducts)) await setCurrentProducts(current)
+  }
+
   //* Get the query to be used based on the current URL
-  function getQuery() {
+  function getQuery(path = location.search) {
+    const copyQuery = Object.assign(defaultQuery)
+    //* If the path is empty
+    if (path == '') {
+      const search = { isSearch: false, searchTerm: '' }
+      const filters = { ...copyQuery.filters, search: search }
+      const newQuery = { ...copyQuery, filters: filters }
+      return newQuery
+    }
+
     //* Get the string path
-    let queryString = location.search.replace('?', '')
+    let queryString = path.toLowerCase().replace('?', '')
     try {
       //* If the length is 0 return default query
-      if (queryString.length === 0) return defaultQuery
+      if (queryString.length === 0) return copyQuery
+
       //* Split apart all of the queries
       queryString.split('&').map(x => {
         //* Split the filter
@@ -53,13 +80,18 @@ const Products = () => {
         //* Get the key and value
         const k = pair.shift()
         const v = pair.pop()
-        //* If it is a number, add the value as a number
-        if (!isNaN(v)) defaultQuery[k] = parseInt(v, 0)
-        return x
+
+        //* If it is a number
+        if (!isNaN(v) && v != '') copyQuery[k] = parseInt(v, 0)
+        else if (k === 'search' && v != '') {
+          copyQuery.filters[k].isSearch = true
+          copyQuery.filters[k].searchTerm = v
+        }
       })
-      return defaultQuery
+      //* return copy query
+      return copyQuery
     } catch (error) {
-      return defaultQuery
+      return copyQuery
     }
   }
 
@@ -142,34 +174,14 @@ const Products = () => {
     getCurrentProducts(newQuery)
   }
 
-  //* =============== SET SEARCH ===============
-  //* Set a search filter to active/inactive
-  async function setSearchFilter(boolean, searchTerm = '') {
-    //* create the new filter Obj
-    const search = { isSearch: boolean, searchTerm: searchTerm }
-    const filter = { ...query.filters, search: search }
-    //* update the query
-    const newQuery = { ...query, filters: filter }
-    setQuery(newQuery)
-    //* Fetch the new products
-    getCurrentProducts(newQuery)
-  }
-
   //* =============== GET CURRENT PRODUCTS  ===============
   //* Get the current products to be viewed based on query
-  function getCurrentProducts(newQuery = query) {
+  function getCurrentProducts(newQuery) {
     //* Products are undefined return empty array
     if (products === undefined) return []
     //* desctruc the filters
     const { search, price, stock, rating } = newQuery.filters
     //* filter based on the filters
-    //! Remove
-    console.log('--------------------')
-    console.log('price:', newQuery.filters.price)
-    console.log('stock:', newQuery.filters.stock)
-    console.log('rating:', newQuery.filters.rating)
-    console.log('--------------------')
-    //! Remove
     const curr = products.filter(product => {
       if (search.isSearch && !isCloseMatch(product.name, search.searchTerm)) return false
       if (price.isPrice && !isBetween(product.price, price.minPrice * 100, price.maxPrice * 100))

@@ -19,21 +19,6 @@ class Routes extends Component {
 
     return (
       <div>
-        {/* <Switch>
-          <Route exact path="/products" component={Products} />
-          <Route exact path="/checkout" component={LoggedInCart} />
-        </Switch> */}
-        {/* <Switch>
-            <Route path="/cart/:id" component={LoggedInCart} />
-            <Route path="/edit/products/:id" component={EditProduct} />
-            <Route path="/home" component={Home} />
-          </Switch> */}
-        {/*  <Switch>
-            <Route path="/login" component={LoginPage} />
-            <Route path="/signup" component={Signup} />
-            <Route path="/products/:id" component={SinglePageProduct} />
-            <Route path="/edit/products/:id" component={DeniedEdit} />
-          </Switch>*/}
         <UniversalRoutes />
         {isLoggedIn ? <LoggedInRoutes /> : <LoggedOutRoutes />}
       </div>
