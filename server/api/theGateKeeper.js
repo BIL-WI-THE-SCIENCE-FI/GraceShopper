@@ -1,4 +1,3 @@
-console.log('made it to theGateKeeper');
 const User = require('../db/models/User');
 
 const isCorrectUser = async (req, res, next) => {
@@ -29,7 +28,7 @@ const isLoggedIn = async (req, res, next) => {
     if (!authorizedHeader) {
       return res.status(403).json({
         status: 403,
-        message: 'ACCESS DENIED',
+        message: 'ACCESS DENIED. YOU MUST BE LOGGED IN.',
       });
     } else {
       next();
