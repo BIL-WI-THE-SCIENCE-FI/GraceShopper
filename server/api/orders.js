@@ -18,6 +18,46 @@ async function getOpenOrder(userId) {
   })
 }
 
+//* ============== GET /API/UPDATE/:USERID ==============
+//* Update the order after checkout
+router.get('/update/:userId', async (request, response, next) => {
+  try {
+    //* Get the user id
+    const userId = request.params.userId
+
+    //* Find user
+    let order = await getOpenOrder(userId)
+
+    //* If they do not have an order we will return nothing
+    if (order === null) {
+      response.status(404).send('Error, you have no order to checkout!')
+      return
+    }
+
+    const orderDetails = order.orderdetails
+
+    for (let orderdetail of orderDetails) {
+      const { quantity, product } = orderdetail
+      product.stock = product.stock - quantity
+      //! Remove
+      console.log('--------------------')
+      console.log('quantity:', quantity)
+      console.log('product.stock:', product.stock)
+      console.log('final:', product.stock - quantity)
+      console.log('--------------------')
+      //! Remove
+      // await product.save()
+    }
+
+    order.status = 'complete'
+
+    //* Send response
+    response.json(order)
+  } catch (err) {
+    next(err)
+  }
+})
+
 //* ============== GET /API/ORDERS/:USERID ==============
 //* Get the users current most recent order
 router.get('/current/:userId', async (request, response, next) => {

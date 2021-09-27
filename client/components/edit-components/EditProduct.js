@@ -36,6 +36,7 @@ const EditProduct = () => {
     setState({ ...product })
     setLoaded(true)
   }
+
   //* If there are any form errors
   const [errors, setErrors] = useState([])
 
