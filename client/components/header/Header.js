@@ -55,7 +55,10 @@ const Header = () => {
             View Products
           </div>
         </div>
-        <div className="blank"></div>
+        <div className="blank">
+          <div className='about' onClick={_=>history.push('/about')}>About</div>
+          <div className='space'></div>
+        </div>
         <div className="search">
           <input
             className="search-input"
