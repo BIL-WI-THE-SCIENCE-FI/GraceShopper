@@ -136,16 +136,6 @@ router.post('/:userId', async (request, response, next) => {
       }
     }
 
-    //! Remove
-    console.log('-------[order details updated]-------')
-    console.log('productId:', productId)
-    console.log('price:', price)
-    console.log('quantity:', quantity)
-    console.log('addition:', addition)
-    console.log('remove:', remove)
-    console.log('---------------------------')
-    //! Remove
-
     //* Send response
     response.send(orderInstance)
   } catch (error) {

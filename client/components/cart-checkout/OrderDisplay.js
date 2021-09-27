@@ -25,7 +25,6 @@ export default function OrderDisplay(props) {
 
   async function clickCheckout() {
     if (userId) {
-      console.log(products)
       if (products === undefined || products.length === 0) {
         alert('You have nothing in your cart!')
         return
@@ -41,7 +40,9 @@ export default function OrderDisplay(props) {
   return (
     <div className="currentorder-container">
       <div className="one">
-        <SimpleBar className="currentorder-scroll">{products}</SimpleBar>
+        <SimpleBar className="currentorder-scroll">
+          {products ? products : <h2>There is nothing in your cart!</h2>}
+        </SimpleBar>
       </div>
       <div className="two">
         <div className="currentorder-productview">
