@@ -39,7 +39,11 @@ export default function DropItem(props) {
       <div onClick={() => setOpen(!open)}>
         <IconButton icon={loggedIn ? (admin ? Settings : Profile) : Login} />
       </div>
-      {open ? <DropMenu loggedIn={loggedIn} admin={admin} logoutUser={logoutUser} /> : ''}
+      {open ? (
+        <DropMenu setOpen={setOpen} loggedIn={loggedIn} admin={admin} logoutUser={logoutUser} />
+      ) : (
+        ''
+      )}
     </div>
   )
 }
@@ -64,7 +68,7 @@ function DropMenu(props) {
   const dropdownRef = useRef(null)
   const [activeMenu, setActiveMenu] = useState('main')
   const [menuHeight, setMenuHeight] = useState(null)
-  const { loggedIn, admin, logoutUser } = props
+  const { loggedIn, admin, logoutUser, setOpen } = props
 
   useEffect(() => {
     //* Set the menu height
@@ -86,7 +90,10 @@ function DropMenu(props) {
         <a
           className="menu-item"
           onClick={() => {
-            if (click) click()
+            if (click) {
+              click()
+              setOpen(false)
+            }
             if (goToMenu) setActiveMenu(goToMenu)
           }}
         >
@@ -115,7 +122,9 @@ function DropMenu(props) {
           ) : (
             <></>
           )}
-          <DropdownItem leftIcon={<Profile />}>My Profile</DropdownItem>
+          <DropdownItem leftIcon={<Profile />} click={() => history.push('/profile')}>
+            My Profile
+          </DropdownItem>
           {/* Handle the login */}
           {loggedIn ? (
             <DropdownItem rightIcon={<Logout />} click={() => logoutUser()}>

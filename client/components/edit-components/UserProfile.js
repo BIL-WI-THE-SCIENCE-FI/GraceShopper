@@ -30,12 +30,6 @@ export default function UserProfile() {
   const user = useSelector(state => state.user.user)
   const { username, firstName, lastName, email, phone, orders, imageUrl } = user
 
-  //! Remove
-  console.log('--------------------')
-  console.log('user:', user)
-  console.log('--------------------')
-  //! Remove
-
   //* Return JSX
   return (
     <div className="user-profile">
