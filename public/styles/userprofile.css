@@ -106,6 +106,7 @@
 .user-profile-container .order-item {
   background-color: gray;
   display: flex;
+  justify-content: center;
   padding: 10px;
   border-radius: 3px;
 }
@@ -129,13 +130,71 @@
 .individual-order-item .order-collapse {
   margin: 0px 10px 5px 10px;
   padding: 5px;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+
+  height: auto;
+  width: calc((var(--userProfileGridCellWidth) * 2) - (var(--profilePadding) * 6));
 
   background-color: burlywood;
 }
 
 .user-profile-scroll {
   padding: 10px;
-  background-color: darkmagenta;
   height: calc(var(--userProfileGridCellHeight) - (var(--profilePadding) * 2));
   width: calc((var(--userProfileGridCellWidth) * 2) - (var(--profilePadding) * 2));
+
+  background-color: darkmagenta;
+}
+
+.individual-detail-container {
+  padding: 5px;
+  margin: 5px;
+
+  height: 120px;
+  width: 29%;
+
+  background-color: cornflowerblue;
+}
+
+.individual-detail {
+  display: flex;
+
+  background-color: darkolivegreen;
+  max-height: 110px;
+}
+
+.individual-detail img {
+  height: 110px;
+  width: 110px;
+}
+
+.individual-detail .info {
+  display: flex;
+  flex-direction: column;
+  max-height: 90px;
+}
+
+.individual-detail .info .display {
+  margin: 0px;
+  overflow: hidden;
+}
+
+.individual-detail .info label {
+  font-weight: bold;
+  font-size: 0.9rem;
+  margin: 0px 5px 0px 5px;
+}
+
+.individual-detail .info span {
+  font-size: 0.8rem;
+  margin: 0px;
+}
+
+.order-collapse {
+  height: calc(var(--userProfileGridCellHeight) - (var(--profilePadding) * 2));
+  width: calc((var(--userProfileGridCellWidth) * 2) - (var(--profilePadding) * 2));
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }

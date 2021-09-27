@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory, useParams } from 'react-router'
 import { userActions } from '../../store/ActionsCreators'
+import { getMoney } from '../../utils'
 import SimpleBar from 'simplebar-react'
 import 'simplebar/dist/simplebar.min.css'
 
@@ -71,9 +72,8 @@ function getOrders(orders) {
   }
   //* If the user has no orders
   if (orders.length === 0) return <></>
-  // TODO:
+  //* Get all of the items
   return orders.map(order => {
-    console.log(order)
     return <OrderItem key={order.id} order={order} />
   })
 }
@@ -92,56 +92,52 @@ function OrderItem(props) {
         aria-expanded={open}
       >
         <div className="order-item">
+          {getDisplayItem('Order Id', id)}
           {getDisplayItem('Status', status)}
           {getDisplayItem('Products', orderdetails.length)}
+          {getDisplayItem('Order Total', `$${getTotal(props.order)}`)}
         </div>
       </div>
       <Collapse in={open}>
         <div id={`order-${id}`} className="order-collapse">
-          <ul>
-            <li>
-              Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
-              ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt
-              sapiente ea proident.
-            </li>
-            <li>
-              Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
-              ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt
-              sapiente ea proident.
-            </li>
-            <li>
-              Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
-              ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt
-              sapiente ea proident.
-            </li>
-            <li>
-              Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
-              ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt
-              sapiente ea proident.
-            </li>
-            <li>
-              Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
-              ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt
-              sapiente ea proident.
-            </li>
-            <li>
-              Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
-              ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt
-              sapiente ea proident.
-            </li>
-            <li>
-              Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
-              ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt
-              sapiente ea proident.
-            </li>
-            <li>
-              Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
-              ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt
-              sapiente ea proident.
-            </li>
-          </ul>
+          {getOrderDetails(orderdetails)}
         </div>
       </Collapse>
+    </div>
+  )
+}
+
+//* Get the individual order details
+function getOrderDetails(orderdetails) {
+  //* Order have not loaded yet
+  if (!orderdetails) {
+    return <></>
+  }
+  //* If the user has no orders
+  if (orderdetails.length === 0) return <></>
+  //* Get the order details
+  return orderdetails.map((orderdetail, index) => {
+    return <OrderDetail key={`detail${index}`} orderdetail={orderdetail} />
+  })
+}
+
+//* This basically renders a div for each
+//* product so that you can see the contents of each order
+function OrderDetail(props) {
+  const { quantity, price, product } = props.orderdetail
+  const { name, rating, imageUrl } = product
+
+  return (
+    <div className="individual-detail-container">
+      <div className="individual-detail">
+        <img src={imageUrl} alt="loading" />
+        <div className="info">
+          {getDisplayItem('Name', name)}
+          {getDisplayItem('Rating', rating)}
+          {getDisplayItem('Quantity', quantity)}
+          {getDisplayItem('Total', `$${getMoney(price)}`)}
+        </div>
+      </div>
     </div>
   )
 }
@@ -154,4 +150,16 @@ function getDisplayItem(type, phrase) {
       <span>{phrase ? phrase : 'None'}</span>
     </div>
   )
+}
+
+//* Get the total value of the cart
+function getTotal(order) {
+  let total = 0
+  //* If the the cart doesn't exist, nothing to total
+  if (order === undefined) return total
+  if (order.orderdetails === undefined) return total
+  if (order.orderdetails.length === 0) return total
+  //* Add all of the product prices
+  for (let product of order.orderdetails) total += product.price
+  return getMoney(total)
 }
