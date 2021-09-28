@@ -22,6 +22,7 @@ export const fetchUser = (userId, token) => {
       const { data } = await axios.get(`/api/users/${userId}`, {
         headers: { authorization: token },
       });
+      console.log(data);
       dispatch(setUser(data));
     } catch (error) {
       console.log('Failed to fetch current user: ' + userId);
