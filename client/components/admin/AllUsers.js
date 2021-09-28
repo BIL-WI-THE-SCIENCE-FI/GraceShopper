@@ -20,7 +20,6 @@ export default function ViewUsers() {
     fetchData();
   }, []);
   const usersInView = useSelector((state) => state.user.users);
-  console.log(usersInView);
 
   return (
     <div className='product-page'>
