@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState, useRef } from 'react';
 
 const About = () => {
   return (
@@ -8,11 +8,11 @@ const About = () => {
         <div className='authors'>
           <div className='authorBox'>
             <label>Brynner</label>
-              <img
-                className='author billGates'
-                src='./brynngates.jpg'
-                alt='hold up'
-              />
+            <img
+              className='author billGates'
+              src='./brynngates.jpg'
+              alt='hold up'
+            />
             <p className='aboutAuthor'>
               You may ask yourself if it really be like that, but sometimes it
               just do.
@@ -20,8 +20,12 @@ const About = () => {
           </div>
           <div className='authorBox'>
             <label>Nicholas</label>
-            <img className='author' src='/'/> 
-            <p className='aboutAuthor'>about you</p>
+            <img className='author' src='/Nicholas.jpeg' />
+            <p className='aboutAuthor'>
+              Nicholas was a Master Field Service Technician for Eaton. Prior to
+              that he spent eight years in the US Navy as a Nuclear Electrians
+              Mate - Submarines.{' '}
+            </p>
           </div>
           <div className='authorBox'>
             <label>Jing</label>
@@ -40,5 +44,5 @@ const About = () => {
       </div>
     </div>
   );
-}
-export default About
+};
+export default About;
