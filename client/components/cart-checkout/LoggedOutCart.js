@@ -21,11 +21,13 @@ export default function LoggedOutCart() {
   //* Get the products from store
   const { products } = useSelector(state => state.products)
 
+  const token = window.localStorage.getItem('token')
+
   useEffect(() => {
     async function fetchData() {
       if (update) {
         //* load the products from localstorage
-        await dispatch(productActions.fetchProducts())
+        await dispatch(productActions.fetchProducts(token))
         //* Get the localStorage cart
         updateHeader(JSON.parse(localStorage.getItem('order')))
         await setUpdate(false)

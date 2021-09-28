@@ -15,10 +15,12 @@ const Header = () => {
   //* load order & cart so we can update total items in cart
   const { order, cart } = useSelector(state => state.order)
 
+  const token = window.localStorage.getItem('token')
+
   useEffect(() => {
     async function fetchData() {
       //* Fetch the users cart
-      if (isLoggedIn) await dispatch(orderActions.fetchOrder(isLoggedIn))
+      if (isLoggedIn) await dispatch(orderActions.fetchOrder(isLoggedIn, token))
     }
     fetchData()
   }, [isLoggedIn])

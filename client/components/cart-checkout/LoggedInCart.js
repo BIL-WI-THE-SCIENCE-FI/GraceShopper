@@ -12,11 +12,13 @@ const LoggedInCart = () => {
   const [update, setUpdate] = useState(true)
   const [removed, setRemoved] = useState(undefined)
 
+  const token = window.localStorage.getItem('token')
+
   useEffect(() => {
     async function fetchData() {
       //* Fetch the users cart
       if (update) {
-        await dispatch(orderActions.fetchOrder(userId))
+        await dispatch(orderActions.fetchOrder(userId, token))
         await setUpdate(false)
       }
     }

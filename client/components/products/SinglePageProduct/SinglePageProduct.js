@@ -12,10 +12,12 @@ const SinglePageProduct = props => {
 
   const [quantity, setQuantity] = useState(1)
 
+  const token = window.localStorage.getItem('token')
+
   useEffect(() => {
     async function fetchData() {
       //* Fetch the product using it's id
-      await dispatch(productActions.fetchProduct(id))
+      await dispatch(productActions.fetchProduct(id, token))
     }
     fetchData()
   }, [])
