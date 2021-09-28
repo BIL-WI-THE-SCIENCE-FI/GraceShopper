@@ -1,48 +1,55 @@
-// import React, { useState, useEffect } from 'react';
-// import { useSelector, useDispatch } from 'react-redux';
-// import { productActions } from '../../store/ActionsCreators';
-// import { useParams } from 'react-router-dom';
-// import { getMoney } from '../../utils';
+import React from 'react';
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router';
+import { fetchUser } from '../../store/ActionsCreators/userActions';
+import { useParams } from 'react-router-dom';
 
-// const EditProduct = (props) => {
-//   const { id } = useParams();
-
-//   const { product } = useSelector((state) => state.products);
-//   const dispatch = useDispatch();
-//   useEffect(() => {
-//     async function fetchData() {
-//       console.log('Params ID is', id);
-//       await dispatch(productActions.fetchProduct(id));
-//     }
-//     fetchData();
-//   }, []);
-
-//   return (
-//     <div className='singlePage'>
-//       <div className='imp'>
-//         <div>
-//           <img id='productImage' src={product.imageUrl} />
-//         </div>
-//         <div className='productInfo'>
-//           <div>
-//             <h1>{product.name}</h1>
-//             <h2>${getMoney(product.price)} price</h2>
-//             <label>Quantity</label>
-//             <select name='Quantity'>
-//               <option value='1'>0</option>
-//               <option value='1'>1</option>
-//             </select>
-//           </div>
-//         </div>
-//       </div>
-//       <div className='aboutItem'>
-//         <h1>About this item</h1>
-//         <div className='desBox'>
-//           <div className='description'>Description {product.description}</div>
-//           <div className='description'>Reviews</div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-// export default EditProduct;
+//
+export default function EditUser() {
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const token = window.localStorage.getItem('token');
+  const { id } = useParams();
+  useEffect(() => {
+    async function fetchData() {
+      await dispatch(fetchUser(id, token));
+    }
+    fetchData();
+  }, []);
+  //* Obtain the information required thru store
+  const { username, userType, firstName, lastName, phone, imageUrl, email } =
+    useSelector((state) => state.user.user);
+  const isLoggedIn = useSelector((state) => state.auth.id);
+  const stateUserType = useSelector((state) => state.auth.userType);
+  //* Return the component JSX
+  return (
+    <div className='product-card shadow zoomable-small'>
+      <div>
+        <div onClick={() => history.push(`/products/${id}`)}>
+          <div>
+            <img src={imageUrl} alt='Product Image' />
+            <h4>
+              {firstName}, {lastName}
+            </h4>
+          </div>
+          <div className='content'>
+            <div className='desc'>
+              <span>{username}</span>
+            </div>
+            <div className='info'>
+              <p>{`Phone: ${phone}`}</p>
+            </div>
+          </div>
+        </div>
+        {isLoggedIn && stateUserType === 'admin' ? (
+          <div>
+            <button onClick={() => history.push(`edit/user/${id}`)}>
+              Edit
+            </button>
+          </div>
+        ) : null}
+      </div>
+    </div>
+  );
+}
