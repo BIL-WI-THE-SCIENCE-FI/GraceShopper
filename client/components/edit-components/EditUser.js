@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
@@ -51,14 +52,14 @@ export default function EditUser() {
     const errors = checkValidity(state, user);
     setErrors(errors);
     //^ If there are errors
-    if (Object.values(errors).length > 0) return false;
+    //if (Object.values(errors).length > 0) return false;
     //^ Async function to make update request
     //^ Make initial check before request to see if Token even exists
     async function updateUser() {
       try {
         //* Make attempt to update
         //^ Send token from local storage for analysis
-        await axios.post(`/api/user/${id}`, state, {
+        const updated = await axios.post(`/api/users/${id}`, state, {
           headers: {
             authorization: token,
           },
