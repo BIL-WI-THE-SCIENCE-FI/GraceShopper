@@ -9,9 +9,9 @@ const faker = require('faker')
 //* EDIT THE FOLLOWING PARAMETERS TO CHANGE HOW THE DATABASE IS POPULATED
 //*
 //* How many products do you want to create
-const totalProducts = 20
+const totalProducts = 500
 //* How many users do you want to create
-const totalUsers = 20
+const totalUsers = 50
 //* Add admin user with (user: admin) (pass: admin)
 const addAdmin = true
 //* Add random order history (PREFORMANCE HEAVY)
