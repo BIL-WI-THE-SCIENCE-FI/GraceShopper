@@ -21,7 +21,7 @@ const isCorrectUser = async (req, res, next) => {
     //* Get the user
     const user = await User.findByToken(authorizedHeader)
     //^ Must be admin or  the correct user for the record to be updated.
-    if (user.id != req.params.userId) return sendResponse(res)
+    if (user.userType !== 'admin' && user.id != req.params.userId) return sendResponse(res)
     else next()
   } catch (error) {
     next(error)

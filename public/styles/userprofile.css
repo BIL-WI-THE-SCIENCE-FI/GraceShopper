@@ -101,11 +101,13 @@
   /* overflow: hidden; */
 
   /* background-color: chocolate; */
+  background-color: rgba(0, 0, 0, 0.05);
 }
 
 .user-profile-container .order-item {
   /* background-color: gray; */
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: rgba(0, 0, 0, 0.05);
+  margin-bottom: 4px;
   display: flex;
   justify-content: center;
   padding: 10px;
@@ -156,14 +158,16 @@
   height: 120px;
   width: 29%;
 
+  border-radius: 3px;
+  background-color: rgba(0, 0, 0, 0.04);
   /* background-color: cornflowerblue; */
 }
 
 .individual-detail {
   display: flex;
 
-  /* background-color: darkolivegreen; */
   max-height: 110px;
+  overflow: hidden;
 }
 
 .individual-detail img {
@@ -184,12 +188,12 @@
 
 .individual-detail .info label {
   font-weight: bold;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   margin: 0px 5px 0px 5px;
 }
 
 .individual-detail .info span {
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   margin: 0px;
 }
 

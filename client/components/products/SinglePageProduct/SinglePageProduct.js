@@ -5,6 +5,8 @@ import { getMoney, getStars } from '../../../utils'
 import { useParams } from 'react-router-dom'
 import Select from 'react-select'
 import axios from 'axios'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const SinglePageProduct = props => {
   const { id } = useParams()
@@ -61,9 +63,10 @@ const SinglePageProduct = props => {
           </div>
           <div
             className="addToCart"
-            onClick={async () =>
-              alert(await handleAddToCart(product, quantity, userId, updateHeader))
-            }
+            onClick={async () => {
+              const response = await handleAddToCart(product, quantity, userId, updateHeader)
+              toast.success(response)
+            }}
           >
             Add To Cart
           </div>
@@ -76,6 +79,17 @@ const SinglePageProduct = props => {
           <div className="description">Reviews</div>
         </div>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   )
 }
@@ -126,7 +140,12 @@ async function handleAddToCart(product, quantity, userId, updateHeader) {
         quantity: quantity,
         addition: true
       }
-      await axios.post(`/api/orders/${userId}`, body)
+      const token = await window.localStorage.getItem('token')
+      await axios.post(`/api/orders/${userId}`, body, {
+        headers: {
+          authorization: token
+        }
+      })
       updateHeader({})
       return `${quantity}x ${product.name} has been added to your cart!`
     } catch (error) {
