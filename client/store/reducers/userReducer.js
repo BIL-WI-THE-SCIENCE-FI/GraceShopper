@@ -12,7 +12,7 @@ export default function userReducer(state = initialState, action) {
     case GET_USER:
       return { ...state, user: action.payload };
     case GET_ALL_USERS:
-      return { ...state, users: [...users, action.payload] };
+      return { ...state, users: action.payload };
     default:
       return state;
   }
