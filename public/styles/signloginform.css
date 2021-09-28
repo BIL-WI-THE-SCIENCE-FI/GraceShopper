@@ -54,6 +54,11 @@
   color:red;
   font-size: 10px;
 }
+.errorLogin {
+  color:red;
+  font-size: 13px;
+  align-self: center;
+}
 #keepSignIn {
   display: flex;
   column-gap: 10px;
