@@ -18,7 +18,7 @@ export default function UserCard(props) {
     email,
   } = props.user;
   const isLoggedIn = useSelector((state) => state.auth.id);
-  const userType = useSelector((state) => state.auth.userType);
+  const stateUserType = useSelector((state) => state.auth.userType);
   //* Return the component JSX
   return (
     <div className='product-card shadow zoomable-small'>
@@ -32,7 +32,7 @@ export default function UserCard(props) {
           </div>
           <div className='content'>
             <div className='desc'>
-              <span>{user}</span>
+              <span>{username}</span>
             </div>
             <div className='info'>
               <p>{`Phone: ${phone}`}</p>
@@ -40,7 +40,7 @@ export default function UserCard(props) {
             </div>
           </div>
         </div>
-        {isLoggedIn && userType === 'admin' ? (
+        {isLoggedIn && stateUserType === 'admin' ? (
           <div>
             <button onClick={() => history.push(`edit/user/${id}`)}>
               Edit
