@@ -160,6 +160,9 @@ function DropMenu(props) {
           <DropdownItem leftIcon={<View />} click={() => history.push('/users')}>
             View Users
           </DropdownItem>
+          <DropdownItem leftIcon={<Pen />} click={() => history.push('/create/products')}>
+            Create Product
+          </DropdownItem>
         </div>
       </CSSTransition>
     </div>

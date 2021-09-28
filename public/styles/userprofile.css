@@ -204,3 +204,18 @@
   flex-wrap: wrap;
   justify-content: center;
 }
+
+.user-edit-button {
+  background-color: rgb(255, 54, 54);
+  border: none;
+  color: white;
+  padding: 2px 15px;
+  margin: 5px;
+  border-radius: 5%;
+  text-align: center;
+  align-self: center;
+}
+
+.user-edit-button:hover {
+  background-color: rgb(179, 22, 22);
+}
