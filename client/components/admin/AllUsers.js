@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUsers } from '../../store/ActionsCreators/userActions';
 import UserCard from '../admin/UserCard';
@@ -7,7 +8,7 @@ import SimpleBar from 'simplebar';
 //* This is the component that should render when an admin types /users
 //* It will allow them to view all individual users
 
-const AllUsers = () => {
+export default function ViewUsers() {
   const isLoggedIn = useSelector((state) => state.auth.id);
   const dispatch = useDispatch();
   const token = window.localStorage.getItem('token');
@@ -34,6 +35,4 @@ const AllUsers = () => {
       </div>
     </div>
   );
-};
-
-export default AllUsers;
+}

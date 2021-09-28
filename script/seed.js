@@ -38,7 +38,7 @@ async function seed() {
       price: faker.commerce.price() * 100,
       rating: getRandomNumber(true, 5),
       stock: getRandomNumber(false, 100),
-      imageUrl: faker.image.image()
+      imageUrl: `${faker.image.nature()}?random=${Math.round(Math.random() * 1000)}`
     }
     //* Create the product
     const productInstance = await Product.create(product)
@@ -59,11 +59,12 @@ async function seed() {
     const user = {
       username: faker.internet.userName(),
       password: samePassword ? userPassword : faker.internet.password(),
-      firstName: faker.name.firstName(),
       userType: 'standard',
+      firstName: faker.name.firstName(),
       lastName: faker.name.lastName(),
       phone: faker.phone.phoneNumber(),
-      email: faker.internet.email()
+      email: faker.internet.email(),
+      imageUrl: faker.internet.avatar()
     }
 
     //* username must be unique
@@ -107,7 +108,12 @@ async function seed() {
     const user = {
       username: 'admin',
       password: 'admin',
-      userType: 'admin'
+      userType: 'admin',
+      firstName: 'admin',
+      lastName: 'istrator',
+      phone: faker.phone.phoneNumber(),
+      email: 'admin@admin.com',
+      imageUrl: faker.internet.avatar()
     }
     //* Create the admin user
     const userInstance = await User.create(user)
@@ -117,7 +123,7 @@ async function seed() {
       await userInstance.addOrder(orderInstance)
 
       //* Add random order details
-      for (let i = 0; i < totalProducts - 1; i++) {
+      for (let i = 0; i < totalProducts - 1 - getRandomNumber(false, totalProducts - 1); i++) {
         const product = await products[i]
         const quantity = getRandomNumber(false, product.stock - 1) + 1
         const price = (await product.price) * quantity
