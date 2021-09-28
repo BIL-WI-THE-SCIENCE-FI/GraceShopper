@@ -230,6 +230,8 @@ const Products = () => {
           <div className="products-container">
             {productsInView !== undefined && productsInView.length > 0 ? (
               productsInView.map(product => <ProductCard key={product.id} product={product} />)
+            ) : query.filters.search.isSearch ? (
+              <p>No products were found!</p>
             ) : (
               <p>Loading...</p>
             )}
