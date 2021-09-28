@@ -23,32 +23,33 @@ export default function EditUser() {
   const isLoggedIn = useSelector((state) => state.auth.id);
   const stateUserType = useSelector((state) => state.auth.userType);
   //* Return the component JSX
+
+  function getDisplayItem(type, phrase) {
+    return (
+      <div className='display' key={type}>
+        <label>{type + ':'}</label>
+        <span>{phrase ? phrase : 'None'}</span>
+      </div>
+    );
+  }
+
   return (
-    <div className='product-card shadow zoomable-small'>
-      <div>
-        <div onClick={() => history.push(`/products/${id}`)}>
-          <div>
-            <img src={imageUrl} alt='Product Image' />
-            <h4>
-              {firstName}, {lastName}
-            </h4>
+    <div className='user-profile'>
+      <div className='user-profile-container'>
+        <div className='user-profile-info'>
+          <div className='displays'>
+            {getDisplayItem('Username', username)}
+            {getDisplayItem('First', firstName)}
+            {getDisplayItem('Last', lastName)}
+            {getDisplayItem('Email', email)}
+            {getDisplayItem('Phone', phone)}
+            {getDisplayItem('Image', imageUrl)}
           </div>
-          <div className='content'>
-            <div className='desc'>
-              <span>{username}</span>
-            </div>
-            <div className='info'>
-              <p>{`Phone: ${phone}`}</p>
-            </div>
-          </div>
+          <button className='zoomable'>Edit Profile</button>
         </div>
-        {isLoggedIn && stateUserType === 'admin' ? (
-          <div>
-            <button onClick={() => history.push(`edit/user/${id}`)}>
-              Edit
-            </button>
-          </div>
-        ) : null}
+        <div className='user-profile-image'>
+          <img src={imageUrl} alt='No Image Found' />
+        </div>
       </div>
     </div>
   );
