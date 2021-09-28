@@ -2,7 +2,6 @@ import axios from 'axios'
 import React, { useState } from 'react'
 import { useHistory } from 'react-router'
 import { updateHeader } from '../../store/ActionsCreators/orderActions'
-import { getMoney } from '../../utils'
 
 export default function CheckoutForm(props) {
   const history = useHistory()
@@ -18,6 +17,7 @@ export default function CheckoutForm(props) {
 
   //* If there are any form errors
   const [errors, setErrors] = useState([])
+  const token = window.localStorage.getItem('token')
 
   //* Update item in state
   function updateState(target, value) {
@@ -37,7 +37,11 @@ export default function CheckoutForm(props) {
     async function updateOrder() {
       try {
         //* Make attempt to update
-        await axios.get(`/api/orders/update/${userId}`)
+        await axios.get(`/api/orders/update/${userId}`, {
+          headers: {
+            authorization: token
+          }
+        })
         await updateHeader({})
         //* Catch errors
       } catch (error) {

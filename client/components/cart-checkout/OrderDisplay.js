@@ -4,6 +4,8 @@ import { useHistory } from 'react-router'
 import SimpleBar from 'simplebar-react'
 import 'simplebar/dist/simplebar.min.css'
 import ProductCardCart from './ProductCardCart'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 //* This component will render when directed to /cart
 //* It will show a logged out users cart
@@ -26,14 +28,14 @@ export default function OrderDisplay(props) {
   async function clickCheckout() {
     if (userId) {
       if (products === undefined || products.length === 0) {
-        alert('You have nothing in your cart!')
+        toast.error('You have nothing in your cart!')
         return
       }
       history.push('/checkout')
       return
     }
     history.push('/login')
-    alert('You must log in to check out!')
+    toast.error('You must log in to check out!')
   }
 
   //* Return JSX
@@ -65,6 +67,17 @@ export default function OrderDisplay(props) {
           </div>
         </div>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   )
 }
@@ -114,7 +127,12 @@ async function handleUpdateQuantity(
         addition: false,
         remove: remove
       }
-      await axios.post(`/api/orders/${userId}`, body)
+      const token = await window.localStorage.getItem('token')
+      await axios.post(`/api/orders/${userId}`, body, {
+        headers: {
+          authorization: token
+        }
+      })
     } catch (error) {
       console.log('Error attempting to remove that item from cart!')
       console.log(error)
