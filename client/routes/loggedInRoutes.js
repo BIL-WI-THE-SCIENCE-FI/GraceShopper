@@ -9,6 +9,7 @@ import UserProfile from '../components/edit-components/UserProfile';
 import Checkout from '../components/cart-checkout/Checkout';
 import Home from '../components/Home';
 import { LoginPage, Signup } from '../components/Login';
+import AllUsers from '../components/admin/AllUsers';
 
 //* ^ Import components ^
 
@@ -19,6 +20,7 @@ class LoggedInRoutes extends Component {
         <Route path='/checkout' component={Checkout} />
         <Route path='/login' component={LoginPage} />
         <Route path='/signup' component={Signup} />
+        <Route path='/users' component={AllUsers} />
         <Route exact path='/cart' component={LoggedInCart} />
         <Route path='/edit/products/:id' component={EditProduct} />
         <Route path='/edit/products/:id' component={EditUser} />
