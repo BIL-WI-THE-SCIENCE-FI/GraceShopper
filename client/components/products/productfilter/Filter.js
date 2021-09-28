@@ -14,6 +14,8 @@ const FilterPanel = props => {
   return (
     <div className="filter">
       <div>
+        <span className="title">Filters</span>
+        <hr />
         <PriceFilter isValid={isValid} setPriceFilter={setPriceFilter} price={price} />
         <StockFilter isValid={isValid} setStockFilter={setStockFilter} stock={stock} />
         <RatingFilter isValid={isValid} setRatingFilter={setRatingFilter} rating={rating} />

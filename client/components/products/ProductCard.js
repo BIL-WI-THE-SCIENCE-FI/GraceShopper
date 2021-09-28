@@ -17,26 +17,33 @@ export default function ProductCard(props) {
     <div className="product-card shadow zoomable-small">
       <div>
         <div onClick={() => history.push(`/products/${id}`)}>
-          <div>
+          <div className="first-half">
             <img src={imageUrl} alt="Product Image" />
             <h4>{name}</h4>
           </div>
-          <div className="content">
-            <div className="desc">
-              <span>{description}</span>
-            </div>
-            <div className="info">
-              <p>{`Price: $${getMoney(price)}`}</p>
-              {/* TODO: Render stars for the rating */}
-              <p>{`Rating: ${rating}/5`}</p>
-              {/* {getStars(rating)} */}
-              <p>{`Stock: ${stock}`}</p>
+          <div className="last-half">
+            <div className="content">
+              <div className="desc">
+                <span>{description}</span>
+              </div>
+              <div className="info">
+                <p>{`Price: $${getMoney(price)}`}</p>
+                {/* TODO: Render stars for the rating */}
+                <p>{`Rating: ${rating}/5`}</p>
+                {/* {getStars(rating)} */}
+                <p>{`Stock: ${stock}`}</p>
+              </div>
             </div>
           </div>
         </div>
         {isLoggedIn && userType === 'admin' ? (
           <div>
-            <button onClick={() => history.push(`edit/products/${id}`)}>Edit</button>
+            <button
+              className="product-edit-button zoomable"
+              onClick={() => history.push(`edit/products/${id}`)}
+            >
+              Edit
+            </button>
           </div>
         ) : null}
       </div>
