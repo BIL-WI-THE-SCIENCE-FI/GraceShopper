@@ -263,8 +263,13 @@ form div {
   width: 250px;
   height: 250px;
   align-self: center;
+  overflow:hidden;
+  object-fit: cover;
   box-shadow: 0 10px 30px 1px rgb(0 0 0 / 30%);
   border-radius: 50%;
+}
+.billGates {
+  object-position: 0 10%;
 }
 .authors {
   display: flex;

@@ -28,16 +28,17 @@ export const Home = (props) => {
   function picking(n) {
     const pick = [];
     for (let i = 0; i < n; i++) {
+      let temp = []
       if (products.length > 0) {
-        pick.push(products[Math.floor(Math.random() * 30)]);
+        for (let j = i; j < 10 + n; j++) {
+          temp.push(products[j])
+        };
+        pick.push(temp)
       }
     }
     return pick;
   }
-  const tenProducts = picking(5);
-  const tenProducts2 = picking(4);
-  const tenProducts3 = picking(3);
-  const threeSlides = [tenProducts, tenProducts2, tenProducts3];
+  const threeSlides = picking(5);
   const delay = 10000;
   function resetTimeout() {
     if (timeoutRef.current) {
