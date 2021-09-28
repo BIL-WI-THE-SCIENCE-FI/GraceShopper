@@ -1,63 +1,60 @@
-const User = require('../db/models/User');
+const User = require('../db/models/User')
+
+function sendResponse(res) {
+  return res.status(403).json({
+    status: 403,
+    message: 'ACCESS DENIED. INVALID USER TOKEN. ADMIN PERMISSION REQUIRED'
+  })
+}
+
+function checkToken(token) {
+  if (!token || token == 'undefined') return true
+  return false
+}
 
 const isCorrectUser = async (req, res, next) => {
   try {
-    const authorizedHeader = req.headers.authorization;
-    if (
-      //^ Must have sent headers.authorization to the backend
-      !authorizedHeader ||
-      //^ Must be admin or  the correct user for the record to be updated.
-      ((await User.findByToken(authorizedHeader).userType) !== 'admin' ||
-        (await User.findByToken(authorizedHeader).userId) !== req.params.id)
-    ) {
-      return res.status(403).json({
-        status: 403,
-        message: 'ACCESS DENIED. INVALID USER TOKEN. ADMIN PERMISSION REQUIRED',
-      });
-    } else {
-      next();
-    }
+    const authorizedHeader = req.headers.authorization
+
+    //^ Must have sent headers.authorization to the backend
+    if (checkToken(authorizedHeader)) return sendResponse(res)
+    //* Get the user
+    const user = await User.findByToken(authorizedHeader)
+    //^ Must be admin or  the correct user for the record to be updated.
+    if (user.id != req.params.userId) return sendResponse(res)
+    else next()
   } catch (error) {
-    next(error);
+    next(error)
   }
-};
+}
 
 const isLoggedIn = async (req, res, next) => {
   try {
-    const authorizedHeader = req.headers.authorization;
-    if (!authorizedHeader) {
-      return res.status(403).json({
-        status: 403,
-        message: 'ACCESS DENIED. YOU MUST BE LOGGED IN.',
-      });
-    } else {
-      next();
-    }
+    const authorizedHeader = req.headers.authorization
+    if (checkToken(authorizedHeader)) return sendResponse(res)
+    else next()
   } catch (error) {
-    next(error);
+    next(error)
   }
-};
+}
 
 const isAdmin = async (req, res, next) => {
   try {
-    const authorizedHeader = req.headers.authorization;
-    if (
-      !authorizedHeader &&
-      (await User.findByToken(authorizedHeader).userType) !== 'admin'
-    ) {
-      return res.status(403).json({
-        status: 403,
-        message: 'ACCESS DENIED ADMIN PERMISSION REQUIRED',
-      });
-    } else {
-      next();
-    }
+    const authorizedHeader = req.headers.authorization
+    //* If they have no auth header
+    if (checkToken(authorizedHeader)) return sendResponse(res)
+    //* If they do, get the user
+    const user = await User.findByToken(authorizedHeader)
+    //* If they are not an admin
+    if (user.userType !== 'admin') return sendResponse(res)
+    //* If they are, continue
+    else next()
   } catch (error) {
-    next(error);
+    next(error)
   }
-};
+}
 
-module.exports = { isLoggedIn, isAdmin, isCorrectUser };
+module.exports = { isLoggedIn, isAdmin, isCorrectUser }
 // this is to protect against backend unwanted actions
 // function to check for admin and logged in
 
