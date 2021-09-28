@@ -37,7 +37,6 @@ export const fetchUsers = (token) => {
       const { data } = await axios.get(`/api/users`, {
         headers: { authorization: token },
       });
-      console.log(data);
       dispatch(setUsers(data));
     } catch (error) {
       console.log('Failed to fetch current users');

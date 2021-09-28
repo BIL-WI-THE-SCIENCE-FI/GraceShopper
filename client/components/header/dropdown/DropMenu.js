@@ -168,7 +168,10 @@ function DropMenu(props) {
           <DropdownItem leftIcon={<ArrowBack />} goToMenu='main'>
             Back
           </DropdownItem>
-          <DropdownItem leftIcon={<View />} onClick={history.push('/users')}>
+          <DropdownItem
+            leftIcon={<View />}
+            click={() => history.push('/users')}
+          >
             View Users
           </DropdownItem>
         </div>

@@ -36,7 +36,6 @@ export default function UserCard(props) {
             </div>
             <div className='info'>
               <p>{`Phone: ${phone}`}</p>
-              <p>{`Email: ${email}`}</p>
             </div>
           </div>
         </div>
