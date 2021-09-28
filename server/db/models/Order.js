@@ -33,8 +33,7 @@ Order.getOpenOrder = async userId => {
   })
 }
 
-Order.createOrder = async userId => {
-  const user = await User.findOne({ where: { id: userId } })
+Order.createOrder = async (userId, user) => {
   if (user === null) return null
   const order = await Order.create()
   order.userId = parseInt(userId)

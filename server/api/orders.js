@@ -52,7 +52,8 @@ router.get('/update/:userId', [isCorrectUser], async (request, response, next) =
     order.save()
 
     //* Create new order
-    await createOrder(userId)
+    const user = await User.findOne({ where: { id: userId } })
+    await Order.createOrder(userId, user)
     //* Send response
     response.json(order)
   } catch (err) {
@@ -71,7 +72,10 @@ router.get('/current/:userId', [isCorrectUser], async (request, response, next) 
     let order = await Order.getOpenOrder(userId)
 
     //* If they do not have an order we will create them an order
-    if (order === null) order = await createOrder(userId)
+    if (order === null) {
+      const user = await User.findOne({ where: { id: userId } })
+      order = await createOrder(userId, user)
+    }
 
     //* Send response
     response.json(order)
