@@ -23,7 +23,7 @@ export default function UserCard(props) {
   return (
     <div className='product-card shadow zoomable-small'>
       <div>
-        <div onClick={() => history.push(`/products/${id}`)}>
+        <div onClick={() => history.push(`/profile/${id}`)}>
           <div>
             <img src={imageUrl} alt='Product Image' />
             <h4>
