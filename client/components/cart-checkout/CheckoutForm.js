@@ -162,10 +162,10 @@ function checkValidity(state) {
 
   //* Check if name is valid
   if (name.length <= 3) errors.name = 'You must provide a name!'
-  else if (name.split(' ').length === 0 || name.split(' ')[1].length === 0)
-    errors.name = 'You must provide a first and last name!'
+  // else if (name.split(' ').length === 0 || name.split(' ')[1].length === 0)
+  // errors.name = 'You must provide a first and last name!'
   //* Check if cardnumber is vaild
-  if (cardnumber.length < 16) errors.cardnumber = 'You must provide a credit card number!'
+  if (cardnumber.length < 4) errors.cardnumber = 'You must provide a credit card number!'
   //* Check if cvv is vaild
   if (cvv.length < 3) errors.cvv = 'You must provide a cvv number!'
   //* Check if date is vaild
