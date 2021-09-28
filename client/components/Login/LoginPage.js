@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import { authenticate } from '../../store';
@@ -8,6 +8,7 @@ import { orderActions } from '../../store/ActionsCreators';
 const LoginPage = () => {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.auth.id);
+  const auth = useSelector(state=>state.auth)
   const handleSubmit = async (evt) => {
     evt.preventDefault();
     const formName = evt.target.name;
@@ -25,6 +26,11 @@ const LoginPage = () => {
           <div>
             <h1>Sign into your account</h1>
           </div>
+          {auth.error ? (
+            <label className='errorLogin'>{`Oops Something went wrong! Try it again!`}</label>
+          ) : (
+            ''
+          )}
           <form className='form' onSubmit={handleSubmit} name='login'>
             <div className='emailBox'>
               <input

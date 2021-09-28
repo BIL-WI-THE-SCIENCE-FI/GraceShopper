@@ -47,3 +47,10 @@ h3 {
   width: 33%;
 }
 /* Buttons */
+.test {
+  position:absolute;
+  top: 30%;
+  left: 30%;
+  color:white;
+  font-size:80px;
+}

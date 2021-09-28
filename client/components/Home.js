@@ -76,14 +76,16 @@ export const Home = (props) => {
                   </Link>
                 ))}
               </div>
-              <div className='test'> here are something to write</div>
+              <div className='test'> 20% OFF ! Go go go!</div>
             </div>
           </div>
           <div className='promotions_row1'>
-            <img
-              className='fixAds'
-              src='https://shop.shoprite.com/-/media/fbfb139/images/promotions/9-19-21/zsr_freepickuppromo_homepage_desktop.ashx'
-            />
+            <Link to={'/home'}>
+              <img
+                className='fixAds'
+                src='https://shop.shoprite.com/-/media/fbfb139/images/promotions/9-19-21/zsr_freepickuppromo_homepage_desktop.ashx'
+              />
+            </Link>
           </div>
           <div className='threeSlides'>
             {threeSlides.map((eachSlide) => (
