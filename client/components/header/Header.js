@@ -19,11 +19,15 @@ const Header = () => {
 
   useEffect(() => {
     async function fetchData() {
+      //* if they have no cart in local storage
+      if (localStorage.getItem('cart') == null) {
+        localStorage.setItem('cart', JSON.stringify({}))
+      }
       //* Fetch the users cart
       if (isLoggedIn) await dispatch(orderActions.fetchOrder(isLoggedIn, token))
     }
     fetchData()
-  }, [isLoggedIn])
+  }, [isLoggedIn, cart])
 
   //* Calculate the number of products we should be showing
   const itemsInCart = getTotalItems(order, isLoggedIn ? true : false)
@@ -101,7 +105,7 @@ function getTotalItems(order, loggedIn) {
     return order.orderdetails.length
   } else {
     //* Get the order from localStorage
-    const order = JSON.parse(localStorage.getItem('order'))
+    const order = JSON.parse(localStorage.getItem('cart'))
     //* They have no order as of current
     if (order === null) return 0
     return Object.keys(order).length

@@ -1,11 +1,10 @@
-
-import React from 'react';
-import axios from 'axios';
-import { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { useHistory } from 'react-router';
-import { fetchUser } from '../../store/ActionsCreators/userActions';
-import { useParams } from 'react-router-dom';
+import React from 'react'
+import axios from 'axios'
+import { useEffect, useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { useHistory } from 'react-router'
+import { fetchUser } from '../../store/ActionsCreators/userActions'
+import { useParams } from 'react-router-dom'
 
 //
 export default function EditUser() {
@@ -59,7 +58,7 @@ export default function EditUser() {
       try {
         //* Make attempt to update
         //^ Send token from local storage for analysis
-        const updated = await axios.post(`/api/users/${id}`, state, {
+        await axios.post(`/api/users/${id}`, state, {
           headers: {
             authorization: token
           }
@@ -85,11 +84,8 @@ export default function EditUser() {
     setErrors(checkValidity(newState, user))
     setState(newState)
   }
-  //* Obtain the information required for render thru store
-  const isLoggedIn = useSelector(state => state.auth.id)
-  const stateUserType = useSelector(state => state.auth.userType)
-  //* Return the component JSX
 
+  //* Return the component JSX
   return (
     <div className="form_product_edit_container">
       <form id="form_product_edit">

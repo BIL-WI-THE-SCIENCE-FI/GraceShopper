@@ -29,7 +29,7 @@ export default function LoggedOutCart() {
         //* load the products from localstorage
         await dispatch(productActions.fetchProducts(token))
         //* Get the localStorage cart
-        updateHeader(JSON.parse(localStorage.getItem('order')))
+        updateHeader(JSON.parse(localStorage.getItem('cart')))
         await setUpdate(false)
       }
     }
@@ -66,12 +66,10 @@ export default function LoggedOutCart() {
 
 //* Get all of the product cards
 function getProducts(products, cart, selected, setSelected, removed, setRemoved) {
+  if (cart === null || cart === undefined) return <h2>There is nothing in your cart!</h2>
   const productIds = Object.keys(cart)
-
   //* If there is nothing in the useres cart
-  if (productIds.length === 0) {
-    return <h2>There is nothing in your cart!</h2>
-  }
+  if (productIds.length === 0) return <h2>There is nothing in your cart!</h2>
 
   const productJsx = products.map(product => {
     if (productIds.includes(product.id.toString())) {
@@ -115,6 +113,8 @@ function getProducts(products, cart, selected, setSelected, removed, setRemoved)
 //* Get the total value of the cart
 function getTotal(cart, products) {
   let total = 0
+  if (cart === null) return total
+
   if (cart === undefined || products === undefined) return total
   const productIds = Object.keys(cart)
   if (productIds.length === 0 || products.length === 0) return total

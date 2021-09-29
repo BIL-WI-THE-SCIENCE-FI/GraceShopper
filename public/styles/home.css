@@ -1,23 +1,41 @@
-h3 {
-  text-align: center;
+.home-container {
+  margin: 10px 10%;
 }
+
+.home-container h3 {
+  text-align: center;
+  font-weight: bold;
+}
+
 .home {
   display: flex;
   text-align: center;
   justify-content: space-around;
-  
+
+  border-radius: 3px;
+  padding: 5px;
+  background-color: #f7f7f7;
 }
+
+.middle {
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
+}
+
 .homeBody {
   max-width: 100%;
-  display:flex;
+  display: flex;
   flex-direction: column;
   align-content: center;
   margin: 10px;
-  gap:10px;
+  gap: 10px;
 }
+
 .pictures {
   width: 100%;
 }
+
 .slideshow {
   margin: 0 auto;
   overflow: hidden;
@@ -33,24 +51,50 @@ h3 {
   display: inline-block;
   height: 500px;
   width: 100%;
+
+  border-radius: 5px;
 }
+
 .fixAds {
   width: 100%;
+  margin-bottom: 5px;
 }
+
 .threeSlides {
   display: flex;
   flex-direction: row;
-  gap: 10px;;
+  gap: 10px;
 }
+
 .Ca {
   height: 200px;
   width: 33%;
 }
+
 /* Buttons */
 .test {
-  position:absolute;
+  position: absolute;
+  margin: auto;
   top: 30%;
-  left: 30%;
-  color:white;
-  font-size:80px;
+  left: 32.5%;
+  color: white;
+
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 3px;
+  padding: 0px 10px;
+
+  font-size: 80px;
+}
+
+.middle span {
+  font-weight: 600;
+  max-width: 50%;
+}
+
+.aboutPage .last-p {
+  margin-top: 100px;
+}
+
+.aboutPage label {
+  font-weight: bold;
 }

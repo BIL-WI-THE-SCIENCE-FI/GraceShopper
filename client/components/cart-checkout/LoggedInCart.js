@@ -58,6 +58,7 @@ const LoggedInCart = () => {
       // handleUpdateQuantity={handleUpdateQuantity}
       setRemoved={setRemoved}
       total={total}
+      details={order.orderdetails}
     />
   )
 }

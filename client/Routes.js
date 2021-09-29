@@ -21,16 +21,12 @@ class Routes extends Component {
     if (loaded) {
       return (
         <div>
-          <UniversalRoutes />
           {isLoggedIn ? <LoggedInRoutes /> : <LoggedOutRoutes />}
+          <UniversalRoutes />
         </div>
       )
     } else {
-      return (
-        <div>
-          <UniversalRoutes />
-        </div>
-      )
+      return <UniversalRoutes />
     }
   }
 }

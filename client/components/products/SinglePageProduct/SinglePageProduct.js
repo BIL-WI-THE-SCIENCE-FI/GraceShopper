@@ -1,19 +1,25 @@
-import React, { useState, useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { productActions, orderActions } from '../../../store/ActionsCreators'
-import { getMoney, getStars } from '../../../utils'
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useHistory } from 'react-router'
 import { useParams } from 'react-router-dom'
 import Select from 'react-select'
-import axios from 'axios'
-import { ToastContainer, toast } from 'react-toastify'
+import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { orderActions, productActions } from '../../../store/ActionsCreators'
+import { getMoney, getStars } from '../../../utils'
 
 const SinglePageProduct = props => {
   const { id } = useParams()
+  const history = useHistory()
+
+  if (isNaN(id)) {
+    history.push('/products')
+    return <></>
+  }
+
   const dispatch = useDispatch()
-
   const [quantity, setQuantity] = useState(1)
-
   const token = window.localStorage.getItem('token')
 
   useEffect(() => {
@@ -102,7 +108,7 @@ function getOptions(stock) {
 }
 
 //* If a user clicks add tocart
-async function handleAddToCart(product, quantity, userId, updateHeader) {
+async function handleAddToCart(product, quantity, userId, updateHeader, token) {
   //* If the product is out of stock
   if (product.stock === 0) return 'That item is out of stock!'
 
@@ -110,23 +116,23 @@ async function handleAddToCart(product, quantity, userId, updateHeader) {
   if (userId === undefined) {
     try {
       //* Get the order from localStorage
-      const order = JSON.parse(localStorage.getItem('order'))
+      const order = JSON.parse(localStorage.getItem('cart'))
 
       //* They have no order as of current
       if (order === null) {
         const cart = { [product.id]: quantity }
-        localStorage.setItem('order', JSON.stringify(cart))
+        localStorage.setItem('cart', JSON.stringify(cart))
         updateHeader(cart)
         return `${quantity}x ${product.name} has been added to your cart!`
       }
-
+      const prior = quantity
       //* Get the new quantity
       quantity = order[product.id] ? order[product.id] + quantity : quantity
       //* update their current
       const cart = { ...order, [product.id]: quantity }
-      localStorage.setItem('order', JSON.stringify(cart))
+      localStorage.setItem('cart', JSON.stringify(cart))
       updateHeader(cart)
-      return `${quantity}x ${product.name} has been added to your cart!`
+      return `${prior}x ${product.name} added! (${quantity} total)`
       //* If there was err
     } catch (error) {
       return `Item was not added to your cart!`
