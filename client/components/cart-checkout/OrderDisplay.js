@@ -34,8 +34,8 @@ export default function OrderDisplay(props) {
       history.push('/checkout')
       return
     }
-    history.push('/login')
     toast.error('You must log in to check out!')
+    return
   }
 
   //* Return JSX
@@ -103,12 +103,12 @@ async function handleUpdateQuantity(
       if (remove) {
         //* update their current cart
         delete cart[product.id]
-        localStorage.setItem('order', JSON.stringify(cart))
+        localStorage.setItem('cart', JSON.stringify(cart))
         await updateHeader(cart)
       } else {
         //* update their current cart
         const order = { ...cart, [product.id]: quantity }
-        localStorage.setItem('order', JSON.stringify(order))
+        localStorage.setItem('cart', JSON.stringify(order))
         await updateHeader(order)
       }
 

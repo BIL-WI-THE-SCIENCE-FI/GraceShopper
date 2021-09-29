@@ -267,6 +267,7 @@ form div {
   object-fit: cover;
   box-shadow: 0 10px 30px 1px rgb(0 0 0 / 30%);
   border-radius: 50%;
+  transition: transform 0.3s ease;
 }
 .billGates {
   object-position: 0 10%;
@@ -275,6 +276,7 @@ form div {
   display: flex;
   justify-content: space-around;
 }
+
 .aboutbox {
   display: flex;
   flex-direction: column;
@@ -283,7 +285,10 @@ form div {
 .aboutAuthor {
   margin-top: 30px;
   width: 300px;
+  font-size: 1rem;
+  text-align: center;
 }
+
 label {
   text-align: center;
 }

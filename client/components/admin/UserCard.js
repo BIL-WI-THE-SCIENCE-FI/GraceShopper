@@ -10,6 +10,7 @@ export default function UserCard(props) {
   const { id, username, userType, firstName, lastName, phone, imageUrl, email } = props.user
   const isLoggedIn = useSelector(state => state.auth.id)
   const stateUserType = useSelector(state => state.auth.userType)
+
   //* Return the component JSX
   return (
     <div className="product-card shadow zoomable-small">

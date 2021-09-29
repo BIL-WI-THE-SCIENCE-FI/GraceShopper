@@ -17,7 +17,7 @@ class UniversalRoutes extends Component {
         {/*Moved the home route to Universal Routes -NLZ*/}
         <Route path="/home" component={Home} />
         <Route path="/about" component={About} />
-        {/* <Route path="/" component={Home} /> */}
+        <Route component={Home} />
       </Switch>
     )
   }

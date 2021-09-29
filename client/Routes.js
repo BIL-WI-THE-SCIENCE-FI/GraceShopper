@@ -26,11 +26,7 @@ class Routes extends Component {
         </div>
       )
     } else {
-      return (
-        <div>
-          <UniversalRoutes />
-        </div>
-      )
+      return <UniversalRoutes />
     }
   }
 }
