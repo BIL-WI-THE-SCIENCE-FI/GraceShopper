@@ -13,11 +13,9 @@ class UniversalRoutes extends Component {
       <Switch>
         <Route path="/products/:id" component={SinglePageProduct} />
         <Route exact path="/products" component={Products} />
-
-        {/*Moved the home route to Universal Routes -NLZ*/}
-        <Route path="/home" component={Home} />
         <Route path="/about" component={About} />
-        <Route component={Home} />
+        <Route path="/home" component={Home} />
+        <Route exact path="/" component={Home} />
       </Switch>
     )
   }

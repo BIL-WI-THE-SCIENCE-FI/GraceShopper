@@ -53,6 +53,10 @@ async function seed() {
   const emails = {}
 
   console.log(`\nPreparing to load ${totalUsers} users. Order History: ${addOrderHistory}`)
+  //* create admin and test user
+  if (addAdmin) await createFixedUser(products, 'admin')
+  await createFixedUser(products, 'test')
+
   //* Create all of our users
   for (let i = 0; i < totalUsers; i++) {
     //* User contents
@@ -102,37 +106,38 @@ async function seed() {
     if (i % (totalUsers / 10) === 0) console.log(`Loaded ${(i / totalUsers) * 100}% users!`)
   }
 
-  //* Add the admin user
-  if (addAdmin) {
-    //* User contents
-    const user = {
-      username: 'admin',
-      password: 'admin',
-      userType: 'admin',
-      firstName: 'admin',
-      lastName: 'istrator',
-      phone: faker.phone.phoneNumber(),
-      email: 'admin@admin.com',
-      imageUrl: faker.internet.avatar()
-    }
-    //* Create the admin user
-    const userInstance = await User.create(user)
-    //* If we should add random order history
-    if (addOrderHistory) {
-      const orderInstance = await Order.create()
-      await userInstance.addOrder(orderInstance)
+  return
+}
 
-      //* Add random order details
-      for (let i = 0; i < totalProducts - 1 - getRandomNumber(false, totalProducts - 1); i++) {
-        const product = await products[i]
-        const quantity = getRandomNumber(false, product.stock - 1) + 1
-        const price = (await product.price) * quantity
-        //* add the product to the order details
-        await orderInstance.addProduct(product, { through: { quantity: quantity, price: price } })
-      }
+//* Used to create a fixed user
+async function createFixedUser(products, name) {
+  //* User contents
+  const user = {
+    username: name,
+    password: name,
+    userType: name === 'admin' ? 'admin' : 'test',
+    firstName: name,
+    lastName: 'istrator',
+    phone: faker.phone.phoneNumber(),
+    email: 'admin@admin.com',
+    imageUrl: faker.internet.avatar()
+  }
+  //* Create the admin user
+  const userInstance = await User.create(user)
+  //* If we should add random order history
+  if (addOrderHistory) {
+    const orderInstance = await Order.create()
+    await userInstance.addOrder(orderInstance)
+
+    //* Add random order details
+    for (let i = 0; i < totalProducts - 1 - getRandomNumber(false, totalProducts - 1); i++) {
+      const product = await products[i]
+      const quantity = getRandomNumber(false, product.stock - 1) + 1
+      const price = (await product.price) * quantity
+      //* add the product to the order details
+      await orderInstance.addProduct(product, { through: { quantity: quantity, price: price } })
     }
   }
-  return
 }
 
 //* Used to get a random number for the stock/count & rating

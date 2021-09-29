@@ -1,11 +1,9 @@
 import React, { Component } from 'react'
 import { Route, Switch, withRouter } from 'react-router-dom'
-
+import LoggedOutCart from '../components/cart-checkout/LoggedOutCart'
+import DeniedEdit from '../components/edit-components/DeniedEdit'
 //* v Import components v
 import { LoginPage, Signup } from '../components/Login'
-import DeniedEdit from '../components/edit-components/DeniedEdit'
-import LoggedOutCart from '../components/cart-checkout/LoggedOutCart'
-import Home from '../components/Home'
 
 //* ^ Import components ^
 
@@ -18,7 +16,6 @@ class LoggedOutRoutes extends Component {
         <Route exact path="/cart" component={LoggedOutCart} />
         <Route path="/checkout" component={LoginPage} />
         <Route path="/edit/products/:id" component={DeniedEdit} />
-        <Route exact path="/" component={Home} />
       </Switch>
     )
   }
