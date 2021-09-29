@@ -44,7 +44,7 @@ export default function OrderDisplay(props) {
         }
       }
 
-      // history.push('/checkout')
+      history.push('/checkout')
       return
     }
     toast.error('You must log in to check out!')
