@@ -22,7 +22,8 @@ export default function OrderDisplay(props) {
     setRemoved,
     total,
     cart,
-    updateHeader
+    updateHeader,
+    details
   } = props
 
   async function clickCheckout() {
@@ -31,7 +32,19 @@ export default function OrderDisplay(props) {
         toast.error('You have nothing in your cart!')
         return
       }
-      history.push('/checkout')
+
+      //* Check if they have any quantity more than stock
+      for (let detail of details) {
+        const { name, stock } = detail.product
+        if (stock < detail.quantity) {
+          toast.error(
+            `You cannot checkout x${detail.quantity} ${name} as there are only ${stock} in stock!`
+          )
+          return
+        }
+      }
+
+      // history.push('/checkout')
       return
     }
     toast.error('You must log in to check out!')

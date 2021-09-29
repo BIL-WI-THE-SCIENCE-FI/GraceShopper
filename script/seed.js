@@ -115,11 +115,11 @@ async function createFixedUser(products, name) {
   const user = {
     username: name,
     password: name,
-    userType: name === 'admin' ? 'admin' : 'test',
+    userType: name === 'admin' ? 'admin' : 'standard',
     firstName: name,
     lastName: 'istrator',
     phone: faker.phone.phoneNumber(),
-    email: 'admin@admin.com',
+    email: `${name}@${name}.com`,
     imageUrl: faker.internet.avatar()
   }
   //* Create the admin user
